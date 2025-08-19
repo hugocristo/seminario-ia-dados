@@ -4,7 +4,7 @@ Boas-vindas ao repositório do seminário **Análise Computacional de Dados Text
 
 Nesta página você encontrará todo o material citado e apresentado ao longo dos encontros, bem como indicações de links para a instalação dos ambientes e códigos-fonte das demonstrações.
 
-**Temas**
+**Conteúdo Programático**
 * Introdução à linguagem R
 * Medidas quantitativas de dados textuais
 * Limpeza, processamento e análise de dados textuais
