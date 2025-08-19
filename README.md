@@ -2,7 +2,7 @@
 
 Boas-vindas ao repositório do seminário **Análise Computacional de Dados Textuais (2025/2)**, ofertado pelo Programa de Pós-Graduação em Psicologia da Universidade Federal do Espírito Santo.
 
-Nesta página você encontrará todo o material citado e apresentado ao longo dos encontros, bem como indicações de links para a instalação ou acesso às aplicações demonstradas.
+Nesta página você encontrará todo o material citado e apresentado ao longo dos encontros, bem como indicações de links para a instalação dos ambientes e códigos-fonte das demonstrações.
 
 **Temas**
 * Introdução à linguagem R
@@ -60,6 +60,7 @@ Nesta página você encontrará todo o material citado e apresentado ao longo do
 * Pacotes `ggplot2`, `plotly`, `ggdendro`, `wordcloud2`
 
 ## Referências
+* Benoit, K., Muhr, D., & Watanabe, K. (2021). stopwords: Multilingual Stopword Lists. https://doi.org/10.32614/CRAN.package.stopwords
 * Google. (2024). Prompting Guide 101—October 2024 Edition. Google Workspace. https://workspace.google.com/learning/content/gemini-prompt-guide?hl=pt-BR
 * Lang, D., & Chien, G. (2018). wordcloud2: Create Word Cloud by “htmlwidget”. https://CRAN.R-project.org/package=wordcloud2
 * Lin, H., & Safi, T. (2024). ollamar: An R package for running large language models. PsyArXiv. https://doi.org/10.31234/osf.io/zsrg5
