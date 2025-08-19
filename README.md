@@ -1,6 +1,6 @@
 # Seminário de Pesquisa em Metodologia X (PPGP-0114) - 2025/2
 
-Boas-vindas ao repositório do seminário Análise Computacional de Dados Textuais (2025/2), ofertado pelo Programa de Pós-Graduação em Psicologia da Universidade Federal do Espírito Santo.
+Boas-vindas ao repositório do seminário **Análise Computacional de Dados Textuais (2025/2)**, ofertado pelo Programa de Pós-Graduação em Psicologia da Universidade Federal do Espírito Santo.
 
 Nesta página você encontrará todo o material citado e apresentado ao longo dos encontros, bem como indicações de links para a instalação ou acesso às aplicações demonstradas.
 
@@ -17,6 +17,7 @@ Nesta página você encontrará todo o material citado e apresentado ao longo do
 * **Não é necessário saber programar**, mas não ter medo ajuda 😊!
 
 **Metodologia**
+* Carga horária: 15h
 * Quartas-feiras, das 9 às 12h (05 de novembro a 03 de dezembro)
 * Aulas expositivas com laboratórios de código em R
 * Avaliação: participação e presença (0,5 cada aula) e trabalho final (7,5) - processamento de dados textuais
