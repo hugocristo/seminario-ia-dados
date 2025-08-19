@@ -13,7 +13,7 @@ Nesta página você encontrará todo o material citado e apresentado ao longo do
 
 **Requisitos**
 * Notebook (processador i5, 8GB de memória RAM ou superior)
-* Aplicações: [RStudio](https://posit.co/downloads/), [linguagem R](https://cran.r-project.org/) e [Ollama](https://ollama.com)
+* Aplicações: [RStudio](https://posit.co/downloads/), [linguagem R](https://cran.r-project.org/), [Google Colab](https://colab.research.google.com) e [Ollama](https://ollama.com)
 * **Não é necessário saber programar**, mas não ter medo ajuda 😊!
 
 **Metodologia**
