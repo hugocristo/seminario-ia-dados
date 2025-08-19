@@ -18,6 +18,7 @@ Nesta página você encontrará todo o material citado e apresentado ao longo do
 
 **Metodologia**
 * Carga horária: 15h
+* Vagas: 20 (10 ME / 10 DO)
 * Quartas-feiras, das 9 às 12h (05 de novembro a 03 de dezembro)
 * Aulas expositivas com laboratórios de código em R
 * Avaliação: participação e presença (0,5 cada aula) e trabalho final (7,5) - processamento de dados textuais
