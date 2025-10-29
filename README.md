@@ -13,7 +13,7 @@ Nesta página você encontrará todo o material citado e apresentado ao longo do
 
 **Requisitos**
 * Notebook (processador i5, 8GB de memória RAM ou superior)
-* Aplicações: [Positron](https://positron.posit.co/download.html), [linguagem R](https://cran.r-project.org/), [Ollama](https://ollama.com) e [GitHub](https://desktop.github.com/download/).
+* Aplicações: [Positron](https://positron.posit.co/download.html), [linguagem R](https://cran.r-project.org/), [Ollama](https://ollama.com/download) e [GitHub](https://desktop.github.com/download/).
 * **Não é necessário saber programar**, mas não ter medo ajuda 😊!
 
 **Metodologia**
