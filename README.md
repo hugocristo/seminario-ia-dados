@@ -27,19 +27,22 @@ Nesta página você encontrará todo o material citado e apresentado ao longo do
 * Prof. Dr. Hugo Cristo Sant'Anna - hugo.santanna@ufes.br
 * Atendimento fora de aula (mediante agendamento): Cemuni IV, sala 15
 
-## Conjuntos de dados
+## Notebooks (visão HTML)
 
-*Em breve*
+* [Aula 01](https://hugocristo.github.io/seminario-ia-dados/aula-01/)
+* Aula 02 (*em breve*)
+* Aula 03 (*em breve*)
+* Aula 04 (*em breve*)
 
 ## 05/11: Aula 1 -  Introdução ao R
-* Instalação e execução do ambiente RStudio e da linguagem R
-* Princípios básicos de programação em R: funções, laços, variáveis e operadores
-* Instalação e carregamento de pacotes
-* Importação de arquivos e o pacote `openxlsx`
+* Instalação e execução do ambiente de desenvolvimento
+* Princípios básicos de programação em R com notebooks
+* Importação e processamento de dados
 
 ## 12/11: Aula 2 -  Medidas quantitativas de dados textuais
 * Caractere, palavra, termo, token, n-grams
 * Frequências: termo, documento, inversa
+* Representações discreta e contínua
 * Vocabulários 
 
 ## 19/11: Aula 3 -  Tratamento para representações numéricas
