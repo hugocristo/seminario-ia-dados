@@ -29,7 +29,7 @@ Nesta página você encontrará todo o material citado e apresentado ao longo do
 
 ## Notebooks (visão HTML)
 
-* [Aula 01](https://hugocristo.github.io/seminario-ia-dados/aula-01/)
+* [Aula 01](https://hugocristo.github.io/seminario-ia-dados/aula-01/aula-01.html)
 * Aula 02 (*em breve*)
 * Aula 03 (*em breve*)
 * Aula 04 (*em breve*)
