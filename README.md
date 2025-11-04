@@ -33,19 +33,20 @@ Nesta página você encontrará todo o material citado e apresentado ao longo do
 * Aula 02 (*em breve*)
 * Aula 03 (*em breve*)
 * Aula 04 (*em breve*)
+* Aula 05 (*em breve*)
 
-## 05/11: Aula 1 -  Introdução ao R
+## 05/11: Aula 1 - Introdução ao R
 * Instalação e execução do ambiente de desenvolvimento
 * Princípios básicos de programação em R com notebooks
 * Importação e processamento de dados
 
-## 12/11: Aula 2 -  Medidas quantitativas de dados textuais
+## 12/11: Aula 2 - Medidas e representações de dados textuais
 * Caractere, palavra, termo, token, n-grams
 * Frequências: termo, documento, inversa
 * Representações discreta e contínua
 * Vocabulários 
 
-## 19/11: Aula 3 -  Tratamento para representações numéricas
+## 19/11: Aula 3 - Tratamento para representações numéricas
 * Pacotes `stringr`, `stringi`, `tokenizers` e `stopwords`
 * Limpeza de dados: palavras de parada, acentuação, pontuação, caracteres especiais
 * Lematização: gênero, número, radicais
@@ -54,12 +55,12 @@ Nesta página você encontrará todo o material citado e apresentado ao longo do
 * Métricas de similaridade e agrupamento: `dist` e `hclust`
 * Operações com matrizes: `cosine` do pacote `lsa`
 
-## 26/11: Aula 4 -  Modelos de linguagem de larga escala
+## 26/11: Aula 4 - Modelos de linguagem de larga escala
 * Modelo PARTE para *prompts*
 * Pacote `ollamar`: *prompts*, respostas e *embeddings*
 * Mais operações com matrizes
 
-## 03/12: Aula 5 -  Visualização de dados
+## 03/12: Aula 5 - Visualização de dados
 * Dendrogramas, nuvens de palavras, gráficos bi e tridimensionais
 * Pacotes `ggplot2`, `plotly`, `ggdendro`, `wordcloud2`
 
