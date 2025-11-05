@@ -30,30 +30,21 @@ Nesta página você encontrará todo o material citado e apresentado ao longo do
 ## Notebooks (visão HTML)
 
 * [Aula 01](https://hugocristo.github.io/seminario-ia-dados/aula-01/aula-01.html)
-* Aula 02 (*em breve*)
+* [Aula 02](https://hugocristo.github.io/seminario-ia-dados/aula-02/aula-02.html)
 * Aula 03 (*em breve*)
 * Aula 04 (*em breve*)
 * Aula 05 (*em breve*)
 
-## 05/11: Aula 1 - Introdução ao R
+## 05 e 12/11: Aulas 1 e 2 - Introdução ao R
 * Instalação e execução do ambiente de desenvolvimento
 * Princípios básicos de programação em R com notebooks
 * Importação e processamento de dados
 
-## 12/11: Aula 2 - Medidas e representações de dados textuais
+## 19/11: Aula 3 - Medidas e representações de dados textuais
 * Caractere, palavra, termo, token, n-grams
 * Frequências: termo, documento, inversa
 * Representações discreta e contínua
 * Vocabulários 
-
-## 19/11: Aula 3 - Tratamento para representações numéricas
-* Pacotes `stringr`, `stringi`, `tokenizers` e `stopwords`
-* Limpeza de dados: palavras de parada, acentuação, pontuação, caracteres especiais
-* Lematização: gênero, número, radicais
-* Representações distribuídas de dados textuais e o pacote `word2vec`
-* Redução da dimensionalidade e pacote `Rdimtools`
-* Métricas de similaridade e agrupamento: `dist` e `hclust`
-* Operações com matrizes: `cosine` do pacote `lsa`
 
 ## 26/11: Aula 4 - Modelos de linguagem de larga escala
 * Modelo PARTE para *prompts*
