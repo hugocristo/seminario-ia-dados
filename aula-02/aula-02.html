@@ -125,31 +125,64 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <section id="princípios-básicos-de-programação-em-r-com-notebooks-continuação" class="level2">
 <h2 class="anchored" data-anchor-id="princípios-básicos-de-programação-em-r-com-notebooks-continuação">2. Princípios básicos de programação em R com <em>notebooks</em> (continuação)</h2>
+<p>Continuaremos a introdução à linguagem R com os mesmos dados do primeiro notebook:</p>
+<div id="0bb83d07" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># importa biblioteca</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>install.packages(<span class="st">'openxlsx'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3"></a>library(openxlsx)</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># vetor das idades</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>idade <span class="op">&lt;-</span> c(<span class="dv">15</span>, <span class="dv">16</span>, <span class="dv">14</span>, <span class="dv">17</span>, <span class="dv">15</span>, <span class="dv">18</span>, <span class="dv">16</span>, <span class="dv">15</span>, <span class="dv">14</span>, <span class="dv">16</span>)</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co"># vetor com verdadeiro/falso</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>booleano <span class="op">&lt;-</span> c(TRUE, FALSE, FALSE, TRUE, FALSE, FALSE, TRUE, TRUE, FALSE, FALSE)</span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co"># vetor dos psicólogos</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>psicologos <span class="op">&lt;-</span> c(<span class="st">"Piaget"</span>, <span class="st">"Vygotsky"</span>, <span class="st">"Skinner"</span>, <span class="st">"Wallon"</span>, <span class="st">"Bronfenbrenner"</span>, <span class="st">"Gibson"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co"># cria um data.frame a partir dos dois vetores anteriores</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a>base <span class="op">&lt;-</span> data.frame(</span>
+<span id="cb1-14"><a href="#cb1-14"></a>  <span class="st">"idade"</span><span class="op">=</span>idade,</span>
+<span id="cb1-15"><a href="#cb1-15"></a>  <span class="st">"presente"</span><span class="op">=</span>booleano)</span>
+<span id="cb1-16"><a href="#cb1-16"></a></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="co"># exibe data.frame</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a>View(base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package ‘openxlsx’ is in use and will not be installed</code></pre>
+</div>
+</div>
 <section id="funções" class="level3">
 <h3 class="anchored" data-anchor-id="funções">2.2 Funções</h3>
 <p>Até o momento, utilizamos o termo <em>função</em> de modo intuitivo. Podemos entendê-las como procedimentos que realizam operações sobre dados e que podem receber argumentos ou não.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># sem argumentos</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">funcao</span>()</span>
-<span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co"># um ou mais argumentos</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="fu">funcao</span>(argumento1, argumento2, ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># sem argumentos</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">funcao</span>()</span>
+<span id="cb3-3"><a href="#cb3-3"></a></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co"># um ou mais argumentos</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="fu">funcao</span>(argumento1, argumento2, ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Os argumentos da função são informados entre parênteses, separados por vírgulas, e as operações que ela realiza internamente se chamam <em>corpo</em>. Até o momento utilizamos funções com um argumento…</p>
-<div id="45f369d2" class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># um argumento</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="bu">print</span>(<span class="st">"Esta é uma função de argumento único!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="45f369d2" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># um argumento</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="bu">print</span>(<span class="st">"Esta é uma função de argumento único!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Esta é uma função de argumento único!"</code></pre>
+</div>
 </div>
 <p>A função <code>mean()</code> pode ser utilizada com um único argumento (vetor) e pode receber adicionais que ajustam sua operação. Estes argumentos podem ou não ser identificados, pois a linguagem tenta interpretá-los em tempo de execução. O argumento <code>na.rm</code> com valor <code>TRUE</code> informa à função que deve <em>remover</em> as células vazias do cálculo da média. Quando o valor for <code>FALSE</code>, a função retornará um erro ao calcular médias com células vazias.</p>
-<div id="f8a1343d" class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># dois argumentos</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a>mean(idade, na.rm <span class="op">=</span> TRUE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f8a1343d" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># dois argumentos</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>mean(idade, na.rm <span class="op">=</span> TRUE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>[1] 15.6</code></pre>
+</div>
 </div>
 <p>Já a função <code>c()</code>, que constrói vetores, pode receber inúmeros argumentos:</p>
-<div id="591dfbcf" class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># vetor com dez argumentos</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a>c(<span class="dv">15</span>, <span class="dv">16</span>, <span class="dv">14</span>, <span class="dv">17</span>, <span class="dv">15</span>, <span class="dv">18</span>, <span class="dv">16</span>, <span class="dv">15</span>, <span class="dv">14</span>, <span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="591dfbcf" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># vetor com dez argumentos</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>c(<span class="dv">15</span>, <span class="dv">16</span>, <span class="dv">14</span>, <span class="dv">17</span>, <span class="dv">15</span>, <span class="dv">18</span>, <span class="dv">16</span>, <span class="dv">15</span>, <span class="dv">14</span>, <span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code> [1] 15 16 14 17 15 18 16 15 14 16</code></pre>
+</div>
 </div>
 <p>O console de Positron permite invocar a ajuda de todas as funções da linguagem e dos pacotes adicionais por meio da combinação do símbolo <code>?</code> e o nome da função.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>?print</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>?print</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <blockquote class="blockquote">
 <p><strong>Dica</strong>: A ajuda exibida com a execução deste comando é similar àquela exibida quando começamos a digitar o nome da função nas células de código, poré mais completa e inclui exemplos.</p>
 </blockquote>
@@ -163,23 +196,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>nchar()</code>: retorna o comprimento de <em>strings</em>;</li>
 <li><code>unique()</code>: retorna os valores únicos de um vetor (inclusive números).</li>
 </ul>
-<div id="a97f214d" class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># imprime texto, número e vetor</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="bu">print</span>(<span class="st">"Saída de texto"</span>)</span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="bu">print</span>(<span class="fl">3.14</span>)</span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="bu">print</span>(idade)</span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="co"># concatena texto e vetor e termina com quebra de linha</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a>cat(<span class="st">"O conteúdo do vetor de idades é:"</span>,idade,<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="co"># extrai e imprime os caracteres de 18 a 27</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a><span class="bu">print</span>(substr(<span class="st">"Extraindo apenas esta parte"</span>,<span class="dv">18</span>,<span class="dv">27</span>))</span>
-<span id="cb6-9"><a href="#cb6-9"></a><span class="co"># retorna o comprimento do vetor idade (10 itens)</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a><span class="bu">print</span>(length(idade))</span>
-<span id="cb6-11"><a href="#cb6-11"></a><span class="co"># retorna o comprimento de uma string (37 caracteres)</span></span>
-<span id="cb6-12"><a href="#cb6-12"></a><span class="bu">print</span>(nchar(<span class="st">"Esta é uma função de argumento único!"</span>))</span>
-<span id="cb6-13"><a href="#cb6-13"></a><span class="co"># concatena strings</span></span>
-<span id="cb6-14"><a href="#cb6-14"></a><span class="bu">print</span>(paste(<span class="st">"A primeira parte"</span>,<span class="st">"e a segunda parte"</span>,<span class="st">"e a terceira parte."</span>))</span>
-<span id="cb6-15"><a href="#cb6-15"></a><span class="co"># mostra idades únicas</span></span>
-<span id="cb6-16"><a href="#cb6-16"></a><span class="bu">print</span>(unique(idade))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="a97f214d" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># imprime texto, número e vetor</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="bu">print</span>(<span class="st">"Saída de texto"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="bu">print</span>(<span class="fl">3.14</span>)</span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="bu">print</span>(idade)</span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="co"># concatena texto e vetor e termina com quebra de linha</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a>cat(<span class="st">"O conteúdo do vetor de idades é:"</span>,idade,<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="co"># extrai e imprime os caracteres de 18 a 27</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a><span class="bu">print</span>(substr(<span class="st">"Extraindo apenas esta parte"</span>,<span class="dv">18</span>,<span class="dv">27</span>))</span>
+<span id="cb11-9"><a href="#cb11-9"></a><span class="co"># retorna o comprimento do vetor idade (10 itens)</span></span>
+<span id="cb11-10"><a href="#cb11-10"></a><span class="bu">print</span>(length(idade))</span>
+<span id="cb11-11"><a href="#cb11-11"></a><span class="co"># retorna o comprimento de uma string (37 caracteres)</span></span>
+<span id="cb11-12"><a href="#cb11-12"></a><span class="bu">print</span>(nchar(<span class="st">"Esta é uma função de argumento único!"</span>))</span>
+<span id="cb11-13"><a href="#cb11-13"></a><span class="co"># concatena strings</span></span>
+<span id="cb11-14"><a href="#cb11-14"></a><span class="bu">print</span>(paste(<span class="st">"A primeira parte"</span>,<span class="st">"e a segunda parte"</span>,<span class="st">"e a terceira parte."</span>))</span>
+<span id="cb11-15"><a href="#cb11-15"></a><span class="co"># mostra idades únicas</span></span>
+<span id="cb11-16"><a href="#cb11-16"></a><span class="bu">print</span>(unique(idade))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Saída de texto"
+[1] 3.14
+ [1] 15 16 14 17 15 18 16 15 14 16
+O conteúdo do vetor de idades é: 15 16 14 17 15 18 16 15 14 16 
+[1] "esta parte"
+[1] 10
+[1] 37
+[1] "A primeira parte e a segunda parte e a terceira parte."
+[1] 15 16 14 17 18</code></pre>
+</div>
 </div>
 <p>Algumas funções da linguagem R nos ajudam a explorar a estrutura de <code>data.frames</code>:</p>
 <ul>
@@ -191,52 +235,105 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>colnames()</code>: rótulos das colunas;</li>
 <li><code>rownames()</code>: rótulos das linhas (quando não houver, retornará <em>strings</em> com números).</li>
 </ul>
-<div id="7f95c52b" class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># resumo</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a>summary(base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7f95c52b" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># resumo</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>summary(base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>     idade       presente      
+ Min.   :14.0   Mode :logical  
+ 1st Qu.:15.0   FALSE:6        
+ Median :15.5   TRUE :4        
+ Mean   :15.6                  
+ 3rd Qu.:16.0                  
+ Max.   :18.0                  </code></pre>
 </div>
-<div id="113705a7" class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># cabeça</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>head(base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="d09853e3" class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># cauda</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a>tail(base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="113705a7" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># cabeça</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a>head(base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>  idade presente
+1    15     TRUE
+2    16    FALSE
+3    14    FALSE
+4    17     TRUE
+5    15    FALSE
+6    18    FALSE</code></pre>
 </div>
-<div id="0aa02145" class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># número de linhas</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a>nrow(base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="0ced6031" class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># número de colunas</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a>ncol(base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="d09853e3" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># cauda</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a>tail(base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>   idade presente
+5     15    FALSE
+6     18    FALSE
+7     16     TRUE
+8     15     TRUE
+9     14    FALSE
+10    16    FALSE</code></pre>
 </div>
-<div id="cf348835" class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># rótulos das colunas</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a>colnames(base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="29376605" class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># rótulos das linhas</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a>rownames(base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="0aa02145" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># número de linhas</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a>nrow(base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>[1] 10</code></pre>
+</div>
+</div>
+<div id="0ced6031" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># número de colunas</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a>ncol(base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+<div id="cf348835" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a><span class="co"># rótulos das colunas</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a>colnames(base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>[1] "idade"    "presente"</code></pre>
+</div>
+</div>
+<div id="29376605" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># rótulos das linhas</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a>rownames(base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code> [1] "1"  "2"  "3"  "4"  "5"  "6"  "7"  "8"  "9"  "10"</code></pre>
+</div>
 </div>
 <p>A função <code>hist()</code> gera um histograma a partir da variável <em>idade</em> do <code>data.frame</code>. Para isso, recebe como argumentos um vetor de dados e um título (argumento <code>main</code>). O seletor <code>$</code> indica qual coluna de <code>base</code> será utilizada na visualização.</p>
-<div id="024e7085" class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># plota histograma</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a>hist(base$idade, main<span class="op">=</span><span class="st">"Histograma das idades"</span>, xlab<span class="op">=</span><span class="st">"Idades"</span>,ylab<span class="op">=</span><span class="st">"Frequência"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="024e7085" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># plota histograma</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a>hist(base$idade, main<span class="op">=</span><span class="st">"Histograma das idades"</span>, xlab<span class="op">=</span><span class="st">"Idades"</span>,ylab<span class="op">=</span><span class="st">"Frequência"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="aula-02_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
 </div>
 <p>A função <code>as.factor()</code> converte os níveis de varíaveis (colunas) de <code>data.frames</code> para categorias. No exemplo a seguir, coluna <em>presente</em> é transformada em categorias (<code>TRUE</code> e <code>FALSE</code>) e exibe a distribuições das idades em cada uma delas.</p>
-<div id="037cef5a" class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># transforma TRUE/FALSE em categoria</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a>base$presente <span class="op">&lt;-</span> <span class="im">as</span>.factor(base$presente)</span>
-<span id="cb15-3"><a href="#cb15-3"></a><span class="co"># exibe boxplot</span></span>
-<span id="cb15-4"><a href="#cb15-4"></a>plot(x<span class="op">=</span>base$presente,y<span class="op">=</span>base$idade, main<span class="op">=</span><span class="st">"Boxplot Presença x Idade"</span>, xlab<span class="op">=</span><span class="st">"Presente"</span>, ylab<span class="op">=</span><span class="st">"Idade"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="037cef5a" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a><span class="co"># transforma TRUE/FALSE em categoria</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a>base$presente <span class="op">&lt;-</span> <span class="im">as</span>.factor(base$presente)</span>
+<span id="cb28-3"><a href="#cb28-3"></a><span class="co"># exibe boxplot</span></span>
+<span id="cb28-4"><a href="#cb28-4"></a>plot(x<span class="op">=</span>base$presente,y<span class="op">=</span>base$idade, main<span class="op">=</span><span class="st">"Boxplot Presença x Idade"</span>, xlab<span class="op">=</span><span class="st">"Presente"</span>, ylab<span class="op">=</span><span class="st">"Idade"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="aula-02_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
 </div>
 <p>Vamos adicionar mais um vetor de dados ao objeto <code>base</code> para testar a visualização em gráficos de dispersão. Para isso, utilizaremos a função <code>cbind()</code>, que adiciona uma nova coluna a <code>data.frames</code> existentes.</p>
-<div id="5cab5059" class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># novo vetor de dados com 10 alturas</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a>altura <span class="op">&lt;-</span> c(<span class="fl">1.75</span>, <span class="fl">1.60</span>, <span class="fl">1.64</span>, <span class="fl">1.70</span>, <span class="fl">1.81</span>, <span class="fl">1.63</span>, <span class="fl">1.72</span>, <span class="fl">1.85</span>, <span class="fl">1.75</span>, <span class="fl">1.55</span>)</span>
-<span id="cb16-3"><a href="#cb16-3"></a><span class="co"># adiciona coluna</span></span>
-<span id="cb16-4"><a href="#cb16-4"></a>base <span class="op">&lt;-</span> cbind(base, <span class="st">"altura"</span><span class="op">=</span>altura)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="5cab5059" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a><span class="co"># novo vetor de dados com 10 alturas</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a>altura <span class="op">&lt;-</span> c(<span class="fl">1.75</span>, <span class="fl">1.60</span>, <span class="fl">1.64</span>, <span class="fl">1.70</span>, <span class="fl">1.81</span>, <span class="fl">1.63</span>, <span class="fl">1.72</span>, <span class="fl">1.85</span>, <span class="fl">1.75</span>, <span class="fl">1.55</span>)</span>
+<span id="cb29-3"><a href="#cb29-3"></a><span class="co"># adiciona coluna</span></span>
+<span id="cb29-4"><a href="#cb29-4"></a>base <span class="op">&lt;-</span> cbind(base, <span class="st">"altura"</span><span class="op">=</span>altura)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>O resultado é <code>base</code> atualizada para incluir mais uma coluna:</p>
 <div class="quarto-figure quarto-figure-center">
@@ -246,37 +343,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p>Assim, podemos visualizar o gráfico de dispersão de <em>idade</em> versus <em>altura</em>:</p>
-<div id="17e0c4d9" class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># plota idade x altura</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a>plot(base$idade, base$altura, main<span class="op">=</span><span class="st">"Idade x altura"</span>, xlab<span class="op">=</span><span class="st">"Idade"</span>, ylab<span class="op">=</span><span class="st">"Altura"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="17e0c4d9" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># plota idade x altura</span></span>
+<span id="cb30-2"><a href="#cb30-2"></a>plot(base$idade, base$altura, main<span class="op">=</span><span class="st">"Idade x altura"</span>, xlab<span class="op">=</span><span class="st">"Idade"</span>, ylab<span class="op">=</span><span class="st">"Altura"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="aula-02_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
 </div>
 <blockquote class="blockquote">
 <p><strong>Dica</strong>: a adição de novas colunas a <code>data.frames</code> existentes exige que o vetor tenha o <em>mesmo número</em> de linhas.</p>
 </blockquote>
 <p>Também é possível fazer a adição utilizando o seletor <code>$</code>, mas para testar esta alternativa, vamos remover a coluna adicionada:</p>
-<div id="e9039e3f" class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># remove coluna altura adicionada anteriormente</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a>base$altura <span class="op">&lt;-</span> NULL</span>
-<span id="cb18-3"><a href="#cb18-3"></a><span class="co"># verifica a remoção</span></span>
-<span id="cb18-4"><a href="#cb18-4"></a>View(base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="e9039e3f" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># remove coluna altura adicionada anteriormente</span></span>
+<span id="cb31-2"><a href="#cb31-2"></a>base$altura <span class="op">&lt;-</span> NULL</span>
+<span id="cb31-3"><a href="#cb31-3"></a><span class="co"># verifica a remoção</span></span>
+<span id="cb31-4"><a href="#cb31-4"></a>View(base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Adição por meio do seletor:</p>
-<div id="ea486662" class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># adiciona novamente utilizando o seletor</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a>base$altura <span class="op">&lt;-</span> c(<span class="fl">1.75</span>, <span class="fl">1.60</span>, <span class="fl">1.64</span>, <span class="fl">1.70</span>, <span class="fl">1.81</span>, <span class="fl">1.63</span>, <span class="fl">1.72</span>, <span class="fl">1.85</span>, <span class="fl">1.75</span>, <span class="fl">1.55</span>)</span>
-<span id="cb19-3"><a href="#cb19-3"></a><span class="co"># visualiza</span></span>
-<span id="cb19-4"><a href="#cb19-4"></a>View(base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="ea486662" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a><span class="co"># adiciona novamente utilizando o seletor</span></span>
+<span id="cb32-2"><a href="#cb32-2"></a>base$altura <span class="op">&lt;-</span> c(<span class="fl">1.75</span>, <span class="fl">1.60</span>, <span class="fl">1.64</span>, <span class="fl">1.70</span>, <span class="fl">1.81</span>, <span class="fl">1.63</span>, <span class="fl">1.72</span>, <span class="fl">1.85</span>, <span class="fl">1.75</span>, <span class="fl">1.55</span>)</span>
+<span id="cb32-3"><a href="#cb32-3"></a><span class="co"># visualiza</span></span>
+<span id="cb32-4"><a href="#cb32-4"></a>View(base)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <blockquote class="blockquote">
 <p><strong>Dica</strong>: é uma boa prática <em>inicializar</em> a coluna, com valores vazios, antes de atribuir valores, caso isso seja feito por meio do seletor <code>$</code>. Isso evita avisos do R quanto à tentativa de manipular colunas não existentes.</p>
 </blockquote>
-<div id="6ef2f118" class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a><span class="co"># remove coluna altura adicionada anteriormente</span></span>
-<span id="cb20-2"><a href="#cb20-2"></a>base$altura <span class="op">&lt;-</span> NULL</span>
-<span id="cb20-3"><a href="#cb20-3"></a><span class="co"># adiciona a coluna com valores vazios (NA)</span></span>
-<span id="cb20-4"><a href="#cb20-4"></a>base$altura <span class="op">&lt;-</span> NA</span>
-<span id="cb20-5"><a href="#cb20-5"></a><span class="co"># adiciona novamente utilizando o seletor</span></span>
-<span id="cb20-6"><a href="#cb20-6"></a>base$altura <span class="op">&lt;-</span> c(<span class="fl">1.75</span>, <span class="fl">1.60</span>, <span class="fl">1.64</span>, <span class="fl">1.70</span>, <span class="fl">1.81</span>, <span class="fl">1.63</span>, <span class="fl">1.72</span>, <span class="fl">1.85</span>, <span class="fl">1.75</span>, <span class="fl">1.55</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6ef2f118" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1"></a><span class="co"># remove coluna altura adicionada anteriormente</span></span>
+<span id="cb33-2"><a href="#cb33-2"></a>base$altura <span class="op">&lt;-</span> NULL</span>
+<span id="cb33-3"><a href="#cb33-3"></a><span class="co"># adiciona a coluna com valores vazios (NA)</span></span>
+<span id="cb33-4"><a href="#cb33-4"></a>base$altura <span class="op">&lt;-</span> NA</span>
+<span id="cb33-5"><a href="#cb33-5"></a><span class="co"># adiciona novamente utilizando o seletor</span></span>
+<span id="cb33-6"><a href="#cb33-6"></a>base$altura <span class="op">&lt;-</span> c(<span class="fl">1.75</span>, <span class="fl">1.60</span>, <span class="fl">1.64</span>, <span class="fl">1.70</span>, <span class="fl">1.81</span>, <span class="fl">1.63</span>, <span class="fl">1.72</span>, <span class="fl">1.85</span>, <span class="fl">1.75</span>, <span class="fl">1.55</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="estruturas-de-controle" class="level3">
@@ -286,52 +390,93 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>for(expressão){...}</code>: estabelece um contador progressivo ou regressivo, por meio da expressão entre parânteses, para a execução de operações indicadas entre chaves;</li>
 <li><code>while(expressão){...}</code>: executa operações até que a condição estabelecida pela expressão entre parênteses seja satisfeita.</li>
 </ol>
-<div id="dca17f3d" class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># lista psicólogos do vetor pelo índice do item</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="co"># 'item' será 1, 2, 3, ...</span></span>
-<span id="cb21-3"><a href="#cb21-3"></a><span class="cf">for</span> (item <span class="kw">in</span> <span class="dv">1</span>:length(psicologos)) {</span>
-<span id="cb21-4"><a href="#cb21-4"></a>  <span class="bu">print</span>(psicologos[item])</span>
-<span id="cb21-5"><a href="#cb21-5"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="dca17f3d" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1"></a><span class="co"># lista psicólogos do vetor pelo índice do item</span></span>
+<span id="cb34-2"><a href="#cb34-2"></a><span class="co"># 'item' será 1, 2, 3, ...</span></span>
+<span id="cb34-3"><a href="#cb34-3"></a><span class="cf">for</span> (item <span class="kw">in</span> <span class="dv">1</span>:length(psicologos)) {</span>
+<span id="cb34-4"><a href="#cb34-4"></a>  <span class="bu">print</span>(psicologos[item])</span>
+<span id="cb34-5"><a href="#cb34-5"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Piaget"
+[1] "Vygotsky"
+[1] "Skinner"
+[1] "Wallon"
+[1] "Bronfenbrenner"
+[1] "Gibson"</code></pre>
 </div>
-<div id="2fbe0f6f" class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="co"># lista psicólogos do vetor pelo item</span></span>
-<span id="cb22-2"><a href="#cb22-2"></a><span class="co"># neste caso, 'item' recebe o valor do item, não o índice</span></span>
-<span id="cb22-3"><a href="#cb22-3"></a><span class="co"># item será "Piaget", "Vygotsky", ...</span></span>
-<span id="cb22-4"><a href="#cb22-4"></a><span class="cf">for</span> (item <span class="kw">in</span> psicologos) {</span>
-<span id="cb22-5"><a href="#cb22-5"></a>  <span class="bu">print</span>(item)</span>
-<span id="cb22-6"><a href="#cb22-6"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="8cc6168c" class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a><span class="co"># lista idade e altura do data.frame</span></span>
-<span id="cb23-2"><a href="#cb23-2"></a><span class="cf">for</span> (linha <span class="kw">in</span> <span class="dv">1</span>:nrow(base)) {</span>
-<span id="cb23-3"><a href="#cb23-3"></a>  <span class="co"># imprime linha</span></span>
-<span id="cb23-4"><a href="#cb23-4"></a>  cat(<span class="st">"idade:"</span>,base$idade[linha],<span class="st">"altura:"</span>,base$altura[linha],<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
-<span id="cb23-5"><a href="#cb23-5"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="2fbe0f6f" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1"></a><span class="co"># lista psicólogos do vetor pelo item</span></span>
+<span id="cb36-2"><a href="#cb36-2"></a><span class="co"># neste caso, 'item' recebe o valor do item, não o índice</span></span>
+<span id="cb36-3"><a href="#cb36-3"></a><span class="co"># item será "Piaget", "Vygotsky", ...</span></span>
+<span id="cb36-4"><a href="#cb36-4"></a><span class="cf">for</span> (item <span class="kw">in</span> psicologos) {</span>
+<span id="cb36-5"><a href="#cb36-5"></a>  <span class="bu">print</span>(item)</span>
+<span id="cb36-6"><a href="#cb36-6"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Piaget"
+[1] "Vygotsky"
+[1] "Skinner"
+[1] "Wallon"
+[1] "Bronfenbrenner"
+[1] "Gibson"</code></pre>
 </div>
-<div id="555e36c8" class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a><span class="co"># varre o data.frame até que encontre uma idade igual ou maior a 18</span></span>
-<span id="cb24-2"><a href="#cb24-2"></a>testa.idade <span class="op">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb24-3"><a href="#cb24-3"></a><span class="co"># começa pela primeira linha</span></span>
-<span id="cb24-4"><a href="#cb24-4"></a>linha <span class="op">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb24-5"><a href="#cb24-5"></a><span class="cf">while</span> (testa.idade <span class="op">&lt;</span> <span class="dv">18</span>) {</span>
-<span id="cb24-6"><a href="#cb24-6"></a>  <span class="co"># atribui valor ao teste</span></span>
-<span id="cb24-7"><a href="#cb24-7"></a>  testa.idade <span class="op">&lt;-</span> base$idade[linha]</span>
-<span id="cb24-8"><a href="#cb24-8"></a>  <span class="co"># imprime</span></span>
-<span id="cb24-9"><a href="#cb24-9"></a>  cat(<span class="st">"idade:"</span>,base$idade[linha],<span class="st">"altura:"</span>,base$altura[linha],<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
-<span id="cb24-10"><a href="#cb24-10"></a>  <span class="co"># avança para a próxima linha</span></span>
-<span id="cb24-11"><a href="#cb24-11"></a>  linha <span class="op">&lt;-</span> linha <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb24-12"><a href="#cb24-12"></a>}</span>
-<span id="cb24-13"><a href="#cb24-13"></a><span class="co"># avisa que a idade foi encontrada</span></span>
-<span id="cb24-14"><a href="#cb24-14"></a>cat(<span class="st">"Encontrei!</span><span class="ch">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="8e96a8f8" class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># altera nomes dos psicólogos do vetor</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a><span class="cf">for</span> (item <span class="kw">in</span> <span class="dv">1</span>:length(psicologos)) {</span>
-<span id="cb25-3"><a href="#cb25-3"></a>  <span class="co"># concatena 'Prof.' ao nome do psicólogo</span></span>
-<span id="cb25-4"><a href="#cb25-4"></a>  psicologos[item] <span class="op">&lt;-</span> paste(<span class="st">"Prof."</span>,psicologos[item])</span>
-<span id="cb25-5"><a href="#cb25-5"></a>}</span>
-<span id="cb25-6"><a href="#cb25-6"></a><span class="co"># imprime resultado</span></span>
-<span id="cb25-7"><a href="#cb25-7"></a><span class="bu">print</span>(psicologos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8cc6168c" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1"></a><span class="co"># lista idade e altura do data.frame</span></span>
+<span id="cb38-2"><a href="#cb38-2"></a><span class="cf">for</span> (linha <span class="kw">in</span> <span class="dv">1</span>:nrow(base)) {</span>
+<span id="cb38-3"><a href="#cb38-3"></a>  <span class="co"># imprime linha</span></span>
+<span id="cb38-4"><a href="#cb38-4"></a>  cat(<span class="st">"idade:"</span>,base$idade[linha],<span class="st">"altura:"</span>,base$altura[linha],<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb38-5"><a href="#cb38-5"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>idade: 15 altura: 1.75 
+idade: 16 altura: 1.6 
+idade: 14 altura: 1.64 
+idade: 17 altura: 1.7 
+idade: 15 altura: 1.81 
+idade: 18 altura: 1.63 
+idade: 16 altura: 1.72 
+idade: 15 altura: 1.85 
+idade: 14 altura: 1.75 
+idade: 16 altura: 1.55 </code></pre>
+</div>
+</div>
+<div id="555e36c8" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1"></a><span class="co"># varre o data.frame até que encontre uma idade igual ou maior a 18</span></span>
+<span id="cb40-2"><a href="#cb40-2"></a>testa.idade <span class="op">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb40-3"><a href="#cb40-3"></a><span class="co"># começa pela primeira linha</span></span>
+<span id="cb40-4"><a href="#cb40-4"></a>linha <span class="op">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb40-5"><a href="#cb40-5"></a><span class="cf">while</span> (testa.idade <span class="op">&lt;</span> <span class="dv">18</span>) {</span>
+<span id="cb40-6"><a href="#cb40-6"></a>  <span class="co"># atribui valor ao teste</span></span>
+<span id="cb40-7"><a href="#cb40-7"></a>  testa.idade <span class="op">&lt;-</span> base$idade[linha]</span>
+<span id="cb40-8"><a href="#cb40-8"></a>  <span class="co"># imprime</span></span>
+<span id="cb40-9"><a href="#cb40-9"></a>  cat(<span class="st">"idade:"</span>,base$idade[linha],<span class="st">"altura:"</span>,base$altura[linha],<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb40-10"><a href="#cb40-10"></a>  <span class="co"># avança para a próxima linha</span></span>
+<span id="cb40-11"><a href="#cb40-11"></a>  linha <span class="op">&lt;-</span> linha <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb40-12"><a href="#cb40-12"></a>}</span>
+<span id="cb40-13"><a href="#cb40-13"></a><span class="co"># avisa que a idade foi encontrada</span></span>
+<span id="cb40-14"><a href="#cb40-14"></a>cat(<span class="st">"Encontrei!</span><span class="ch">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>idade: 15 altura: 1.75 
+idade: 16 altura: 1.6 
+idade: 14 altura: 1.64 
+idade: 17 altura: 1.7 
+idade: 15 altura: 1.81 
+idade: 18 altura: 1.63 
+Encontrei!</code></pre>
+</div>
+</div>
+<div id="8e96a8f8" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1"></a><span class="co"># altera nomes dos psicólogos do vetor</span></span>
+<span id="cb42-2"><a href="#cb42-2"></a><span class="cf">for</span> (item <span class="kw">in</span> <span class="dv">1</span>:length(psicologos)) {</span>
+<span id="cb42-3"><a href="#cb42-3"></a>  <span class="co"># concatena 'Prof.' ao nome do psicólogo</span></span>
+<span id="cb42-4"><a href="#cb42-4"></a>  psicologos[item] <span class="op">&lt;-</span> paste(<span class="st">"Prof."</span>,psicologos[item])</span>
+<span id="cb42-5"><a href="#cb42-5"></a>}</span>
+<span id="cb42-6"><a href="#cb42-6"></a><span class="co"># imprime resultado</span></span>
+<span id="cb42-7"><a href="#cb42-7"></a><span class="bu">print</span>(psicologos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Prof. Piaget"         "Prof. Vygotsky"       "Prof. Skinner"       
+[4] "Prof. Wallon"         "Prof. Bronfenbrenner" "Prof. Gibson"        </code></pre>
+</div>
 </div>
 </section>
 </section>
@@ -360,65 +505,161 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Primeiras linhas de <code>covid-es.csv</code>.</figcaption>
 </figure>
 </div>
-<div id="ff420477" class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># carrega arquivo covid-es.csv</span></span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="co"># separador ; (ponto e vírgula)</span></span>
-<span id="cb26-3"><a href="#cb26-3"></a><span class="co"># primeira linha tem cabeçalhos</span></span>
-<span id="cb26-4"><a href="#cb26-4"></a>base.covid <span class="op">&lt;-</span> read.csv(<span class="bu">file</span><span class="op">=</span><span class="st">"./dados/covid-es.csv"</span>,sep<span class="op">=</span><span class="st">";"</span>,header<span class="op">=</span>TRUE)</span>
-<span id="cb26-5"><a href="#cb26-5"></a><span class="co"># visualiza data.frame</span></span>
-<span id="cb26-6"><a href="#cb26-6"></a>View(base.covid)</span>
-<span id="cb26-7"><a href="#cb26-7"></a><span class="co"># explora a base</span></span>
-<span id="cb26-8"><a href="#cb26-8"></a>summary(base.covid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="ff420477" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1"></a><span class="co"># carrega arquivo covid-es.csv</span></span>
+<span id="cb44-2"><a href="#cb44-2"></a><span class="co"># separador ; (ponto e vírgula)</span></span>
+<span id="cb44-3"><a href="#cb44-3"></a><span class="co"># primeira linha tem cabeçalhos</span></span>
+<span id="cb44-4"><a href="#cb44-4"></a>base.covid <span class="op">&lt;-</span> read.csv(<span class="bu">file</span><span class="op">=</span><span class="st">"./dados/covid-es.csv"</span>,sep<span class="op">=</span><span class="st">";"</span>,header<span class="op">=</span>TRUE)</span>
+<span id="cb44-5"><a href="#cb44-5"></a><span class="co"># visualiza data.frame</span></span>
+<span id="cb44-6"><a href="#cb44-6"></a>View(base.covid)</span>
+<span id="cb44-7"><a href="#cb44-7"></a><span class="co"># explora a base</span></span>
+<span id="cb44-8"><a href="#cb44-8"></a>summary(base.covid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>     date              state               name                code        
+ Length:14742       Length:14742       Length:14742       Min.   :3200100  
+ Class :character   Class :character   Class :character   1st Qu.:3201600  
+ Mode  :character   Mode  :character   Mode  :character   Median :3203075  
+                                                          Mean   :3202902  
+                                                          3rd Qu.:3204300  
+                                                          Max.   :3205300  
+     cases            deaths      
+ Min.   :     0   Min.   :  0.00  
+ 1st Qu.:    80   1st Qu.:  0.00  
+ Median :  1140   Median :  3.00  
+ Mean   :  6746   Mean   : 20.53  
+ 3rd Qu.:  3950   3rd Qu.: 10.00  
+ Max.   :183220   Max.   :509.00  </code></pre>
+</div>
 </div>
 <p>A primeira coluna da planilha contém <em>strings</em> que representam datas e que podem ser transformadas em objetos da linguagem R que permitem operações adequadas com datas (comparações, cálculos de intervalos etc.).</p>
 <p>A segunda (<em>state</em>), terceira (<em>name</em>) e quarta (<em>code</em>) colunas correspondem à UF, ao município e ao código do município (IBGE) da ocorrência e podem ser igualmente tratados como categorias (<em>fatores</em>).</p>
-<div id="98bc914b" class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># transforma string em objeto data</span></span>
-<span id="cb27-2"><a href="#cb27-2"></a>base.covid$date <span class="op">&lt;-</span> <span class="im">as</span>.Date(base.covid$date)</span>
-<span id="cb27-3"><a href="#cb27-3"></a><span class="co"># transforma UF, municípios e códigos dos municípios em fatores</span></span>
-<span id="cb27-4"><a href="#cb27-4"></a>base.covid$state <span class="op">&lt;-</span> <span class="im">as</span>.factor(base.covid$state)</span>
-<span id="cb27-5"><a href="#cb27-5"></a>base.covid$name <span class="op">&lt;-</span> <span class="im">as</span>.factor(base.covid$name)</span>
-<span id="cb27-6"><a href="#cb27-6"></a>base.covid$code <span class="op">&lt;-</span> <span class="im">as</span>.factor(base.covid$code)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="98bc914b" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1"></a><span class="co"># transforma string em objeto data</span></span>
+<span id="cb46-2"><a href="#cb46-2"></a>base.covid$date <span class="op">&lt;-</span> <span class="im">as</span>.Date(base.covid$date)</span>
+<span id="cb46-3"><a href="#cb46-3"></a><span class="co"># transforma UF, municípios e códigos dos municípios em fatores</span></span>
+<span id="cb46-4"><a href="#cb46-4"></a>base.covid$state <span class="op">&lt;-</span> <span class="im">as</span>.factor(base.covid$state)</span>
+<span id="cb46-5"><a href="#cb46-5"></a>base.covid$name <span class="op">&lt;-</span> <span class="im">as</span>.factor(base.covid$name)</span>
+<span id="cb46-6"><a href="#cb46-6"></a>base.covid$code <span class="op">&lt;-</span> <span class="im">as</span>.factor(base.covid$code)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>A função <code>tapply()</code> é útil para realizar operações em bases de dados <em>controlando</em> por uma categoria, tendo uma tabela como resultado. O exemplo a seguir soma, pela função <code>sum()</code> os valores da coluna <code>deaths</code> agrupados pela coluna <code>name</code>, referente ao município.</p>
-<div id="06285eea" class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1"></a><span class="co"># monta tabela com a soma das mortes por município</span></span>
-<span id="cb28-2"><a href="#cb28-2"></a>tapply(base.covid$deaths, base.covid$name, <span class="bu">sum</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="06285eea" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1"></a><span class="co"># monta tabela com a soma das mortes por município</span></span>
+<span id="cb47-2"><a href="#cb47-2"></a>tapply(base.covid$deaths, base.covid$name, <span class="bu">sum</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>         Afonso Cláudio      Água Doce do Norte            Águia Branca 
+                   1689                     608                     418 
+                 Alegre          Alfredo Chaves           Alto Rio Novo 
+                   1360                     586                     759 
+               Anchieta                  Apiacá                 Aracruz 
+                   1745                     283                    6203 
+        Atílio Vivacqua            Baixo Guandu  Barra de São Francisco 
+                    398                    1493                    1822 
+          Boa Esperança      Bom Jesus do Norte               Brejetuba 
+                   1226                     439                       6 
+Cachoeiro de Itapemirim               Cariacica                 Castelo 
+                  12821                   40514                    2249 
+               Colatina      Conceição da Barra    Conceição do Castelo 
+                   8988                    1022                     383 
+ Divino de São Lourenço        Domingos Martins      Dores do Rio Preto 
+                     39                     994                      92 
+             Ecoporanga                  Fundão   Governador Lindenberg 
+                    931                    1862                      44 
+                 Guaçuí               Guarapari                 Ibatiba 
+                   1500                    8965                    1080 
+                Ibiraçu               Ibitirama                  Iconha 
+                    956                     465                       2 
+                  Irupi                Itaguaçu              Itapemirim 
+                    466                      69                    4193 
+                Itarana                    Iúna                 Jaguaré 
+                    192                    1947                     868 
+      Jerônimo Monteiro              João Neiva        Laranja da Terra 
+                    578                     777                     135 
+               Linhares            Mantenópolis              Marataízes 
+                   8816                     526                    5131 
+      Marechal Floriano              Marilândia           Mimoso do Sul 
+                   1867                     327                     478 
+               Montanha                Mucurici            Muniz Freire 
+                    664                     170                     477 
+                  Muqui            Nova Venécia                  Pancas 
+                    994                    2371                     692 
+          Pedro Canário               Pinheiros                   Piúma 
+                   1207                    1617                    1473 
+             Ponto Belo      Presidente Kennedy             Rio Bananal 
+                    229                    1690                     627 
+        Rio Novo do Sul        Santa Leopoldina   Santa Maria de Jetibá 
+                   1063                     786                    1080 
+           Santa Teresa   São Domingos do Norte    São Gabriel da Palha 
+                    916                     848                    1619 
+    São José do Calçado              São Mateus      São Roque do Canaã 
+                    361                    5139                     652 
+                  Serra               Sooretama             Vargem Alta 
+                  50850                    1206                     820 
+Venda Nova do Imigrante                   Viana              Vila Pavão 
+                    757                    6385                      58 
+           Vila Valério              Vila Velha                 Vitória 
+                    827                   47202                   41580 </code></pre>
+</div>
 </div>
 <p>Se o resultado for transformado em <code>data.frame</code> pela função <code>array2DF()</code> e podemos gerar um gráfico:</p>
-<div id="058a020d" class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1"></a><span class="co"># transforma soma em data.frame</span></span>
-<span id="cb29-2"><a href="#cb29-2"></a>base.csv.soma <span class="op">&lt;-</span> array2DF(tapply(base.covid$deaths, base.covid$name, <span class="bu">sum</span>))</span>
-<span id="cb29-3"><a href="#cb29-3"></a><span class="co"># ajustamos os nomes das colunas</span></span>
-<span id="cb29-4"><a href="#cb29-4"></a>colnames(base.csv.soma) <span class="op">&lt;-</span> c(<span class="st">"municipio"</span>,<span class="st">"total"</span>)</span>
-<span id="cb29-5"><a href="#cb29-5"></a><span class="co"># convertemos o município em fator</span></span>
-<span id="cb29-6"><a href="#cb29-6"></a>base.csv.soma$municipio <span class="op">&lt;-</span> <span class="im">as</span>.factor(base.csv.soma$municipio)</span>
-<span id="cb29-7"><a href="#cb29-7"></a><span class="co"># aumenta margem inferior do gráfico</span></span>
-<span id="cb29-8"><a href="#cb29-8"></a>par(mar<span class="op">=</span>c(<span class="dv">12</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>))</span>
-<span id="cb29-9"><a href="#cb29-9"></a><span class="co"># plota com rótulos do eixo em 90° (las=2)</span></span>
-<span id="cb29-10"><a href="#cb29-10"></a>plot(base.csv.soma$municipio,base.csv.soma$total, las<span class="op">=</span><span class="dv">2</span>, main<span class="op">=</span><span class="st">"Mortes por município (mar-out 2020)"</span>,ylab<span class="op">=</span><span class="st">"Total"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="058a020d" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1"></a><span class="co"># transforma soma em data.frame</span></span>
+<span id="cb49-2"><a href="#cb49-2"></a>base.csv.soma <span class="op">&lt;-</span> array2DF(tapply(base.covid$deaths, base.covid$name, <span class="bu">sum</span>))</span>
+<span id="cb49-3"><a href="#cb49-3"></a><span class="co"># ajustamos os nomes das colunas</span></span>
+<span id="cb49-4"><a href="#cb49-4"></a>colnames(base.csv.soma) <span class="op">&lt;-</span> c(<span class="st">"municipio"</span>,<span class="st">"total"</span>)</span>
+<span id="cb49-5"><a href="#cb49-5"></a><span class="co"># convertemos o município em fator</span></span>
+<span id="cb49-6"><a href="#cb49-6"></a>base.csv.soma$municipio <span class="op">&lt;-</span> <span class="im">as</span>.factor(base.csv.soma$municipio)</span>
+<span id="cb49-7"><a href="#cb49-7"></a><span class="co"># aumenta margem inferior do gráfico</span></span>
+<span id="cb49-8"><a href="#cb49-8"></a>par(mar<span class="op">=</span>c(<span class="dv">12</span>,<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">2</span>))</span>
+<span id="cb49-9"><a href="#cb49-9"></a><span class="co"># plota com rótulos do eixo em 90° (las=2)</span></span>
+<span id="cb49-10"><a href="#cb49-10"></a>plot(base.csv.soma$municipio,base.csv.soma$total, las<span class="op">=</span><span class="dv">2</span>, main<span class="op">=</span><span class="st">"Mortes por município (mar-out 2020)"</span>,ylab<span class="op">=</span><span class="st">"Total"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="aula-02_files/figure-html/cell-29-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
 </div>
 </section>
 <section id="planilhas-microsoft-excel-xlsx" class="level3">
 <h3 class="anchored" data-anchor-id="planilhas-microsoft-excel-xlsx">3.2 Planilhas Microsoft Excel (XLSX)</h3>
 <p>A importação de planilhas <code>XLSX</code> segue a mesma lógica dos arquivos <code>CSV</code>, porém depende da instalação e carregamento do pacote <code>openxlsx</code>.</p>
-<div id="cc622c84" class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># instala e carrega pacote</span></span>
-<span id="cb30-2"><a href="#cb30-2"></a>install.packages(<span class="st">'openxlsx'</span>)</span>
-<span id="cb30-3"><a href="#cb30-3"></a>library(openxlsx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cc622c84" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1"></a><span class="co"># instala e carrega pacote</span></span>
+<span id="cb50-2"><a href="#cb50-2"></a>install.packages(<span class="st">'openxlsx'</span>)</span>
+<span id="cb50-3"><a href="#cb50-3"></a>library(openxlsx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package ‘openxlsx’ is in use and will not be installed</code></pre>
+</div>
 </div>
 <p>A base de dados <code>suicidios-es.xlsx</code> contém dados sobre suicídios no Espírito Santo e foi obtida no Data SUS. A função <code>read.xlsx()</code> carrega a planilha disponível na pasta <code>dados</code> e, ao contrário do arquivo <code>CSV</code>, o documento <code>XLSX</code> contém metadados mais ricos e recursos avançados para representar diferentes tipos de dados.</p>
-<div id="8d73e8fe" class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># importa base xlsx</span></span>
-<span id="cb31-2"><a href="#cb31-2"></a>base.sus <span class="op">&lt;-</span> read.xlsx(<span class="st">'./dados/suicidios-es.xlsx'</span>)</span>
-<span id="cb31-3"><a href="#cb31-3"></a><span class="co"># sumário dos dados</span></span>
-<span id="cb31-4"><a href="#cb31-4"></a>summary(base.sus)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8d73e8fe" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1"></a><span class="co"># importa base xlsx</span></span>
+<span id="cb52-2"><a href="#cb52-2"></a>base.sus <span class="op">&lt;-</span> read.xlsx(<span class="st">'./dados/suicidios-es.xlsx'</span>)</span>
+<span id="cb52-3"><a href="#cb52-3"></a><span class="co"># sumário dos dados</span></span>
+<span id="cb52-4"><a href="#cb52-4"></a>summary(base.sus)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<pre><code>     meso              micro            municipio            corte          
+ Length:9636        Length:9636        Length:9636        Length:9636       
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+    fator                ano           total            ano_num    
+ Length:9636        Min.   :2006   Min.   : 0.0000   Min.   :2006  
+ Class :character   1st Qu.:2008   1st Qu.: 0.0000   1st Qu.:2008  
+ Mode  :character   Median :2011   Median : 0.0000   Median :2011  
+                    Mean   :2011   Mean   : 0.9325   Mean   :2011  
+                    3rd Qu.:2014   3rd Qu.: 1.0000   3rd Qu.:2014  
+                    Max.   :2016   Max.   :20.0000   Max.   :2016  </code></pre>
+</div>
 </div>
 <p>Um dos recursos mais importantes do pacote <code>openxlsx</code> consiste no salvamento de <code>data.frames</code> resultantes dos processamentos como planilhas Microsoft Excel — função <code>write.xlsx()</code>. Isso facilita a exportação dos dados processados, de modo que análises subsequentes não precisem partir dos dados brutos originais.</p>
 <p>O exemplo abaixo exporta <code>base.covid.soma</code>, que consolida as mortes por Covid-19 por município em um arquivo <code>XLSX</code>:</p>
-<div id="9bf067cc" class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1"></a><span class="co"># exporta base</span></span>
-<span id="cb32-2"><a href="#cb32-2"></a>write.xlsx(base.csv.soma, <span class="st">"./dados/total-mortes-municipio.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="9bf067cc" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1"></a><span class="co"># exporta base</span></span>
+<span id="cb54-2"><a href="#cb54-2"></a>write.xlsx(base.csv.soma, <span class="st">"./dados/total-mortes-municipio.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
