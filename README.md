@@ -31,7 +31,7 @@ Nesta página você encontrará todo o material citado e apresentado ao longo do
 
 * [Aula 01](https://hugocristo.github.io/seminario-ia-dados/aula-01/aula-01.html)
 * [Aula 02](https://hugocristo.github.io/seminario-ia-dados/aula-02/aula-02.html)
-* Aula 03 (*em breve*)
+* [Aula 03](https://hugocristo.github.io/seminario-ia-dados/aula-03/aula-03.html)
 * Aula 04 (*em breve*)
 * Aula 05 (*em breve*)
 
@@ -41,21 +41,25 @@ Nesta página você encontrará todo o material citado e apresentado ao longo do
 * Importação e processamento de dados
 
 ## 19/11: Aula 3 - Medidas e representações de dados textuais
-* Caractere, palavra, termo, token, n-grams
-* Frequências: termo, documento, inversa
-* Representações discreta e contínua
-* Vocabulários 
+* Teoria linguística
+* Medidas e representações discretas: morfologia, sintaxe e semântica
+* Laboratório de código em R: Machado de Assis #1
 
 ## 26/11: Aula 4 - Modelos de linguagem de larga escala
-* Modelo PARTE para *prompts*
-* Pacote `ollamar`: *prompts*, respostas e *embeddings*
-* Mais operações com matrizes
+* Medidas e representações contínuas
+* Laboratório de código em R: Machado de Assis #2
 
 ## 03/12: Aula 5 - Visualização de dados
 * Dendrogramas, nuvens de palavras, gráficos bi e tridimensionais
 * Pacotes `ggplot2`, `plotly`, `ggdendro`, `wordcloud2`
 
-## Referências
+## Referências utilizadas
+* Biderman, M. T. C. (2001). Teoria lingüística: teoria lexical e lingüística computacional. Martins Fontes.
+* Harris, Z. S. (1954). Distributional structure. Word, 10(2-3), 146-162.
+* Herdan, G. (1962). The calculus of linguistic observations (Vol. 9). Walter de Gruyter GmbH & Co KG.
+* Lenci, A. (2018). Distributional models of word meaning. Annual review of Linguistics, 4(1), 151-171.
+
+## Referências técnicas
 * Benoit, K., Muhr, D., & Watanabe, K. (2021). stopwords: Multilingual Stopword Lists. https://doi.org/10.32614/CRAN.package.stopwords
 * Google. (2024). Prompting Guide 101—October 2024 Edition. Google Workspace. https://workspace.google.com/learning/content/gemini-prompt-guide?hl=pt-BR
 * Lang, D., & Chien, G. (2018). wordcloud2: Create Word Cloud by “htmlwidget”. https://CRAN.R-project.org/package=wordcloud2
@@ -72,5 +76,3 @@ Nesta página você encontrará todo o material citado e apresentado ao longo do
 * Wild, F. (2022). lsa: Latent Semantic Analysis. https://doi.org/10.32614/CRAN.package.lsa
 * Wijffels, J., & Watanabe, K. (2023). word2vec: Distributed Representations of Words. https://doi.org/10.32614/CRAN.package.word2vec
 * You, K., & Shung, D. (2022). Rdimtools: An R Package for Dimension Reduction and Intrinsic Dimension Estimation. Software Impacts, 14, 100414. https://doi.org/10.1016/j.simpa.2022.100414
-
-
