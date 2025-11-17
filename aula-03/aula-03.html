@@ -1235,7 +1235,7 @@ Coefficients:
 </div>
 <p>Como última visualização, podemos gerar gráficos com os <em>tokens</em> de <em>tf-idf</em> mais altos em um dado documento:</p>
 <div id="cell-78" class="cell">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1"></a><span class="co"># plota top-10 tokens por tf-idf do documento 1</span></span>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1"></a><span class="co"># plota top-10 tokens por tf-idf do documento 12</span></span>
 <span id="cb76-2"><a href="#cb76-2"></a><span class="fu">ggplot</span>(txd.tidy[txd.tidy<span class="sc">$</span>doc<span class="sc">==</span><span class="st">"doc12"</span> <span class="sc">&amp;</span> txd.tidy<span class="sc">$</span>ranking <span class="sc">&lt;=</span> <span class="dv">10</span>,]) <span class="sc">+</span> </span>
 <span id="cb76-3"><a href="#cb76-3"></a>  <span class="co"># barra com token no eixo X e tf-idf no eixo Y</span></span>
 <span id="cb76-4"><a href="#cb76-4"></a>  <span class="co"># ordenando de modo descrescente por tf-idf </span></span>
