@@ -191,6 +191,9 @@ window.Quarto = {
 <p>A hipótese distribucionalista, como proposta por <a href="https://www.zelligharris.org/#:~:text=Distributional">Zellig Harris (1954)</a>, será utilizada para ilustrar aspectos da face quantitativa da linguagem. A revisão de <a href="https://doi.org/10.1146/annurev-linguistics-030514-125254">Alessandro Lenci (2017)</a> inclui aspectos históricos e técnicos da discussão.</p>
 <p>Como apoio, recomendamos os vídeos gratuitos da série <a href="https://www.youtube.com/watch?v=T4_J6Q2E4k0&amp;list=PLLrlHSmC0Mw73a1t73DEjgGMPyu8QssWT">Linguística Computacional</a>, do Prof.&nbsp;Thiago Castro Ferreira da UFMG, e na série <a href="https://www.youtube.com/playlist?list=PLTKMiZHVd_2IIEsoJrWACkIxLRdfMlw11">Build a Large Language Model from Scratch</a>, de Sebastian Raschka.</p>
 <p>Para fins de ilustração, utilizaremos uma coleção de textos de Machado de Assis, publicados entre 1870 e 1879. O acesso a este <em>corpus</em> foi facilitado para as demonstrações a seguir, mas realizaremos o processo completo de obtenção dos corpora completos de Machado de Assis na aula 04.</p>
+<blockquote class="blockquote">
+<p><strong>Importante!</strong> Os trechos de código deste <em>notebook</em> <strong>não</strong> estão otimizados, pois privilegiam a leitura e compreensão das tranformações feitas sobre os dados. Há alternativas de desempenho superior, que realizam os mesmos processamentos em tempo menor, mas que encapsulam muitas operações em uma única função. Devido aos fins didáticos desta exposição, optou-se por expandir os processamentos para que suas etapas internas estejam visíveis.</p>
+</blockquote>
 </section>
 <section id="medidas-e-representações-discretas" class="level1">
 <h1>2. Medidas e representações discretas</h1>
@@ -216,7 +219,7 @@ Nem o eco das matas seculares,
 Nem a voz das sonoras cachoeiras,
 O transmitiu aos séculos futuros.</code></pre>
 <p>O código abaixo carrega um arquivo de texto e atribui seu conteúdo à variável <code>potira</code>. O processo é diferente daquele visto na aula passada, pois depende da abertura de um fluxo de dados.</p>
-<div id="cell-3" class="cell" data-execution_count="33">
+<div id="cell-3" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># abre fluxo de dados de leitura</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>fluxo <span class="ot">&lt;-</span> <span class="fu">file</span>(<span class="st">"potira.txt"</span>,<span class="at">open=</span><span class="st">"r"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="co"># lê as linhas para o vetor 'potira'</span></span>
@@ -237,18 +240,35 @@ O transmitiu aos séculos futuros.</code></pre>
 </div>
 <p>O processo de tokenização pressupõe algum critério para a definição das unidades linguísticas em um dado idioma.</p>
 <p>O pacote <code>stringr</code>, por meio da função <code>str_split()</code>, pode tokenizar conjuntos de texto por diversos critérios:</p>
-<div id="cell-5" class="cell" data-execution_count="34">
+<div id="cell-5" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># instala e carrega o pacote</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="fu">install.packages</span>(<span class="st">'stringr'</span>)</span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="fu">library</span>(stringr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Installing package into ‘C:/Users/msn/AppData/Local/R/win-library/4.5’
+(as ‘lib’ is unspecified)</code></pre>
+</div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package ‘stringr’ is in use and will not be installed</code></pre>
+<pre><code>trying URL 'https://cran.rstudio.com/bin/windows/contrib/4.5/stringr_1.6.0.zip'
+Content type 'application/zip' length 349425 bytes (341 KB)
+downloaded 341 KB
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>package ‘stringr’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+    C:\Users\msn\AppData\Local\Temp\RtmpqKMgF1\downloaded_packages</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning message:
+package ‘stringr’ was built under R version 4.5.2 </code></pre>
 </div>
 </div>
 <p>O critério mais simples é o <em>espaço</em> entre as unidades.</p>
-<div id="cell-7" class="cell" data-execution_count="35">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># tokeniza o vetor verso por espaços</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="fu">str_split</span>(versos, <span class="st">" "</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-7" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># tokeniza o vetor verso por espaços</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="fu">str_split</span>(versos, <span class="st">" "</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <pre><code>     [,1]   [,2]         [,3]    [,4]       [,5]       [,6]          [,7]   
 [1,] "Moça" "cristã"     "das"   "solidões" "antigas," ""            ""     
@@ -264,11 +284,11 @@ O transmitiu aos séculos futuros.</code></pre>
 <li>Sinais de pontuação estão combinados às unidades, como em <code>antigas,</code>, <code>cachoeiras,</code> e <code>futuros.</code></li>
 </ol>
 <p>Expressões regulares são sequências de caracteres que definem padrões de busca mais robustos que separadores simples e aprimoram o processo de tokenização. A função <code>boundary()</code> identifica limites do tipo <code>character</code> (caractere), <code>line_break</code> (quebra de linha), <code>sentence</code> (sentença) e <code>word</code> (palavra).</p>
-<div id="cell-9" class="cell" data-execution_count="36">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># tokeniza pelos limites da palavra</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="co"># str_split() retorna uma lista e unlist() transforma em vetor</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a>tokens <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">str_split</span>(versos,<span class="fu">boundary</span>(<span class="st">'word'</span>)))</span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="fu">print</span>(tokens)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-9" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># tokeniza pelos limites da palavra</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="co"># str_split() retorna uma lista e unlist() transforma em vetor</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>tokens <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">str_split</span>(versos,<span class="fu">boundary</span>(<span class="st">'word'</span>)))</span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="fu">print</span>(tokens)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "Moça"       "cristã"     "das"        "solidões"   "antigas"   
  [6] "Em"         "que"        "áurea"      "folha"      "reviveu"   
@@ -279,11 +299,11 @@ O transmitiu aos séculos futuros.</code></pre>
 </div>
 </div>
 <p>A estrofe produziu 26 <em>tokens</em>, sendo alguns repetidos. Podemos gerar a frequência deles com a função <code>table()</code>, já conhecida:</p>
-<div id="cell-11" class="cell" data-execution_count="37">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># total de tokens únicos</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Total de tokens:"</span>,<span class="fu">length</span>(tokens),<span class="st">"/ total de tokens únicos:"</span>,<span class="fu">length</span>(<span class="fu">unique</span>(tokens))))</span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="co"># calcula a ocorrência dos tokens</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="fu">table</span>(tokens)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-11" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># total de tokens únicos</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Total de tokens:"</span>,<span class="fu">length</span>(tokens),<span class="st">"/ total de tokens únicos:"</span>,<span class="fu">length</span>(<span class="fu">unique</span>(tokens))))</span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="co"># calcula a ocorrência dos tokens</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="fu">table</span>(tokens)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Total de tokens: 29 / total de tokens únicos: 26"</code></pre>
 </div>
@@ -304,13 +324,13 @@ O transmitiu aos séculos futuros.</code></pre>
 <p><strong>Dica:</strong> denominamos <em>vocabulário</em> o conjunto de tokens identificados em dados textuais.</p>
 </blockquote>
 <p>Podemos refazer as operações com o poema completo, para analisar a distribuição de frequências dos <em>tokens</em> no vocabulário.</p>
-<div id="cell-13" class="cell" data-execution_count="38">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># tokeniza vetor completo do poema</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a>tokens <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">str_split</span>(potira,<span class="fu">boundary</span>(<span class="st">'word'</span>)))</span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="co"># informa a quantidade de tokens</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Total de tokens:"</span>,<span class="fu">length</span>(tokens),<span class="st">"/ total de tokens únicos:"</span>,<span class="fu">length</span>(<span class="fu">unique</span>(tokens))))</span>
-<span id="cb13-5"><a href="#cb13-5"></a><span class="co"># gera a tabela e exibe as 80 primeiras palavras</span></span>
-<span id="cb13-6"><a href="#cb13-6"></a><span class="fu">head</span>(<span class="fu">table</span>(tokens),<span class="at">n=</span><span class="dv">80</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-13" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># tokeniza vetor completo do poema</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a>tokens <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">str_split</span>(potira,<span class="fu">boundary</span>(<span class="st">'word'</span>)))</span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="co"># informa a quantidade de tokens</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Total de tokens:"</span>,<span class="fu">length</span>(tokens),<span class="st">"/ total de tokens únicos:"</span>,<span class="fu">length</span>(<span class="fu">unique</span>(tokens))))</span>
+<span id="cb16-5"><a href="#cb16-5"></a><span class="co"># gera a tabela e exibe as 80 primeiras palavras</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a><span class="fu">head</span>(<span class="fu">table</span>(tokens),<span class="at">n=</span><span class="dv">80</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Total de tokens: 4136 / total de tokens únicos: 1866"</code></pre>
 </div>
@@ -348,15 +368,15 @@ Adelgaçando  adormecido    Adornada      afoito     afronta   afrontado
 </div>
 <p>A tabela gerada, com 1866 itens, indica alguns problemas que a normalização ainda precisa resolver. Variações do mesmo <em>token</em> são contabilizadas de modo independente, tais como <code>alguma</code> e <code>algumas</code> (variação de número), <code>algumas</code> e <code>Algumas</code> ou <code>alguns</code> e <code>Alguns</code> (diferença no uso da letra maiúscula). Essa padronização pode reduzir o número de itens e aprimorar a avaliação da distribuição.</p>
 <p>As funções <code>str_to_lower()</code> e <code>str_to_upper()</code> transformam, respectivamente, os conjuntos de textos para letras minúsculas e maiúsculas. Assim, casos como <code>Algumas</code> e <code>algumas</code> seriam contabilizados conjuntamente.</p>
-<div id="cell-15" class="cell" data-execution_count="39">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># converte para minúsculas</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a>tokens.minusculas <span class="ot">&lt;-</span> <span class="fu">str_to_lower</span>(potira)</span>
-<span id="cb16-3"><a href="#cb16-3"></a><span class="co"># tokeniza vetor completo do poema</span></span>
-<span id="cb16-4"><a href="#cb16-4"></a>tokens.minusculas <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">str_split</span>(tokens.minusculas,<span class="fu">boundary</span>(<span class="st">'word'</span>)))</span>
-<span id="cb16-5"><a href="#cb16-5"></a><span class="co"># informa a quantidade de tokens</span></span>
-<span id="cb16-6"><a href="#cb16-6"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Total de tokens:"</span>,<span class="fu">length</span>(tokens.minusculas),<span class="st">"/ total de tokens únicos:"</span>,<span class="fu">length</span>(<span class="fu">unique</span>(tokens.minusculas))))</span>
-<span id="cb16-7"><a href="#cb16-7"></a><span class="co"># gera a tabela e exibe as 80 primeiras palavras</span></span>
-<span id="cb16-8"><a href="#cb16-8"></a><span class="fu">head</span>(<span class="fu">table</span>(tokens.minusculas),<span class="at">n=</span><span class="dv">80</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-15" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># converte para minúsculas</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a>tokens.minusculas <span class="ot">&lt;-</span> <span class="fu">str_to_lower</span>(potira)</span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="co"># tokeniza vetor completo do poema</span></span>
+<span id="cb19-4"><a href="#cb19-4"></a>tokens.minusculas <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">str_split</span>(tokens.minusculas,<span class="fu">boundary</span>(<span class="st">'word'</span>)))</span>
+<span id="cb19-5"><a href="#cb19-5"></a><span class="co"># informa a quantidade de tokens</span></span>
+<span id="cb19-6"><a href="#cb19-6"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Total de tokens:"</span>,<span class="fu">length</span>(tokens.minusculas),<span class="st">"/ total de tokens únicos:"</span>,<span class="fu">length</span>(<span class="fu">unique</span>(tokens.minusculas))))</span>
+<span id="cb19-7"><a href="#cb19-7"></a><span class="co"># gera a tabela e exibe as 80 primeiras palavras</span></span>
+<span id="cb19-8"><a href="#cb19-8"></a><span class="fu">head</span>(<span class="fu">table</span>(tokens.minusculas),<span class="at">n=</span><span class="dv">80</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Total de tokens: 4136 / total de tokens únicos: 1679"</code></pre>
 </div>
@@ -407,21 +427,38 @@ Adelgaçando  adormecido    Adornada      afoito     afronta   afrontado
 <p>A imagem, resultado do processo de copiar e colar o poema original na ferramenta, evidencia como as chamadas <em>palavras de parada</em> (<em>stopwords</em>) ou <em>palavras vazias</em> (<em>empty words</em>) podem prejudicar a análise.</p>
 <p>Exceto por termos como “rosto”, “olhos”, “flor”, “vida”, as palavras representadas em maior não contribuem para a compreensão dos significados no texto.</p>
 <p>A lista de tokens do vetor <code>tokens.minusculas</code> pode ser aprimorada pela remoção das palavras de parada, passando a fornecer indícios mais relevantes sobre a estrutura do texto. O pacote <code>stopwords</code> contém um dicionário com palavras de parada em vários idiomas, inclusive o português.</p>
-<div id="cell-18" class="cell" data-execution_count="40">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># instala e carrega pacote</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a><span class="fu">install.packages</span>(<span class="st">'stopwords'</span>)</span>
-<span id="cb19-3"><a href="#cb19-3"></a><span class="fu">library</span>(stopwords)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-18" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="co"># instala e carrega pacote</span></span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="fu">install.packages</span>(<span class="st">'stopwords'</span>)</span>
+<span id="cb22-3"><a href="#cb22-3"></a><span class="fu">library</span>(stopwords)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Installing package into ‘C:/Users/msn/AppData/Local/R/win-library/4.5’
+(as ‘lib’ is unspecified)</code></pre>
+</div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package ‘stopwords’ is in use and will not be installed</code></pre>
+<pre><code>trying URL 'https://cran.rstudio.com/bin/windows/contrib/4.5/stopwords_2.3.zip'
+Content type 'application/zip' length 229340 bytes (223 KB)
+downloaded 223 KB
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>package ‘stopwords’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+    C:\Users\msn\AppData\Local\Temp\RtmpqKMgF1\downloaded_packages</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning message:
+package ‘stopwords’ was built under R version 4.5.2 </code></pre>
 </div>
 </div>
 <p>Removeremos as palavras de parada de <code>tokens.minusculas</code> utilizando a função <code>stopwords()</code> com o argumento <code>pt-br</code>. Utilizamos, ademais, a função <code>which()</code> e o operador <code>%in%</code>, que verifica se um item pertence a um conjunto.</p>
 <p>A variável <code>remover</code> contém os índices dos itens do vetor <code>tokens.minusculas</code> que também estão na lista das palavras de parada do português.</p>
-<div id="cell-20" class="cell" data-execution_count="41">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># lista de termos para remover</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a>remover <span class="ot">&lt;-</span> <span class="fu">which</span>(tokens.minusculas <span class="sc">%in%</span> <span class="fu">stopwords</span>(<span class="st">'pt'</span>))</span>
-<span id="cb21-3"><a href="#cb21-3"></a><span class="co"># mostra a lista</span></span>
-<span id="cb21-4"><a href="#cb21-4"></a><span class="fu">print</span>(remover)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-20" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># lista de termos para remover</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a>remover <span class="ot">&lt;-</span> <span class="fu">which</span>(tokens.minusculas <span class="sc">%in%</span> <span class="fu">stopwords</span>(<span class="st">'pt'</span>))</span>
+<span id="cb27-3"><a href="#cb27-3"></a><span class="co"># mostra a lista</span></span>
+<span id="cb27-4"><a href="#cb27-4"></a><span class="fu">print</span>(remover)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   [1]    1    3    6    9   11   12   14   16   22   25   26   28   30   31
   [15]   32   35   37   38   39   44   45   47   49   50   53   54   56   58
@@ -499,32 +536,50 @@ Adelgaçando  adormecido    Adornada      afoito     afronta   afrontado
 </div>
 </div>
 <p>Desse modo, podemos criar o novo vetor <code>tokens.nuvem</code> apenas com <em>tokens</em> não removidos da lista original.</p>
-<div id="cell-22" class="cell" data-execution_count="42">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="co"># cria novo vetor</span></span>
-<span id="cb23-2"><a href="#cb23-2"></a>tokens.nuvem <span class="ot">&lt;-</span> tokens.minusculas[<span class="sc">-</span>remover]</span>
-<span id="cb23-3"><a href="#cb23-3"></a><span class="co"># distribuição resultante</span></span>
-<span id="cb23-4"><a href="#cb23-4"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Total de tokens:"</span>,<span class="fu">length</span>(tokens.nuvem),<span class="st">"/ total de tokens únicos:"</span>,<span class="fu">length</span>(<span class="fu">unique</span>(tokens.nuvem))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-22" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="co"># cria novo vetor</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a>tokens.nuvem <span class="ot">&lt;-</span> tokens.minusculas[<span class="sc">-</span>remover]</span>
+<span id="cb29-3"><a href="#cb29-3"></a><span class="co"># distribuição resultante</span></span>
+<span id="cb29-4"><a href="#cb29-4"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Total de tokens:"</span>,<span class="fu">length</span>(tokens.nuvem),<span class="st">"/ total de tokens únicos:"</span>,<span class="fu">length</span>(<span class="fu">unique</span>(tokens.nuvem))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Total de tokens: 2509 / total de tokens únicos: 1572"</code></pre>
 </div>
 </div>
 <p>Obtivemos 100 tokens a menos, sendo que a frequência total caiu em 1627 ocorrências. Isto significa que os termos removidos eram muito frequentes e não tinham papel relevante na construção do significado. Podemos visualizar o resultado em nuvens de palavras com o pacote <code>wordcloud</code>.</p>
-<div id="cell-24" class="cell" data-execution_count="43">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># instala e carrega pacote</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a><span class="fu">install.packages</span>(<span class="st">'wordcloud'</span>)</span>
-<span id="cb25-3"><a href="#cb25-3"></a><span class="fu">library</span>(wordcloud)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-24" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># instala e carrega pacote</span></span>
+<span id="cb31-2"><a href="#cb31-2"></a><span class="fu">install.packages</span>(<span class="st">'wordcloud'</span>)</span>
+<span id="cb31-3"><a href="#cb31-3"></a><span class="fu">library</span>(wordcloud)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Installing package into ‘C:/Users/msn/AppData/Local/R/win-library/4.5’
+(as ‘lib’ is unspecified)</code></pre>
+</div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package ‘wordcloud’ is in use and will not be installed</code></pre>
+<pre><code>trying URL 'https://cran.rstudio.com/bin/windows/contrib/4.5/wordcloud_2.6.zip'
+Content type 'application/zip' length 440718 bytes (430 KB)
+downloaded 430 KB
+</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>package ‘wordcloud’ successfully unpacked and MD5 sums checked
+
+The downloaded binary packages are in
+    C:\Users\msn\AppData\Local\Temp\RtmpqKMgF1\downloaded_packages
+Loading required package: RColorBrewer</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning message:
+package ‘wordcloud’ was built under R version 4.5.2 </code></pre>
 </div>
 </div>
 <p>A função <code>wordcloud()</code> recebe dois argumentos: um vetor com a lista de palavras e outro com a frequência de cada palavra.</p>
-<div id="cell-26" class="cell" data-execution_count="44">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># converte vetor para data.frame</span></span>
-<span id="cb27-2"><a href="#cb27-2"></a>tokens.nuvem.df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">table</span>(tokens.nuvem))</span>
-<span id="cb27-3"><a href="#cb27-3"></a><span class="co"># remove margins para comportar a nuvem</span></span>
-<span id="cb27-4"><a href="#cb27-4"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
-<span id="cb27-5"><a href="#cb27-5"></a><span class="co"># gera nuvem</span></span>
-<span id="cb27-6"><a href="#cb27-6"></a><span class="fu">wordcloud</span>(tokens.nuvem.df<span class="sc">$</span>tokens.nuvem, tokens.nuvem.df<span class="sc">$</span>Freq, <span class="at">colors=</span><span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Spectral"</span>),<span class="at">random.order=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-26" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="co"># converte vetor para data.frame</span></span>
+<span id="cb36-2"><a href="#cb36-2"></a>tokens.nuvem.df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">table</span>(tokens.nuvem))</span>
+<span id="cb36-3"><a href="#cb36-3"></a><span class="co"># remove margins para comportar a nuvem</span></span>
+<span id="cb36-4"><a href="#cb36-4"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb36-5"><a href="#cb36-5"></a><span class="co"># gera nuvem</span></span>
+<span id="cb36-6"><a href="#cb36-6"></a><span class="fu">wordcloud</span>(tokens.nuvem.df<span class="sc">$</span>tokens.nuvem, tokens.nuvem.df<span class="sc">$</span>Freq, <span class="at">colors=</span><span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Spectral"</span>),<span class="at">random.order=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -535,27 +590,27 @@ Adelgaçando  adormecido    Adornada      afoito     afronta   afrontado
 </div>
 <p>Podemos observar que a palavra de frequência mais alta é “olhos”, seguida por “vida” e “mãos”, depois por “rosto”, “voz” e “amor”. As cores agrupam os termos com a mesma ocorrência, relevando aspectos <em>quantitativos</em> da estrutura do texto.</p>
 <p>Se o resultado ainda não for satisfatório, podemos utilizar listas personalizadas de palavras de parada, refinadas de acordo com o nosso interesse.</p>
-<div id="cell-28" class="cell" data-execution_count="45">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="co"># cria vetor com palavras que desejamos remover</span></span>
-<span id="cb28-2"><a href="#cb28-2"></a>palavras.de.parada <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'é'</span>,<span class="st">'la'</span>,<span class="st">'tal'</span>,<span class="st">'oh'</span>,<span class="st">'aí'</span>,<span class="st">'ai'</span>,<span class="st">'ali'</span>,<span class="st">'ó'</span>)</span>
-<span id="cb28-3"><a href="#cb28-3"></a><span class="co"># lista de termos para remover</span></span>
-<span id="cb28-4"><a href="#cb28-4"></a>remover <span class="ot">&lt;-</span> <span class="fu">which</span>(tokens.nuvem <span class="sc">%in%</span> palavras.de.parada)</span>
-<span id="cb28-5"><a href="#cb28-5"></a><span class="co"># remove</span></span>
-<span id="cb28-6"><a href="#cb28-6"></a>tokens.nuvem <span class="ot">&lt;-</span> tokens.nuvem[<span class="sc">-</span>remover]</span>
-<span id="cb28-7"><a href="#cb28-7"></a><span class="co"># distribuição resultante</span></span>
-<span id="cb28-8"><a href="#cb28-8"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Total de tokens:"</span>,<span class="fu">length</span>(tokens.nuvem),<span class="st">"/ total de tokens únicos:"</span>,<span class="fu">length</span>(<span class="fu">unique</span>(tokens.nuvem))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-28" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="co"># cria vetor com palavras que desejamos remover</span></span>
+<span id="cb37-2"><a href="#cb37-2"></a>palavras.de.parada <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'é'</span>,<span class="st">'la'</span>,<span class="st">'tal'</span>,<span class="st">'oh'</span>,<span class="st">'aí'</span>,<span class="st">'ai'</span>,<span class="st">'ali'</span>,<span class="st">'ó'</span>)</span>
+<span id="cb37-3"><a href="#cb37-3"></a><span class="co"># lista de termos para remover</span></span>
+<span id="cb37-4"><a href="#cb37-4"></a>remover <span class="ot">&lt;-</span> <span class="fu">which</span>(tokens.nuvem <span class="sc">%in%</span> palavras.de.parada)</span>
+<span id="cb37-5"><a href="#cb37-5"></a><span class="co"># remove</span></span>
+<span id="cb37-6"><a href="#cb37-6"></a>tokens.nuvem <span class="ot">&lt;-</span> tokens.nuvem[<span class="sc">-</span>remover]</span>
+<span id="cb37-7"><a href="#cb37-7"></a><span class="co"># distribuição resultante</span></span>
+<span id="cb37-8"><a href="#cb37-8"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Total de tokens:"</span>,<span class="fu">length</span>(tokens.nuvem),<span class="st">"/ total de tokens únicos:"</span>,<span class="fu">length</span>(<span class="fu">unique</span>(tokens.nuvem))))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Total de tokens: 2477 / total de tokens únicos: 1565"</code></pre>
 </div>
 </div>
 <p>E geramos novamente o <code>data.frame</code> e o gráfico com as palavras de parada removidas:</p>
-<div id="cell-30" class="cell" data-execution_count="46">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="co"># converte vetor para data.frame (novamente)</span></span>
-<span id="cb30-2"><a href="#cb30-2"></a>tokens.nuvem.df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">table</span>(tokens.nuvem))</span>
-<span id="cb30-3"><a href="#cb30-3"></a><span class="co"># remove margins para comportar a nuvem</span></span>
-<span id="cb30-4"><a href="#cb30-4"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
-<span id="cb30-5"><a href="#cb30-5"></a><span class="co"># gera nuvem</span></span>
-<span id="cb30-6"><a href="#cb30-6"></a><span class="fu">wordcloud</span>(tokens.nuvem.df<span class="sc">$</span>tokens.nuvem, tokens.nuvem.df<span class="sc">$</span>Freq, <span class="at">colors=</span><span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Spectral"</span>),<span class="at">random.order=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-30" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="co"># converte vetor para data.frame (novamente)</span></span>
+<span id="cb39-2"><a href="#cb39-2"></a>tokens.nuvem.df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">table</span>(tokens.nuvem))</span>
+<span id="cb39-3"><a href="#cb39-3"></a><span class="co"># remove margins para comportar a nuvem</span></span>
+<span id="cb39-4"><a href="#cb39-4"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb39-5"><a href="#cb39-5"></a><span class="co"># gera nuvem</span></span>
+<span id="cb39-6"><a href="#cb39-6"></a><span class="fu">wordcloud</span>(tokens.nuvem.df<span class="sc">$</span>tokens.nuvem, tokens.nuvem.df<span class="sc">$</span>Freq, <span class="at">colors=</span><span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Spectral"</span>),<span class="at">random.order=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -587,11 +642,15 @@ Adelgaçando  adormecido    Adornada      afoito     afronta   afrontado
 <p>A <em>radicalização</em> identifica o morfema básico da unidade, de modo a remover as variações morfológicas. Este processo retorna <em>tokens</em> ainda mais simples, reduzindo-os às suas formas sem variação de gênero, número, classe gramatical, tempo verbal etc.</p>
 <p>O símbolo <code>_</code> (sublinhado) na tabela delimita o radical e sua aplicação ao corpus consistiria na substituição de todos os <em>lexemas</em> pela forma reduzida. Qualquer outro símbolo pode ser selecionado para tal indicação.</p>
 <p>O processo de lematização e radicalização deve partir da inspeção do vocabulário tratado. O código a seguir exporta o data.frame <code>tokens.nuvem.df</code> para que esta avaliação seja feita no Microsoft Excel.</p>
-<div id="cell-32" class="cell" data-execution_count="47">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># carrega pacote openxlsx</span></span>
-<span id="cb31-2"><a href="#cb31-2"></a><span class="fu">library</span>(openxlsx)</span>
-<span id="cb31-3"><a href="#cb31-3"></a><span class="co"># exporta</span></span>
-<span id="cb31-4"><a href="#cb31-4"></a><span class="fu">write.xlsx</span>(tokens.nuvem.df,<span class="st">"./dados/tokens-nuvem.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-32" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="co"># carrega pacote openxlsx</span></span>
+<span id="cb40-2"><a href="#cb40-2"></a><span class="fu">library</span>(openxlsx)</span>
+<span id="cb40-3"><a href="#cb40-3"></a><span class="co"># exporta</span></span>
+<span id="cb40-4"><a href="#cb40-4"></a><span class="fu">write.xlsx</span>(tokens.nuvem.df,<span class="st">"./dados/tokens-nuvem.xlsx"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning message:
+package ‘openxlsx’ was built under R version 4.5.2 </code></pre>
+</div>
 </div>
 <p>Considerando o caso da raiz <code>algu_</code>, a inspeção da planilha gerada resultaria na seguinte situação:</p>
 <div class="columns">
@@ -628,25 +687,25 @@ Adelgaçando  adormecido    Adornada      afoito     afronta   afrontado
 <blockquote class="blockquote">
 <p><strong>Dica</strong>: escolha bem o nome das variáveis em R, pois isso pode facilitar a reprodução de transformações e processamentos sequenciais dos dados.</p>
 </blockquote>
-<div id="cell-34" class="cell" data-execution_count="48">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="co"># converte o vetor original para minúsculas</span></span>
-<span id="cb32-2"><a href="#cb32-2"></a>tokens.minusculas <span class="ot">&lt;-</span> <span class="fu">str_to_lower</span>(potira)</span>
-<span id="cb32-3"><a href="#cb32-3"></a><span class="co"># substitui lexemas pelo radical algum*</span></span>
-<span id="cb32-4"><a href="#cb32-4"></a>tokens.minusculas <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(tokens.minusculas, <span class="st">"</span><span class="sc">\\</span><span class="st">balgu[:alpha:]*"</span>,<span class="st">"algu_"</span>)</span>
-<span id="cb32-5"><a href="#cb32-5"></a><span class="co"># tokeniza vetor completo do poema</span></span>
-<span id="cb32-6"><a href="#cb32-6"></a>tokens.minusculas <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">str_split</span>(tokens.minusculas,<span class="fu">boundary</span>(<span class="st">'word'</span>)))</span>
-<span id="cb32-7"><a href="#cb32-7"></a><span class="co"># lista de termos para remover</span></span>
-<span id="cb32-8"><a href="#cb32-8"></a>remover <span class="ot">&lt;-</span> <span class="fu">which</span>(tokens.minusculas <span class="sc">%in%</span> <span class="fu">stopwords</span>(<span class="st">'pt'</span>))</span>
-<span id="cb32-9"><a href="#cb32-9"></a><span class="co"># remove</span></span>
-<span id="cb32-10"><a href="#cb32-10"></a>tokens.nuvem <span class="ot">&lt;-</span> tokens.minusculas[<span class="sc">-</span>remover]</span>
-<span id="cb32-11"><a href="#cb32-11"></a><span class="co"># converte vetor para data.frame (novamente)</span></span>
-<span id="cb32-12"><a href="#cb32-12"></a>tokens.nuvem.df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">table</span>(tokens.nuvem))</span>
-<span id="cb32-13"><a href="#cb32-13"></a><span class="co"># informa a quantidade de ocorrências de algu_</span></span>
-<span id="cb32-14"><a href="#cb32-14"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Ocorrências de algu_:"</span>,<span class="fu">length</span>(<span class="fu">which</span>(<span class="fu">str_detect</span>(tokens.nuvem,<span class="st">"algu_"</span>)))))</span>
-<span id="cb32-15"><a href="#cb32-15"></a><span class="co"># remove margins para comportar a nuvem</span></span>
-<span id="cb32-16"><a href="#cb32-16"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
-<span id="cb32-17"><a href="#cb32-17"></a><span class="co"># gera nuvem</span></span>
-<span id="cb32-18"><a href="#cb32-18"></a><span class="fu">wordcloud</span>(tokens.nuvem.df<span class="sc">$</span>tokens.nuvem, tokens.nuvem.df<span class="sc">$</span>Freq, <span class="at">colors=</span><span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Spectral"</span>),<span class="at">random.order=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-34" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="co"># converte o vetor original para minúsculas</span></span>
+<span id="cb42-2"><a href="#cb42-2"></a>tokens.minusculas <span class="ot">&lt;-</span> <span class="fu">str_to_lower</span>(potira)</span>
+<span id="cb42-3"><a href="#cb42-3"></a><span class="co"># substitui lexemas pelo radical algum*</span></span>
+<span id="cb42-4"><a href="#cb42-4"></a>tokens.minusculas <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(tokens.minusculas, <span class="st">"</span><span class="sc">\\</span><span class="st">balgu[:alpha:]*"</span>,<span class="st">"algu_"</span>)</span>
+<span id="cb42-5"><a href="#cb42-5"></a><span class="co"># tokeniza vetor completo do poema</span></span>
+<span id="cb42-6"><a href="#cb42-6"></a>tokens.minusculas <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">str_split</span>(tokens.minusculas,<span class="fu">boundary</span>(<span class="st">'word'</span>)))</span>
+<span id="cb42-7"><a href="#cb42-7"></a><span class="co"># lista de termos para remover</span></span>
+<span id="cb42-8"><a href="#cb42-8"></a>remover <span class="ot">&lt;-</span> <span class="fu">which</span>(tokens.minusculas <span class="sc">%in%</span> <span class="fu">stopwords</span>(<span class="st">'pt'</span>))</span>
+<span id="cb42-9"><a href="#cb42-9"></a><span class="co"># remove</span></span>
+<span id="cb42-10"><a href="#cb42-10"></a>tokens.nuvem <span class="ot">&lt;-</span> tokens.minusculas[<span class="sc">-</span>remover]</span>
+<span id="cb42-11"><a href="#cb42-11"></a><span class="co"># converte vetor para data.frame (novamente)</span></span>
+<span id="cb42-12"><a href="#cb42-12"></a>tokens.nuvem.df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">table</span>(tokens.nuvem))</span>
+<span id="cb42-13"><a href="#cb42-13"></a><span class="co"># informa a quantidade de ocorrências de algu_</span></span>
+<span id="cb42-14"><a href="#cb42-14"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Ocorrências de algu_:"</span>,<span class="fu">length</span>(<span class="fu">which</span>(<span class="fu">str_detect</span>(tokens.nuvem,<span class="st">"algu_"</span>)))))</span>
+<span id="cb42-15"><a href="#cb42-15"></a><span class="co"># remove margins para comportar a nuvem</span></span>
+<span id="cb42-16"><a href="#cb42-16"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb42-17"><a href="#cb42-17"></a><span class="co"># gera nuvem</span></span>
+<span id="cb42-18"><a href="#cb42-18"></a><span class="fu">wordcloud</span>(tokens.nuvem.df<span class="sc">$</span>tokens.nuvem, tokens.nuvem.df<span class="sc">$</span>Freq, <span class="at">colors=</span><span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Spectral"</span>),<span class="at">random.order=</span><span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Ocorrências de algu_: 6"</code></pre>
 </div>
@@ -676,11 +735,11 @@ Adelgaçando  adormecido    Adornada      afoito     afronta   afrontado
 <li>O resultado de <code>str_detect()</code> é um vetor do tamanho de <code>potira</code>, indicando <code>TRUE</code> onde o padrão foi encontrado e <code>FALSE</code> onde não foi;</li>
 <li><code>which()</code> transforma o vetor de <code>TRUE</code> e <code>FALSE</code> nos índices de <code>potira</code>, permitindo que o vetor <code>doc.olhos</code> seja criado com as ocorrências.</li>
 </ul>
-<div id="cell-36" class="cell" data-execution_count="49">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a><span class="co"># localiza 'olhos' nos documentos</span></span>
-<span id="cb34-2"><a href="#cb34-2"></a>doc.olhos <span class="ot">&lt;-</span> potira[<span class="fu">which</span>(<span class="fu">str_detect</span>(potira,<span class="st">"</span><span class="sc">\\</span><span class="st">bolhos</span><span class="sc">\\</span><span class="st">b"</span>))]</span>
-<span id="cb34-3"><a href="#cb34-3"></a><span class="co"># imprime resultado</span></span>
-<span id="cb34-4"><a href="#cb34-4"></a><span class="fu">print</span>(doc.olhos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-36" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="co"># localiza 'olhos' nos documentos</span></span>
+<span id="cb44-2"><a href="#cb44-2"></a>doc.olhos <span class="ot">&lt;-</span> potira[<span class="fu">which</span>(<span class="fu">str_detect</span>(potira,<span class="st">"</span><span class="sc">\\</span><span class="st">bolhos</span><span class="sc">\\</span><span class="st">b"</span>))]</span>
+<span id="cb44-3"><a href="#cb44-3"></a><span class="co"># imprime resultado</span></span>
+<span id="cb44-4"><a href="#cb44-4"></a><span class="fu">print</span>(doc.olhos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "Quando a aldeia surgiu aos olhos torvos"       
  [2] "Nas veias ferve do índio. Os olhos luzem"      
@@ -712,28 +771,28 @@ Adelgaçando  adormecido    Adornada      afoito     afronta   afrontado
  [8] "olhos negros"
 [19] "olhos turvos"</code></pre>
 <p>Podemos refazer a limpeza do vetor, excluindo pontuação e palavras de parada, de modo a deixar apenas termos que contribuam para o significado de <code>olhos</code> no contexto.</p>
-<div id="cell-38" class="cell" data-execution_count="50">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="co"># remove pontuação</span></span>
-<span id="cb37-2"><a href="#cb37-2"></a>doc.olhos <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(doc.olhos,<span class="st">"[:punct:]"</span>,<span class="st">""</span>)</span>
-<span id="cb37-3"><a href="#cb37-3"></a><span class="co"># transforma em caixa baixa</span></span>
-<span id="cb37-4"><a href="#cb37-4"></a>doc.olhos <span class="ot">&lt;-</span> <span class="fu">str_to_lower</span>(doc.olhos)</span>
-<span id="cb37-5"><a href="#cb37-5"></a><span class="co"># remove palavras de parada</span></span>
-<span id="cb37-6"><a href="#cb37-6"></a><span class="co"># obs: concatenamos stopwords com o símbolo de ou (|) e identificadores de palavra (\\b)</span></span>
-<span id="cb37-7"><a href="#cb37-7"></a>doc.olhos <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(doc.olhos,</span>
-<span id="cb37-8"><a href="#cb37-8"></a>  <span class="fu">str_c</span>(</span>
-<span id="cb37-9"><a href="#cb37-9"></a>    <span class="fu">str_c</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>,<span class="fu">stopwords</span>(<span class="st">"pt"</span>),<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>),</span>
-<span id="cb37-10"><a href="#cb37-10"></a>    <span class="at">collapse=</span><span class="st">"|"</span>),</span>
-<span id="cb37-11"><a href="#cb37-11"></a>    <span class="st">""</span>)</span>
-<span id="cb37-12"><a href="#cb37-12"></a><span class="co"># remove palavras de parada personalizadas</span></span>
-<span id="cb37-13"><a href="#cb37-13"></a>palavras.de.parada.olhos <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"os"</span>,<span class="st">"dos"</span>,<span class="st">"de"</span>)</span>
-<span id="cb37-14"><a href="#cb37-14"></a><span class="co"># lista de termos para remover</span></span>
-<span id="cb37-15"><a href="#cb37-15"></a>doc.olhos <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(doc.olhos,<span class="fu">str_c</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>,palavras.de.parada.olhos,<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>,<span class="at">collapse=</span><span class="st">"|"</span>),<span class="st">""</span>)</span>
-<span id="cb37-16"><a href="#cb37-16"></a><span class="co"># remove espaços duplos</span></span>
-<span id="cb37-17"><a href="#cb37-17"></a>doc.olhos <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(doc.olhos,<span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>,<span class="st">" "</span>)</span>
-<span id="cb37-18"><a href="#cb37-18"></a><span class="co"># remove espaços no começo</span></span>
-<span id="cb37-19"><a href="#cb37-19"></a>doc.olhos <span class="ot">&lt;-</span> <span class="fu">str_trim</span>(doc.olhos,<span class="at">side=</span><span class="st">"both"</span>)</span>
-<span id="cb37-20"><a href="#cb37-20"></a><span class="co"># imprime resultado</span></span>
-<span id="cb37-21"><a href="#cb37-21"></a><span class="fu">print</span>(doc.olhos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-38" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a><span class="co"># remove pontuação</span></span>
+<span id="cb47-2"><a href="#cb47-2"></a>doc.olhos <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(doc.olhos,<span class="st">"[:punct:]"</span>,<span class="st">""</span>)</span>
+<span id="cb47-3"><a href="#cb47-3"></a><span class="co"># transforma em caixa baixa</span></span>
+<span id="cb47-4"><a href="#cb47-4"></a>doc.olhos <span class="ot">&lt;-</span> <span class="fu">str_to_lower</span>(doc.olhos)</span>
+<span id="cb47-5"><a href="#cb47-5"></a><span class="co"># remove palavras de parada</span></span>
+<span id="cb47-6"><a href="#cb47-6"></a><span class="co"># obs: concatenamos stopwords com o símbolo de ou (|) e identificadores de palavra (\\b)</span></span>
+<span id="cb47-7"><a href="#cb47-7"></a>doc.olhos <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(doc.olhos,</span>
+<span id="cb47-8"><a href="#cb47-8"></a>  <span class="fu">str_c</span>(</span>
+<span id="cb47-9"><a href="#cb47-9"></a>    <span class="fu">str_c</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>,<span class="fu">stopwords</span>(<span class="st">"pt"</span>),<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>),</span>
+<span id="cb47-10"><a href="#cb47-10"></a>    <span class="at">collapse=</span><span class="st">"|"</span>),</span>
+<span id="cb47-11"><a href="#cb47-11"></a>    <span class="st">""</span>)</span>
+<span id="cb47-12"><a href="#cb47-12"></a><span class="co"># remove palavras de parada personalizadas</span></span>
+<span id="cb47-13"><a href="#cb47-13"></a>palavras.de.parada.olhos <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"os"</span>,<span class="st">"dos"</span>,<span class="st">"de"</span>)</span>
+<span id="cb47-14"><a href="#cb47-14"></a><span class="co"># lista de termos para remover</span></span>
+<span id="cb47-15"><a href="#cb47-15"></a>doc.olhos <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(doc.olhos,<span class="fu">str_c</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>,palavras.de.parada.olhos,<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>,<span class="at">collapse=</span><span class="st">"|"</span>),<span class="st">""</span>)</span>
+<span id="cb47-16"><a href="#cb47-16"></a><span class="co"># remove espaços duplos</span></span>
+<span id="cb47-17"><a href="#cb47-17"></a>doc.olhos <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(doc.olhos,<span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>,<span class="st">" "</span>)</span>
+<span id="cb47-18"><a href="#cb47-18"></a><span class="co"># remove espaços no começo</span></span>
+<span id="cb47-19"><a href="#cb47-19"></a>doc.olhos <span class="ot">&lt;-</span> <span class="fu">str_trim</span>(doc.olhos,<span class="at">side=</span><span class="st">"both"</span>)</span>
+<span id="cb47-20"><a href="#cb47-20"></a><span class="co"># imprime resultado</span></span>
+<span id="cb47-21"><a href="#cb47-21"></a><span class="fu">print</span>(doc.olhos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "aldeia surgiu olhos torvos"         "veias ferve índio olhos luzem"     
  [3] "cativa gentil cerrados olhos"       "potira acorda olhos lança torno"   
@@ -752,10 +811,10 @@ Adelgaçando  adormecido    Adornada      afoito     afronta   afrontado
 <section id="ampliando-a-janela" class="level3">
 <h3 class="anchored" data-anchor-id="ampliando-a-janela">Ampliando a janela</h3>
 <p>A expressão regular para extrair a palavra <code>olhos</code> acompanhada de uma (01) palavra <em>antes</em> ou <em>depois</em> combina trechos utilizados anteriormente ao operador <code>|</code>, que significa “ou”:</p>
-<div id="cell-40" class="cell" data-execution_count="51">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="co"># extrai x+olhos e olhos+x</span></span>
-<span id="cb39-2"><a href="#cb39-2"></a>doc.olhos <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">str_extract_all</span>(doc.olhos,<span class="st">"</span><span class="sc">\\</span><span class="st">b[:alpha:]+</span><span class="sc">\\</span><span class="st">b</span><span class="sc">\\</span><span class="st">s</span><span class="sc">\\</span><span class="st">bolhos</span><span class="sc">\\</span><span class="st">b|</span><span class="sc">\\</span><span class="st">bolhos</span><span class="sc">\\</span><span class="st">b</span><span class="sc">\\</span><span class="st">s</span><span class="sc">\\</span><span class="st">b[:alpha:]+</span><span class="sc">\\</span><span class="st">b"</span>))</span>
-<span id="cb39-3"><a href="#cb39-3"></a><span class="fu">print</span>(doc.olhos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-40" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a><span class="co"># extrai x+olhos e olhos+x</span></span>
+<span id="cb49-2"><a href="#cb49-2"></a>doc.olhos <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">str_extract_all</span>(doc.olhos,<span class="st">"</span><span class="sc">\\</span><span class="st">b[:alpha:]+</span><span class="sc">\\</span><span class="st">b</span><span class="sc">\\</span><span class="st">s</span><span class="sc">\\</span><span class="st">bolhos</span><span class="sc">\\</span><span class="st">b|</span><span class="sc">\\</span><span class="st">bolhos</span><span class="sc">\\</span><span class="st">b</span><span class="sc">\\</span><span class="st">s</span><span class="sc">\\</span><span class="st">b[:alpha:]+</span><span class="sc">\\</span><span class="st">b"</span>))</span>
+<span id="cb49-3"><a href="#cb49-3"></a><span class="fu">print</span>(doc.olhos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "surgiu olhos"    "índio olhos"     "cerrados olhos"  "acorda olhos"   
  [5] "lindos olhos"    "ávidos olhos"    "crava olhos"     "espremeu olhos" 
@@ -767,19 +826,19 @@ Adelgaçando  adormecido    Adornada      afoito     afronta   afrontado
 </div>
 <p>Eventualmente, podemos avaliar que uma palavra adicional é insuficiente para avaliar o contexto de ocorrência de <em>tokens</em> de interesse. Podemos selecionar, por exemplo, uma <em>janela</em> mais ampla e incluir uma palavra <em>antes</em> e outra <em>após</em> aquela sob investigação.</p>
 <p>O código a seguir refaz o percurso inteiro com este objetivo, gerando o vetor <code>doc.olhos.tri</code> <em>com</em> e <em>sem</em> palavras de parada para comparação:</p>
-<div id="cell-42" class="cell" data-execution_count="52">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a><span class="co"># ---------------------------------</span></span>
-<span id="cb41-2"><a href="#cb41-2"></a><span class="co"># 1) com palavras de parada</span></span>
-<span id="cb41-3"><a href="#cb41-3"></a><span class="co"># ---------------------------------</span></span>
-<span id="cb41-4"><a href="#cb41-4"></a><span class="co"># localiza 'olhos' nos documentos</span></span>
-<span id="cb41-5"><a href="#cb41-5"></a>doc.olhos.tri <span class="ot">&lt;-</span> potira[<span class="fu">which</span>(<span class="fu">str_detect</span>(potira,<span class="st">"</span><span class="sc">\\</span><span class="st">bolhos</span><span class="sc">\\</span><span class="st">b"</span>))]</span>
-<span id="cb41-6"><a href="#cb41-6"></a><span class="co"># remove pontuação</span></span>
-<span id="cb41-7"><a href="#cb41-7"></a>doc.olhos.tri <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(doc.olhos.tri,<span class="st">"[:punct:]"</span>,<span class="st">""</span>)</span>
-<span id="cb41-8"><a href="#cb41-8"></a><span class="co"># transforma em caixa baixa</span></span>
-<span id="cb41-9"><a href="#cb41-9"></a>doc.olhos.tri <span class="ot">&lt;-</span> <span class="fu">str_to_lower</span>(doc.olhos.tri)</span>
-<span id="cb41-10"><a href="#cb41-10"></a><span class="co"># extrai janela x+olhos+y</span></span>
-<span id="cb41-11"><a href="#cb41-11"></a>doc.olhos.tri <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">str_extract_all</span>(doc.olhos.tri,<span class="st">"</span><span class="sc">\\</span><span class="st">b[:alpha:]+</span><span class="sc">\\</span><span class="st">b</span><span class="sc">\\</span><span class="st">s</span><span class="sc">\\</span><span class="st">bolhos</span><span class="sc">\\</span><span class="st">b</span><span class="sc">\\</span><span class="st">s</span><span class="sc">\\</span><span class="st">b[:alpha:]+</span><span class="sc">\\</span><span class="st">b"</span>))</span>
-<span id="cb41-12"><a href="#cb41-12"></a><span class="fu">print</span>(doc.olhos.tri)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-42" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a><span class="co"># ---------------------------------</span></span>
+<span id="cb51-2"><a href="#cb51-2"></a><span class="co"># 1) com palavras de parada</span></span>
+<span id="cb51-3"><a href="#cb51-3"></a><span class="co"># ---------------------------------</span></span>
+<span id="cb51-4"><a href="#cb51-4"></a><span class="co"># localiza 'olhos' nos documentos</span></span>
+<span id="cb51-5"><a href="#cb51-5"></a>doc.olhos.tri <span class="ot">&lt;-</span> potira[<span class="fu">which</span>(<span class="fu">str_detect</span>(potira,<span class="st">"</span><span class="sc">\\</span><span class="st">bolhos</span><span class="sc">\\</span><span class="st">b"</span>))]</span>
+<span id="cb51-6"><a href="#cb51-6"></a><span class="co"># remove pontuação</span></span>
+<span id="cb51-7"><a href="#cb51-7"></a>doc.olhos.tri <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(doc.olhos.tri,<span class="st">"[:punct:]"</span>,<span class="st">""</span>)</span>
+<span id="cb51-8"><a href="#cb51-8"></a><span class="co"># transforma em caixa baixa</span></span>
+<span id="cb51-9"><a href="#cb51-9"></a>doc.olhos.tri <span class="ot">&lt;-</span> <span class="fu">str_to_lower</span>(doc.olhos.tri)</span>
+<span id="cb51-10"><a href="#cb51-10"></a><span class="co"># extrai janela x+olhos+y</span></span>
+<span id="cb51-11"><a href="#cb51-11"></a>doc.olhos.tri <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">str_extract_all</span>(doc.olhos.tri,<span class="st">"</span><span class="sc">\\</span><span class="st">b[:alpha:]+</span><span class="sc">\\</span><span class="st">b</span><span class="sc">\\</span><span class="st">s</span><span class="sc">\\</span><span class="st">bolhos</span><span class="sc">\\</span><span class="st">b</span><span class="sc">\\</span><span class="st">s</span><span class="sc">\\</span><span class="st">b[:alpha:]+</span><span class="sc">\\</span><span class="st">b"</span>))</span>
+<span id="cb51-12"><a href="#cb51-12"></a><span class="fu">print</span>(doc.olhos.tri)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "aos olhos torvos"      "os olhos luzem"        "os olhos lança"       
  [4] "os olhos no"           "dos olhos negros"      "nos olhos tristes"    
@@ -788,32 +847,32 @@ Adelgaçando  adormecido    Adornada      afoito     afronta   afrontado
 [13] "os olhos foi"          "aos olhos teus"        "turvos olhos perdôote"</code></pre>
 </div>
 </div>
-<div id="cell-43" class="cell" data-execution_count="53">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a><span class="co"># ---------------------------------</span></span>
-<span id="cb43-2"><a href="#cb43-2"></a><span class="co"># 2) sem palavras de parada</span></span>
-<span id="cb43-3"><a href="#cb43-3"></a><span class="co"># ---------------------------------</span></span>
-<span id="cb43-4"><a href="#cb43-4"></a><span class="co"># localiza 'olhos' nos documentos</span></span>
-<span id="cb43-5"><a href="#cb43-5"></a>doc.olhos.tri.sem <span class="ot">&lt;-</span> potira[<span class="fu">which</span>(<span class="fu">str_detect</span>(potira,<span class="st">"</span><span class="sc">\\</span><span class="st">bolhos</span><span class="sc">\\</span><span class="st">b"</span>))]</span>
-<span id="cb43-6"><a href="#cb43-6"></a><span class="co"># remove pontuação</span></span>
-<span id="cb43-7"><a href="#cb43-7"></a>doc.olhos.tri.sem <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(doc.olhos.tri.sem,<span class="st">"[:punct:]"</span>,<span class="st">""</span>)</span>
-<span id="cb43-8"><a href="#cb43-8"></a><span class="co"># transforma em caixa baixa</span></span>
-<span id="cb43-9"><a href="#cb43-9"></a>doc.olhos.tri.sem <span class="ot">&lt;-</span> <span class="fu">str_to_lower</span>(doc.olhos.tri.sem)</span>
-<span id="cb43-10"><a href="#cb43-10"></a>doc.olhos.tri.sem <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(doc.olhos.tri.sem,</span>
-<span id="cb43-11"><a href="#cb43-11"></a>  <span class="fu">str_c</span>(</span>
-<span id="cb43-12"><a href="#cb43-12"></a>    <span class="fu">str_c</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>,<span class="fu">stopwords</span>(<span class="st">"pt"</span>),<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>),</span>
-<span id="cb43-13"><a href="#cb43-13"></a>    <span class="at">collapse=</span><span class="st">"|"</span>),</span>
-<span id="cb43-14"><a href="#cb43-14"></a>    <span class="st">""</span>)</span>
-<span id="cb43-15"><a href="#cb43-15"></a><span class="co"># remove palavras de parada personalizadas</span></span>
-<span id="cb43-16"><a href="#cb43-16"></a>palavras.de.parada.olhos <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"os"</span>,<span class="st">"dos"</span>,<span class="st">"de"</span>)</span>
-<span id="cb43-17"><a href="#cb43-17"></a><span class="co"># lista de termos para remover</span></span>
-<span id="cb43-18"><a href="#cb43-18"></a>doc.olhos.tri.sem <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(doc.olhos.tri.sem,<span class="fu">str_c</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>,palavras.de.parada.olhos,<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>,<span class="at">collapse=</span><span class="st">"|"</span>),<span class="st">""</span>)</span>
-<span id="cb43-19"><a href="#cb43-19"></a><span class="co"># remove espaços duplos</span></span>
-<span id="cb43-20"><a href="#cb43-20"></a>doc.olhos.tri.sem <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(doc.olhos.tri.sem,<span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>,<span class="st">" "</span>)</span>
-<span id="cb43-21"><a href="#cb43-21"></a><span class="co"># remove espaços no começo</span></span>
-<span id="cb43-22"><a href="#cb43-22"></a>doc.olhos.tri.sem <span class="ot">&lt;-</span> <span class="fu">str_trim</span>(doc.olhos.tri.sem,<span class="at">side=</span><span class="st">"both"</span>)</span>
-<span id="cb43-23"><a href="#cb43-23"></a><span class="co"># extrai janela x+olhos+y</span></span>
-<span id="cb43-24"><a href="#cb43-24"></a>doc.olhos.tri.sem <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">str_extract_all</span>(doc.olhos.tri.sem,<span class="st">"</span><span class="sc">\\</span><span class="st">b[:alpha:]+</span><span class="sc">\\</span><span class="st">b</span><span class="sc">\\</span><span class="st">s</span><span class="sc">\\</span><span class="st">bolhos</span><span class="sc">\\</span><span class="st">b</span><span class="sc">\\</span><span class="st">s</span><span class="sc">\\</span><span class="st">b[:alpha:]+</span><span class="sc">\\</span><span class="st">b"</span>))</span>
-<span id="cb43-25"><a href="#cb43-25"></a><span class="fu">print</span>(doc.olhos.tri.sem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-43" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a><span class="co"># ---------------------------------</span></span>
+<span id="cb53-2"><a href="#cb53-2"></a><span class="co"># 2) sem palavras de parada</span></span>
+<span id="cb53-3"><a href="#cb53-3"></a><span class="co"># ---------------------------------</span></span>
+<span id="cb53-4"><a href="#cb53-4"></a><span class="co"># localiza 'olhos' nos documentos</span></span>
+<span id="cb53-5"><a href="#cb53-5"></a>doc.olhos.tri.sem <span class="ot">&lt;-</span> potira[<span class="fu">which</span>(<span class="fu">str_detect</span>(potira,<span class="st">"</span><span class="sc">\\</span><span class="st">bolhos</span><span class="sc">\\</span><span class="st">b"</span>))]</span>
+<span id="cb53-6"><a href="#cb53-6"></a><span class="co"># remove pontuação</span></span>
+<span id="cb53-7"><a href="#cb53-7"></a>doc.olhos.tri.sem <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(doc.olhos.tri.sem,<span class="st">"[:punct:]"</span>,<span class="st">""</span>)</span>
+<span id="cb53-8"><a href="#cb53-8"></a><span class="co"># transforma em caixa baixa</span></span>
+<span id="cb53-9"><a href="#cb53-9"></a>doc.olhos.tri.sem <span class="ot">&lt;-</span> <span class="fu">str_to_lower</span>(doc.olhos.tri.sem)</span>
+<span id="cb53-10"><a href="#cb53-10"></a>doc.olhos.tri.sem <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(doc.olhos.tri.sem,</span>
+<span id="cb53-11"><a href="#cb53-11"></a>  <span class="fu">str_c</span>(</span>
+<span id="cb53-12"><a href="#cb53-12"></a>    <span class="fu">str_c</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>,<span class="fu">stopwords</span>(<span class="st">"pt"</span>),<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>),</span>
+<span id="cb53-13"><a href="#cb53-13"></a>    <span class="at">collapse=</span><span class="st">"|"</span>),</span>
+<span id="cb53-14"><a href="#cb53-14"></a>    <span class="st">""</span>)</span>
+<span id="cb53-15"><a href="#cb53-15"></a><span class="co"># remove palavras de parada personalizadas</span></span>
+<span id="cb53-16"><a href="#cb53-16"></a>palavras.de.parada.olhos <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"os"</span>,<span class="st">"dos"</span>,<span class="st">"de"</span>)</span>
+<span id="cb53-17"><a href="#cb53-17"></a><span class="co"># lista de termos para remover</span></span>
+<span id="cb53-18"><a href="#cb53-18"></a>doc.olhos.tri.sem <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(doc.olhos.tri.sem,<span class="fu">str_c</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>,palavras.de.parada.olhos,<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>,<span class="at">collapse=</span><span class="st">"|"</span>),<span class="st">""</span>)</span>
+<span id="cb53-19"><a href="#cb53-19"></a><span class="co"># remove espaços duplos</span></span>
+<span id="cb53-20"><a href="#cb53-20"></a>doc.olhos.tri.sem <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(doc.olhos.tri.sem,<span class="st">"</span><span class="sc">\\</span><span class="st">s+"</span>,<span class="st">" "</span>)</span>
+<span id="cb53-21"><a href="#cb53-21"></a><span class="co"># remove espaços no começo</span></span>
+<span id="cb53-22"><a href="#cb53-22"></a>doc.olhos.tri.sem <span class="ot">&lt;-</span> <span class="fu">str_trim</span>(doc.olhos.tri.sem,<span class="at">side=</span><span class="st">"both"</span>)</span>
+<span id="cb53-23"><a href="#cb53-23"></a><span class="co"># extrai janela x+olhos+y</span></span>
+<span id="cb53-24"><a href="#cb53-24"></a>doc.olhos.tri.sem <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">str_extract_all</span>(doc.olhos.tri.sem,<span class="st">"</span><span class="sc">\\</span><span class="st">b[:alpha:]+</span><span class="sc">\\</span><span class="st">b</span><span class="sc">\\</span><span class="st">s</span><span class="sc">\\</span><span class="st">bolhos</span><span class="sc">\\</span><span class="st">b</span><span class="sc">\\</span><span class="st">s</span><span class="sc">\\</span><span class="st">b[:alpha:]+</span><span class="sc">\\</span><span class="st">b"</span>))</span>
+<span id="cb53-25"><a href="#cb53-25"></a><span class="fu">print</span>(doc.olhos.tri.sem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "surgiu olhos torvos"     "índio olhos luzem"      
  [3] "acorda olhos lança"      "crava olhos chão"       
@@ -839,72 +898,72 @@ Adelgaçando  adormecido    Adornada      afoito     afronta   afrontado
 tf(t,d)=\frac{f_{t,d}}{\Sigma_{t'\in d}}
 \tag{1}</span></span></p>
 <p>Para exemplificar a computação desta medida, trataremos toda a coleção dos textos de Machado de Assis entre 1870 e 1879. Avaliaremos as medidas de cada termo do vocabulário completo da coleção, aplicando o processo pela normalização e limpeza dos poemas apresentado anteriormente.</p>
-<div id="cell-47" class="cell" data-execution_count="54">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a><span class="co"># ajusta exibição de casas decimais</span></span>
-<span id="cb45-2"><a href="#cb45-2"></a><span class="fu">options</span>(<span class="at">scipen=</span><span class="dv">9999</span>)</span>
-<span id="cb45-3"><a href="#cb45-3"></a></span>
-<span id="cb45-4"><a href="#cb45-4"></a><span class="co"># importa coleção de Machado de Assis</span></span>
-<span id="cb45-5"><a href="#cb45-5"></a>colecao <span class="ot">&lt;-</span> <span class="fu">read.xlsx</span>(<span class="st">"1870-1879.xlsx"</span>)</span>
-<span id="cb45-6"><a href="#cb45-6"></a></span>
-<span id="cb45-7"><a href="#cb45-7"></a><span class="co"># --------------------------------</span></span>
-<span id="cb45-8"><a href="#cb45-8"></a><span class="co"># limpeza e normalização dos dados</span></span>
-<span id="cb45-9"><a href="#cb45-9"></a><span class="co"># --------------------------------</span></span>
-<span id="cb45-10"><a href="#cb45-10"></a><span class="co"># remove pontuação</span></span>
-<span id="cb45-11"><a href="#cb45-11"></a>colecao<span class="sc">$</span>texto <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(colecao<span class="sc">$</span>texto,<span class="st">"[:punct:]"</span>,<span class="st">" "</span>)</span>
-<span id="cb45-12"><a href="#cb45-12"></a><span class="co"># remove quebras de linha</span></span>
-<span id="cb45-13"><a href="#cb45-13"></a>colecao<span class="sc">$</span>texto <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(colecao<span class="sc">$</span>texto,<span class="st">"</span><span class="sc">\\</span><span class="st">n"</span>,<span class="st">" "</span>)</span>
-<span id="cb45-14"><a href="#cb45-14"></a><span class="co"># transforma para minúsculas</span></span>
-<span id="cb45-15"><a href="#cb45-15"></a>colecao<span class="sc">$</span>texto <span class="ot">&lt;-</span> <span class="fu">str_to_lower</span>(colecao<span class="sc">$</span>texto)</span>
-<span id="cb45-16"><a href="#cb45-16"></a><span class="co"># remove palavras de parada</span></span>
-<span id="cb45-17"><a href="#cb45-17"></a>colecao<span class="sc">$</span>texto <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(colecao<span class="sc">$</span>texto,<span class="fu">str_c</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>,<span class="fu">stopwords</span>(<span class="st">'pt'</span>),<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>,<span class="at">collapse=</span><span class="st">"|"</span>),<span class="st">" "</span>)</span>
-<span id="cb45-18"><a href="#cb45-18"></a><span class="co"># remove espaços duplicados</span></span>
-<span id="cb45-19"><a href="#cb45-19"></a>colecao<span class="sc">$</span>texto <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(colecao<span class="sc">$</span>texto,<span class="st">"</span><span class="sc">\\</span><span class="st">s{1,}"</span>,<span class="st">" "</span>)</span>
-<span id="cb45-20"><a href="#cb45-20"></a><span class="co"># remove espaços extras no início e final</span></span>
-<span id="cb45-21"><a href="#cb45-21"></a>colecao<span class="sc">$</span>texto <span class="ot">&lt;-</span> <span class="fu">str_trim</span>(colecao<span class="sc">$</span>texto,<span class="at">side=</span><span class="st">"both"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-47" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a><span class="co"># ajusta exibição de casas decimais</span></span>
+<span id="cb55-2"><a href="#cb55-2"></a><span class="fu">options</span>(<span class="at">scipen=</span><span class="dv">9999</span>)</span>
+<span id="cb55-3"><a href="#cb55-3"></a></span>
+<span id="cb55-4"><a href="#cb55-4"></a><span class="co"># importa coleção de Machado de Assis</span></span>
+<span id="cb55-5"><a href="#cb55-5"></a>colecao <span class="ot">&lt;-</span> <span class="fu">read.xlsx</span>(<span class="st">"1870-1879.xlsx"</span>)</span>
+<span id="cb55-6"><a href="#cb55-6"></a></span>
+<span id="cb55-7"><a href="#cb55-7"></a><span class="co"># --------------------------------</span></span>
+<span id="cb55-8"><a href="#cb55-8"></a><span class="co"># limpeza e normalização dos dados</span></span>
+<span id="cb55-9"><a href="#cb55-9"></a><span class="co"># --------------------------------</span></span>
+<span id="cb55-10"><a href="#cb55-10"></a><span class="co"># remove pontuação</span></span>
+<span id="cb55-11"><a href="#cb55-11"></a>colecao<span class="sc">$</span>texto <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(colecao<span class="sc">$</span>texto,<span class="st">"[:punct:]"</span>,<span class="st">" "</span>)</span>
+<span id="cb55-12"><a href="#cb55-12"></a><span class="co"># remove quebras de linha</span></span>
+<span id="cb55-13"><a href="#cb55-13"></a>colecao<span class="sc">$</span>texto <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(colecao<span class="sc">$</span>texto,<span class="st">"</span><span class="sc">\\</span><span class="st">n"</span>,<span class="st">" "</span>)</span>
+<span id="cb55-14"><a href="#cb55-14"></a><span class="co"># transforma para minúsculas</span></span>
+<span id="cb55-15"><a href="#cb55-15"></a>colecao<span class="sc">$</span>texto <span class="ot">&lt;-</span> <span class="fu">str_to_lower</span>(colecao<span class="sc">$</span>texto)</span>
+<span id="cb55-16"><a href="#cb55-16"></a><span class="co"># remove palavras de parada</span></span>
+<span id="cb55-17"><a href="#cb55-17"></a>colecao<span class="sc">$</span>texto <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(colecao<span class="sc">$</span>texto,<span class="fu">str_c</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>,<span class="fu">stopwords</span>(<span class="st">'pt'</span>),<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>,<span class="at">collapse=</span><span class="st">"|"</span>),<span class="st">" "</span>)</span>
+<span id="cb55-18"><a href="#cb55-18"></a><span class="co"># remove espaços duplicados</span></span>
+<span id="cb55-19"><a href="#cb55-19"></a>colecao<span class="sc">$</span>texto <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(colecao<span class="sc">$</span>texto,<span class="st">"</span><span class="sc">\\</span><span class="st">s{1,}"</span>,<span class="st">" "</span>)</span>
+<span id="cb55-20"><a href="#cb55-20"></a><span class="co"># remove espaços extras no início e final</span></span>
+<span id="cb55-21"><a href="#cb55-21"></a>colecao<span class="sc">$</span>texto <span class="ot">&lt;-</span> <span class="fu">str_trim</span>(colecao<span class="sc">$</span>texto,<span class="at">side=</span><span class="st">"both"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>O <code>data.frame</code> normalizado pode então ser transformado no vocabulário:</p>
-<div id="cell-49" class="cell" data-execution_count="55">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a><span class="co"># tokeniza vetor completo </span></span>
-<span id="cb46-2"><a href="#cb46-2"></a>colecao.tokens <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">unlist</span>(<span class="fu">str_split</span>(colecao<span class="sc">$</span>texto,<span class="fu">boundary</span>(<span class="st">'word'</span>))))</span>
-<span id="cb46-3"><a href="#cb46-3"></a><span class="co"># informa a quantidade de tokens</span></span>
-<span id="cb46-4"><a href="#cb46-4"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Total de tokens:"</span>,<span class="fu">length</span>(colecao.tokens)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-49" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a><span class="co"># tokeniza vetor completo </span></span>
+<span id="cb56-2"><a href="#cb56-2"></a>colecao.tokens <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">unlist</span>(<span class="fu">str_split</span>(colecao<span class="sc">$</span>texto,<span class="fu">boundary</span>(<span class="st">'word'</span>))))</span>
+<span id="cb56-3"><a href="#cb56-3"></a><span class="co"># informa a quantidade de tokens</span></span>
+<span id="cb56-4"><a href="#cb56-4"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Total de tokens:"</span>,<span class="fu">length</span>(colecao.tokens)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Total de tokens: 14362"</code></pre>
 </div>
 </div>
 <p>O denominador da equação 1 corresponde aos <strong>14.362</strong> <em>tokens</em> únicos da coleção. Precisaremos calcular a frequência de cada termo em cada documento para completar os dados necessários para o cálculo da medida <em>tf</em>. Os resultados serão registrados no <code>data.frame</code> de nome <code>txd</code> (<em>tokens</em> x documentos).</p>
 <p>A primeira coluna de <code>txd</code> registra o total de <em>tokens</em> no documento, para facilitar computações subsequentes. As colunas seguintes correspondem a todos os termos do vocabulário.</p>
-<div id="cell-51" class="cell" data-execution_count="56">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a><span class="co"># cria data.frame de tokens x documentos</span></span>
-<span id="cb48-2"><a href="#cb48-2"></a>txd <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(</span>
-<span id="cb48-3"><a href="#cb48-3"></a>  <span class="fu">matrix</span>(</span>
-<span id="cb48-4"><a href="#cb48-4"></a>    <span class="at">data=</span><span class="dv">0</span>,</span>
-<span id="cb48-5"><a href="#cb48-5"></a>    <span class="at">nrow=</span><span class="fu">nrow</span>(colecao),</span>
-<span id="cb48-6"><a href="#cb48-6"></a>    <span class="at">ncol=</span><span class="fu">length</span>(colecao.tokens)<span class="sc">+</span><span class="dv">1</span> <span class="co"># total tokens do documento + frequência token/documento</span></span>
-<span id="cb48-7"><a href="#cb48-7"></a>  )</span>
-<span id="cb48-8"><a href="#cb48-8"></a>)</span>
-<span id="cb48-9"><a href="#cb48-9"></a><span class="co"># define nomes das colunas</span></span>
-<span id="cb48-10"><a href="#cb48-10"></a><span class="fu">colnames</span>(txd) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"total.tokens"</span>,colecao.tokens)</span>
-<span id="cb48-11"><a href="#cb48-11"></a><span class="co"># define nomes das linhas</span></span>
-<span id="cb48-12"><a href="#cb48-12"></a><span class="fu">rownames</span>(txd) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
-<span id="cb48-13"><a href="#cb48-13"></a>  <span class="st">"doc"</span>, <span class="co"># prefixo</span></span>
-<span id="cb48-14"><a href="#cb48-14"></a>  <span class="fu">seq</span>(<span class="dv">1</span>, <span class="co"># valor inicial</span></span>
-<span id="cb48-15"><a href="#cb48-15"></a>    <span class="fu">nrow</span>(colecao), <span class="co"># valor final</span></span>
-<span id="cb48-16"><a href="#cb48-16"></a>    <span class="dv">1</span>    <span class="co"># incremento</span></span>
-<span id="cb48-17"><a href="#cb48-17"></a>  )</span>
-<span id="cb48-18"><a href="#cb48-18"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-51" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1"></a><span class="co"># cria data.frame de tokens x documentos</span></span>
+<span id="cb58-2"><a href="#cb58-2"></a>txd <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(</span>
+<span id="cb58-3"><a href="#cb58-3"></a>  <span class="fu">matrix</span>(</span>
+<span id="cb58-4"><a href="#cb58-4"></a>    <span class="at">data=</span><span class="dv">0</span>,</span>
+<span id="cb58-5"><a href="#cb58-5"></a>    <span class="at">nrow=</span><span class="fu">nrow</span>(colecao),</span>
+<span id="cb58-6"><a href="#cb58-6"></a>    <span class="at">ncol=</span><span class="fu">length</span>(colecao.tokens)<span class="sc">+</span><span class="dv">1</span> <span class="co"># total tokens do documento + frequência token/documento</span></span>
+<span id="cb58-7"><a href="#cb58-7"></a>  )</span>
+<span id="cb58-8"><a href="#cb58-8"></a>)</span>
+<span id="cb58-9"><a href="#cb58-9"></a><span class="co"># define nomes das colunas</span></span>
+<span id="cb58-10"><a href="#cb58-10"></a><span class="fu">colnames</span>(txd) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"total.tokens"</span>,colecao.tokens)</span>
+<span id="cb58-11"><a href="#cb58-11"></a><span class="co"># define nomes das linhas</span></span>
+<span id="cb58-12"><a href="#cb58-12"></a><span class="fu">rownames</span>(txd) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(</span>
+<span id="cb58-13"><a href="#cb58-13"></a>  <span class="st">"doc"</span>, <span class="co"># prefixo</span></span>
+<span id="cb58-14"><a href="#cb58-14"></a>  <span class="fu">seq</span>(<span class="dv">1</span>, <span class="co"># valor inicial</span></span>
+<span id="cb58-15"><a href="#cb58-15"></a>    <span class="fu">nrow</span>(colecao), <span class="co"># valor final</span></span>
+<span id="cb58-16"><a href="#cb58-16"></a>    <span class="dv">1</span>    <span class="co"># incremento</span></span>
+<span id="cb58-17"><a href="#cb58-17"></a>  )</span>
+<span id="cb58-18"><a href="#cb58-18"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>A matrix <code>txd</code> é do tipo <em>esparsa</em>, uma vez que terá muitas células com valor zero, referentes aos documentos em que um dado termo não ocorre. A partir dela, criaremos a matriz <code>txd.tf</code>, que registrará a frequência relativa de cada <em>token</em>.</p>
 <blockquote class="blockquote">
 <p><strong>Dica</strong>: podemos aproveitar a estrutura de <code>txd.tf</code> para a matriz <code>txd.tfidf</code> que será explicada na próxima seção. A estrutura é exatamente a mesma, mas os valores armazenados são diferentes.</p>
 </blockquote>
-<div id="cell-53" class="cell" data-execution_count="57">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a><span class="co"># cria data.frame para as medidas tf tokens x documentos</span></span>
-<span id="cb49-2"><a href="#cb49-2"></a><span class="co"># (primeira coluna com totais é desnecessária)</span></span>
-<span id="cb49-3"><a href="#cb49-3"></a>txd.tf <span class="ot">&lt;-</span> txd[,<span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(txd))]</span>
-<span id="cb49-4"><a href="#cb49-4"></a></span>
-<span id="cb49-5"><a href="#cb49-5"></a><span class="co"># aproveita estrutura para tf-idf</span></span>
-<span id="cb49-6"><a href="#cb49-6"></a>txd.tfidf <span class="ot">&lt;-</span> txd.tf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-53" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1"></a><span class="co"># cria data.frame para as medidas tf tokens x documentos</span></span>
+<span id="cb59-2"><a href="#cb59-2"></a><span class="co"># (primeira coluna com totais é desnecessária)</span></span>
+<span id="cb59-3"><a href="#cb59-3"></a>txd.tf <span class="ot">&lt;-</span> txd[,<span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(txd))]</span>
+<span id="cb59-4"><a href="#cb59-4"></a></span>
+<span id="cb59-5"><a href="#cb59-5"></a><span class="co"># aproveita estrutura para tf-idf</span></span>
+<span id="cb59-6"><a href="#cb59-6"></a>txd.tfidf <span class="ot">&lt;-</span> txd.tf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>O trecho de código abaixo é responsável por contar as ocorrências de cada <em>token</em> por documento. Este processo tem quatro etapas principais:</p>
 <ul>
@@ -914,34 +973,34 @@ tf(t,d)=\frac{f_{t,d}}{\Sigma_{t'\in d}}
 <li>Linha 21: calculamos a frequência ponderada (<em>tf</em>) propriamente dita</li>
 </ul>
 <blockquote class="blockquote">
-<p><strong>Dica</strong>: o <em>script</em> a seguir é intensivo em processamento, podendo demorar cerca de <em>5 minutos</em> para ser executado. Para evitar o tempo de espera, exporte a planilha resultante e a importe antes dos processamentos seguintes.</p>
+<p><strong>Dica</strong>: o <em>script</em> a seguir é intensivo em processamento e <em>não está otimizado</em>, podendo demorar cerca de <em>5 minutos</em> para ser concluído. Para evitar o tempo de espera, exporte a planilha resultante e a importe antes dos processamentos seguintes.</p>
 </blockquote>
-<div id="cell-55" class="cell" data-execution_count="58">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a><span class="co"># contagem das frequências</span></span>
-<span id="cb50-2"><a href="#cb50-2"></a><span class="cf">for</span> (documento <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(colecao)) {</span>
-<span id="cb50-3"><a href="#cb50-3"></a>  <span class="co"># total de tokens do documento</span></span>
-<span id="cb50-4"><a href="#cb50-4"></a>  doc.tokens <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unlist</span>(<span class="fu">str_split</span>(colecao<span class="sc">$</span>texto[documento],<span class="fu">boundary</span>(<span class="st">'word'</span>))))</span>
-<span id="cb50-5"><a href="#cb50-5"></a>  <span class="co"># inclui na matriz</span></span>
-<span id="cb50-6"><a href="#cb50-6"></a>  txd<span class="sc">$</span>total.tokens[documento] <span class="ot">&lt;-</span> doc.tokens</span>
-<span id="cb50-7"><a href="#cb50-7"></a>  <span class="co"># conta ocorrências de cada token no documento</span></span>
-<span id="cb50-8"><a href="#cb50-8"></a>  <span class="cf">for</span> (token <span class="cf">in</span> colecao.tokens) {</span>
-<span id="cb50-9"><a href="#cb50-9"></a>    <span class="co"># computa</span></span>
-<span id="cb50-10"><a href="#cb50-10"></a>    freq.token <span class="ot">&lt;-</span> <span class="fu">length</span>(</span>
-<span id="cb50-11"><a href="#cb50-11"></a>      <span class="fu">unlist</span>(</span>
-<span id="cb50-12"><a href="#cb50-12"></a>        <span class="fu">str_match_all</span>(</span>
-<span id="cb50-13"><a href="#cb50-13"></a>          colecao<span class="sc">$</span>texto[documento],</span>
-<span id="cb50-14"><a href="#cb50-14"></a>          <span class="fu">str_c</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>,token,<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>)</span>
-<span id="cb50-15"><a href="#cb50-15"></a>        )</span>
-<span id="cb50-16"><a href="#cb50-16"></a>      )</span>
-<span id="cb50-17"><a href="#cb50-17"></a>    )</span>
-<span id="cb50-18"><a href="#cb50-18"></a>    <span class="co"># adiciona à df geral</span></span>
-<span id="cb50-19"><a href="#cb50-19"></a>    txd[documento,token] <span class="ot">&lt;-</span> freq.token</span>
-<span id="cb50-20"><a href="#cb50-20"></a>    <span class="co"># computa tf</span></span>
-<span id="cb50-21"><a href="#cb50-21"></a>    txd.tf[documento,token] <span class="ot">&lt;-</span> freq.token<span class="sc">/</span>doc.tokens</span>
-<span id="cb50-22"><a href="#cb50-22"></a>  }</span>
-<span id="cb50-23"><a href="#cb50-23"></a>}</span>
-<span id="cb50-24"><a href="#cb50-24"></a><span class="co"># Visualiza txd</span></span>
-<span id="cb50-25"><a href="#cb50-25"></a><span class="fu">View</span>(txd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-55" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1"></a><span class="co"># contagem das frequências</span></span>
+<span id="cb60-2"><a href="#cb60-2"></a><span class="cf">for</span> (documento <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(colecao)) {</span>
+<span id="cb60-3"><a href="#cb60-3"></a>  <span class="co"># total de tokens do documento</span></span>
+<span id="cb60-4"><a href="#cb60-4"></a>  doc.tokens <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unlist</span>(<span class="fu">str_split</span>(colecao<span class="sc">$</span>texto[documento],<span class="fu">boundary</span>(<span class="st">'word'</span>))))</span>
+<span id="cb60-5"><a href="#cb60-5"></a>  <span class="co"># inclui na matriz</span></span>
+<span id="cb60-6"><a href="#cb60-6"></a>  txd<span class="sc">$</span>total.tokens[documento] <span class="ot">&lt;-</span> doc.tokens</span>
+<span id="cb60-7"><a href="#cb60-7"></a>  <span class="co"># conta ocorrências de cada token no documento</span></span>
+<span id="cb60-8"><a href="#cb60-8"></a>  <span class="cf">for</span> (token <span class="cf">in</span> colecao.tokens) {</span>
+<span id="cb60-9"><a href="#cb60-9"></a>    <span class="co"># computa</span></span>
+<span id="cb60-10"><a href="#cb60-10"></a>    freq.token <span class="ot">&lt;-</span> <span class="fu">length</span>(</span>
+<span id="cb60-11"><a href="#cb60-11"></a>      <span class="fu">unlist</span>(</span>
+<span id="cb60-12"><a href="#cb60-12"></a>        <span class="fu">str_match_all</span>(</span>
+<span id="cb60-13"><a href="#cb60-13"></a>          colecao<span class="sc">$</span>texto[documento],</span>
+<span id="cb60-14"><a href="#cb60-14"></a>          <span class="fu">str_c</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>,token,<span class="st">"</span><span class="sc">\\</span><span class="st">b"</span>)</span>
+<span id="cb60-15"><a href="#cb60-15"></a>        )</span>
+<span id="cb60-16"><a href="#cb60-16"></a>      )</span>
+<span id="cb60-17"><a href="#cb60-17"></a>    )</span>
+<span id="cb60-18"><a href="#cb60-18"></a>    <span class="co"># adiciona à df geral</span></span>
+<span id="cb60-19"><a href="#cb60-19"></a>    txd[documento,token] <span class="ot">&lt;-</span> freq.token</span>
+<span id="cb60-20"><a href="#cb60-20"></a>    <span class="co"># computa tf</span></span>
+<span id="cb60-21"><a href="#cb60-21"></a>    txd.tf[documento,token] <span class="ot">&lt;-</span> freq.token<span class="sc">/</span>doc.tokens</span>
+<span id="cb60-22"><a href="#cb60-22"></a>  }</span>
+<span id="cb60-23"><a href="#cb60-23"></a>}</span>
+<span id="cb60-24"><a href="#cb60-24"></a><span class="co"># Visualiza txd</span></span>
+<span id="cb60-25"><a href="#cb60-25"></a><span class="fu">View</span>(txd)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="a-informação-transmitida-pela-palavra-quanto-à-coleção-idf" class="level3">
@@ -955,24 +1014,24 @@ idf(t,D) = log\frac{N}{n_t}
 <blockquote class="blockquote">
 <p><strong>Dica</strong>: o valor de <em>idf</em> é constante para cada termo na coleção de documentos, de modo que a matriz só terá <em>uma única</em> linha.</p>
 </blockquote>
-<div id="cell-57" class="cell" data-execution_count="59">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a><span class="co"># cria data.frame para as medidas idf dos tokens</span></span>
-<span id="cb51-2"><a href="#cb51-2"></a>txd.idf <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow=</span><span class="dv">1</span>,<span class="at">ncol=</span><span class="fu">length</span>(colecao.tokens),<span class="at">data=</span><span class="dv">0</span>))</span>
-<span id="cb51-3"><a href="#cb51-3"></a><span class="fu">colnames</span>(txd.idf) <span class="ot">&lt;-</span> colecao.tokens</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-57" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1"></a><span class="co"># cria data.frame para as medidas idf dos tokens</span></span>
+<span id="cb61-2"><a href="#cb61-2"></a>txd.idf <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="at">nrow=</span><span class="dv">1</span>,<span class="at">ncol=</span><span class="fu">length</span>(colecao.tokens),<span class="at">data=</span><span class="dv">0</span>))</span>
+<span id="cb61-3"><a href="#cb61-3"></a><span class="fu">colnames</span>(txd.idf) <span class="ot">&lt;-</span> colecao.tokens</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>O cálculo de <em>idf</em> para os termos analisa quantas células das respectivas colunas têm valor maior que zero e atribui o resultado a <code>nt</code> (numerador da equação 2). Em seguida, computamos o logarítmo do quociente entre o número de documentos da coleção, obtido por <code>nrow()</code> e <code>nt</code>.</p>
-<div id="cell-59" class="cell" data-execution_count="60">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a><span class="co"># laço por documentos e termos</span></span>
-<span id="cb52-2"><a href="#cb52-2"></a><span class="cf">for</span> (coluna <span class="cf">in</span> colecao.tokens) {</span>
-<span id="cb52-3"><a href="#cb52-3"></a>  <span class="co"># conta ocorrências em todos os documentos</span></span>
-<span id="cb52-4"><a href="#cb52-4"></a>  nt <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">which</span>(txd[,coluna] <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
-<span id="cb52-5"><a href="#cb52-5"></a>  <span class="co"># calcula idf (somando 1 para evitar divisão por zero)</span></span>
-<span id="cb52-6"><a href="#cb52-6"></a>  idf <span class="ot">&lt;-</span> <span class="fu">log10</span>(<span class="fu">nrow</span>(colecao)<span class="sc">/</span>nt)</span>
-<span id="cb52-7"><a href="#cb52-7"></a>  <span class="co"># adiciona ao df</span></span>
-<span id="cb52-8"><a href="#cb52-8"></a>  txd.idf[<span class="dv">1</span>,coluna] <span class="ot">&lt;-</span> idf</span>
-<span id="cb52-9"><a href="#cb52-9"></a>}</span>
-<span id="cb52-10"><a href="#cb52-10"></a><span class="co"># Visualiza</span></span>
-<span id="cb52-11"><a href="#cb52-11"></a><span class="fu">View</span>(txd.idf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-59" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1"></a><span class="co"># laço por documentos e termos</span></span>
+<span id="cb62-2"><a href="#cb62-2"></a><span class="cf">for</span> (coluna <span class="cf">in</span> colecao.tokens) {</span>
+<span id="cb62-3"><a href="#cb62-3"></a>  <span class="co"># conta ocorrências em todos os documentos</span></span>
+<span id="cb62-4"><a href="#cb62-4"></a>  nt <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">which</span>(txd[,coluna] <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
+<span id="cb62-5"><a href="#cb62-5"></a>  <span class="co"># calcula idf (somando 1 para evitar divisão por zero)</span></span>
+<span id="cb62-6"><a href="#cb62-6"></a>  idf <span class="ot">&lt;-</span> <span class="fu">log10</span>(<span class="fu">nrow</span>(colecao)<span class="sc">/</span>nt)</span>
+<span id="cb62-7"><a href="#cb62-7"></a>  <span class="co"># adiciona ao df</span></span>
+<span id="cb62-8"><a href="#cb62-8"></a>  txd.idf[<span class="dv">1</span>,coluna] <span class="ot">&lt;-</span> idf</span>
+<span id="cb62-9"><a href="#cb62-9"></a>}</span>
+<span id="cb62-10"><a href="#cb62-10"></a><span class="co"># Visualiza</span></span>
+<span id="cb62-11"><a href="#cb62-11"></a><span class="fu">View</span>(txd.idf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="a-medida-da-importância-do-termo-tf-idf" class="level3">
@@ -983,43 +1042,46 @@ tfidf(t,d,D)=tf(t,d) \cdot idf(t,D)
 \tag{3}</span></span></p>
 <p>A equação 3 produz números grandes se a frequência do termo no documento for alta e a frequência dele na coleção for baixa. Pode-se entender tal relação como a capacidade do termo ser um bom indicador para um documento específico, em vez de estar disperso pela coleção.</p>
 <p>A matriz esparsa <code>txd.tfidf</code> registra o resultado da multiplicação por documento e termo.</p>
-<div id="cell-62" class="cell" data-execution_count="61">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a><span class="co"># calcula tf-idf por documento</span></span>
-<span id="cb53-2"><a href="#cb53-2"></a><span class="cf">for</span> (documento <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(colecao)) {</span>
-<span id="cb53-3"><a href="#cb53-3"></a>  <span class="co"># calcula tf-idf do token no documento</span></span>
-<span id="cb53-4"><a href="#cb53-4"></a>  <span class="cf">for</span> (coluna <span class="cf">in</span> colecao.tokens) {</span>
-<span id="cb53-5"><a href="#cb53-5"></a>    <span class="co"># tf-idf: idf(termo) * tf(documento,termo)</span></span>
-<span id="cb53-6"><a href="#cb53-6"></a>    txd.tfidf[documento,coluna] <span class="ot">&lt;-</span> txd.idf[<span class="dv">1</span>,coluna] <span class="sc">*</span> txd.tf[documento,coluna]</span>
-<span id="cb53-7"><a href="#cb53-7"></a>  }</span>
-<span id="cb53-8"><a href="#cb53-8"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p><strong>Aviso!</strong> Trecho de código com execução demorada (<em>3 minutos ou mais</em>)!</p>
+</blockquote>
+<div id="cell-62" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1"></a><span class="co"># calcula tf-idf por documento</span></span>
+<span id="cb63-2"><a href="#cb63-2"></a><span class="cf">for</span> (documento <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(colecao)) {</span>
+<span id="cb63-3"><a href="#cb63-3"></a>  <span class="co"># calcula tf-idf do token no documento</span></span>
+<span id="cb63-4"><a href="#cb63-4"></a>  <span class="cf">for</span> (coluna <span class="cf">in</span> colecao.tokens) {</span>
+<span id="cb63-5"><a href="#cb63-5"></a>    <span class="co"># tf-idf: idf(termo) * tf(documento,termo)</span></span>
+<span id="cb63-6"><a href="#cb63-6"></a>    txd.tfidf[documento,coluna] <span class="ot">&lt;-</span> txd.idf[<span class="dv">1</span>,coluna] <span class="sc">*</span> txd.tf[documento,coluna]</span>
+<span id="cb63-7"><a href="#cb63-7"></a>  }</span>
+<span id="cb63-8"><a href="#cb63-8"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>O formato “tidy” para <code>data.frames</code> facilita a construção de visualizações pois reduz a quantidade de variáveis. Em vez de mantermos a matriz esparsa, transformamos cada termo no nível de uma coluna <em>token</em>, indicando o documento que ocorre e o valor <em>tf-idf</em> correspondente.</p>
-<div id="cell-64" class="cell" data-execution_count="62">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1"></a><span class="co"># cria novo df no formato tidy</span></span>
-<span id="cb54-2"><a href="#cb54-2"></a>txd.tidy <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
-<span id="cb54-3"><a href="#cb54-3"></a></span>
-<span id="cb54-4"><a href="#cb54-4"></a><span class="co"># linhas</span></span>
-<span id="cb54-5"><a href="#cb54-5"></a><span class="cf">for</span> (linha <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(txd.tfidf)) {</span>
-<span id="cb54-6"><a href="#cb54-6"></a>  <span class="co"># documento</span></span>
-<span id="cb54-7"><a href="#cb54-7"></a>  documento <span class="ot">&lt;-</span> <span class="fu">rownames</span>(txd.tfidf)[linha]</span>
-<span id="cb54-8"><a href="#cb54-8"></a>  <span class="co"># colunas</span></span>
-<span id="cb54-9"><a href="#cb54-9"></a>  <span class="cf">for</span> (coluna <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(txd.tfidf)) {</span>
-<span id="cb54-10"><a href="#cb54-10"></a>    <span class="co"># token</span></span>
-<span id="cb54-11"><a href="#cb54-11"></a>    token <span class="ot">&lt;-</span> <span class="fu">colnames</span>(txd.tfidf)[coluna]</span>
-<span id="cb54-12"><a href="#cb54-12"></a>    <span class="co"># tf-idf</span></span>
-<span id="cb54-13"><a href="#cb54-13"></a>    tfidf <span class="ot">&lt;-</span> txd.tfidf[linha,coluna]</span>
-<span id="cb54-14"><a href="#cb54-14"></a>    <span class="co"># adiciona ao df se &gt; 0</span></span>
-<span id="cb54-15"><a href="#cb54-15"></a>    <span class="cf">if</span> (tfidf <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb54-16"><a href="#cb54-16"></a>      txd.tidy <span class="ot">&lt;-</span> <span class="fu">rbind</span>(txd.tidy, </span>
-<span id="cb54-17"><a href="#cb54-17"></a>        <span class="fu">data.frame</span>(</span>
-<span id="cb54-18"><a href="#cb54-18"></a>          <span class="st">"doc"</span><span class="ot">=</span>documento,</span>
-<span id="cb54-19"><a href="#cb54-19"></a>          <span class="st">"token"</span><span class="ot">=</span>token,</span>
-<span id="cb54-20"><a href="#cb54-20"></a>          <span class="st">"tf.idf"</span><span class="ot">=</span>tfidf</span>
-<span id="cb54-21"><a href="#cb54-21"></a>        )</span>
-<span id="cb54-22"><a href="#cb54-22"></a>      )</span>
-<span id="cb54-23"><a href="#cb54-23"></a>    }</span>
-<span id="cb54-24"><a href="#cb54-24"></a>  }</span>
-<span id="cb54-25"><a href="#cb54-25"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-64" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1"></a><span class="co"># cria novo df no formato tidy</span></span>
+<span id="cb64-2"><a href="#cb64-2"></a>txd.tidy <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb64-3"><a href="#cb64-3"></a></span>
+<span id="cb64-4"><a href="#cb64-4"></a><span class="co"># linhas</span></span>
+<span id="cb64-5"><a href="#cb64-5"></a><span class="cf">for</span> (linha <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(txd.tfidf)) {</span>
+<span id="cb64-6"><a href="#cb64-6"></a>  <span class="co"># documento</span></span>
+<span id="cb64-7"><a href="#cb64-7"></a>  documento <span class="ot">&lt;-</span> <span class="fu">rownames</span>(txd.tfidf)[linha]</span>
+<span id="cb64-8"><a href="#cb64-8"></a>  <span class="co"># colunas</span></span>
+<span id="cb64-9"><a href="#cb64-9"></a>  <span class="cf">for</span> (coluna <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(txd.tfidf)) {</span>
+<span id="cb64-10"><a href="#cb64-10"></a>    <span class="co"># token</span></span>
+<span id="cb64-11"><a href="#cb64-11"></a>    token <span class="ot">&lt;-</span> <span class="fu">colnames</span>(txd.tfidf)[coluna]</span>
+<span id="cb64-12"><a href="#cb64-12"></a>    <span class="co"># tf-idf</span></span>
+<span id="cb64-13"><a href="#cb64-13"></a>    tfidf <span class="ot">&lt;-</span> txd.tfidf[linha,coluna]</span>
+<span id="cb64-14"><a href="#cb64-14"></a>    <span class="co"># adiciona ao df se &gt; 0</span></span>
+<span id="cb64-15"><a href="#cb64-15"></a>    <span class="cf">if</span> (tfidf <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb64-16"><a href="#cb64-16"></a>      txd.tidy <span class="ot">&lt;-</span> <span class="fu">rbind</span>(txd.tidy, </span>
+<span id="cb64-17"><a href="#cb64-17"></a>        <span class="fu">data.frame</span>(</span>
+<span id="cb64-18"><a href="#cb64-18"></a>          <span class="st">"doc"</span><span class="ot">=</span>documento,</span>
+<span id="cb64-19"><a href="#cb64-19"></a>          <span class="st">"token"</span><span class="ot">=</span>token,</span>
+<span id="cb64-20"><a href="#cb64-20"></a>          <span class="st">"tf.idf"</span><span class="ot">=</span>tfidf</span>
+<span id="cb64-21"><a href="#cb64-21"></a>        )</span>
+<span id="cb64-22"><a href="#cb64-22"></a>      )</span>
+<span id="cb64-23"><a href="#cb64-23"></a>    }</span>
+<span id="cb64-24"><a href="#cb64-24"></a>  }</span>
+<span id="cb64-25"><a href="#cb64-25"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Ademais, é interessante gerar o <em>ranking</em> dos termos, isto é, ordená-los de acordo com o valor de <em>tf-idf</em> por documento. Isto facilita a visualização dos <span class="math inline">n</span> termos mais relevantes para um documento ou para toda a coleção.</p>
 <div class="quarto-figure quarto-figure-center">
@@ -1028,25 +1090,25 @@ tfidf(t,d,D)=tf(t,d) \cdot idf(t,D)
 <figcaption>Visualização da coluna <code>tf.idf</code> para a criação de <em>rankings</em>.</figcaption>
 </figure>
 </div>
-<div id="cell-66" class="cell" data-execution_count="63">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a><span class="co"># cria ranking dos tokens</span></span>
-<span id="cb55-2"><a href="#cb55-2"></a>txd.tidy<span class="sc">$</span>ranking <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb55-3"><a href="#cb55-3"></a></span>
-<span id="cb55-4"><a href="#cb55-4"></a><span class="co"># ordena com base em tf e token por documento</span></span>
-<span id="cb55-5"><a href="#cb55-5"></a><span class="cf">for</span> (d <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(txd.tidy)) {</span>
-<span id="cb55-6"><a href="#cb55-6"></a>  <span class="co"># documento</span></span>
-<span id="cb55-7"><a href="#cb55-7"></a>  doc <span class="ot">&lt;-</span> txd.tidy<span class="sc">$</span>doc[d]</span>
-<span id="cb55-8"><a href="#cb55-8"></a>  token.rankings <span class="ot">&lt;-</span> <span class="fu">order</span>(txd.tidy[txd.tidy<span class="sc">$</span>doc<span class="sc">==</span>doc,]<span class="sc">$</span>tf.idf, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb55-9"><a href="#cb55-9"></a>  <span class="co"># adiciona ordem ao data.frame</span></span>
-<span id="cb55-10"><a href="#cb55-10"></a>  txd.tidy[txd.tidy<span class="sc">$</span>doc<span class="sc">==</span>doc,]<span class="sc">$</span>ranking[token.rankings] <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(txd.tidy[txd.tidy<span class="sc">$</span>doc<span class="sc">==</span>doc,])</span>
-<span id="cb55-11"><a href="#cb55-11"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-66" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1"></a><span class="co"># cria ranking dos tokens</span></span>
+<span id="cb65-2"><a href="#cb65-2"></a>txd.tidy<span class="sc">$</span>ranking <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb65-3"><a href="#cb65-3"></a></span>
+<span id="cb65-4"><a href="#cb65-4"></a><span class="co"># ordena com base em tf e token por documento</span></span>
+<span id="cb65-5"><a href="#cb65-5"></a><span class="cf">for</span> (d <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(txd.tidy)) {</span>
+<span id="cb65-6"><a href="#cb65-6"></a>  <span class="co"># documento</span></span>
+<span id="cb65-7"><a href="#cb65-7"></a>  doc <span class="ot">&lt;-</span> txd.tidy<span class="sc">$</span>doc[d]</span>
+<span id="cb65-8"><a href="#cb65-8"></a>  token.rankings <span class="ot">&lt;-</span> <span class="fu">order</span>(txd.tidy[txd.tidy<span class="sc">$</span>doc<span class="sc">==</span>doc,]<span class="sc">$</span>tf.idf, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb65-9"><a href="#cb65-9"></a>  <span class="co"># adiciona ordem ao data.frame</span></span>
+<span id="cb65-10"><a href="#cb65-10"></a>  txd.tidy[txd.tidy<span class="sc">$</span>doc<span class="sc">==</span>doc,]<span class="sc">$</span>ranking[token.rankings] <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(txd.tidy[txd.tidy<span class="sc">$</span>doc<span class="sc">==</span>doc,])</span>
+<span id="cb65-11"><a href="#cb65-11"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>O pacote <code>ggplot2</code> reúne funções para a geração de gráficos com base no formato <em>tidy</em>. A figura tem 23 painéis que correspondem a cada documento da coleção e a distribuição da medida <em>tf-idf</em>.</p>
-<div id="cell-68" class="cell" data-execution_count="64">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a><span class="co"># instala pacote</span></span>
-<span id="cb56-2"><a href="#cb56-2"></a><span class="fu">install.packages</span>(<span class="st">'ggplot2'</span>)</span>
-<span id="cb56-3"><a href="#cb56-3"></a><span class="co"># carrega pacote</span></span>
-<span id="cb56-4"><a href="#cb56-4"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-68" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1"></a><span class="co"># instala pacote</span></span>
+<span id="cb66-2"><a href="#cb66-2"></a><span class="fu">install.packages</span>(<span class="st">'ggplot2'</span>)</span>
+<span id="cb66-3"><a href="#cb66-3"></a><span class="co"># carrega pacote</span></span>
+<span id="cb66-4"><a href="#cb66-4"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Installing package into ‘C:/Users/msn/AppData/Local/R/win-library/4.5’
 (as ‘lib’ is unspecified)</code></pre>
@@ -1061,7 +1123,7 @@ downloaded 8.1 MB
 <pre><code>package ‘ggplot2’ successfully unpacked and MD5 sums checked
 
 The downloaded binary packages are in
-    C:\Users\msn\AppData\Local\Temp\RtmpyyWmAN\downloaded_packages</code></pre>
+    C:\Users\msn\AppData\Local\Temp\RtmpqKMgF1\downloaded_packages</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning message:
@@ -1077,17 +1139,17 @@ package ‘ggplot2’ was built under R version 4.5.2 </code></pre>
 <li><code>facet_wrap()</code> cria os painéis do gráfico, controlando pelos documentos (fórmula <code>~doc</code>);</li>
 <li><code>theme_minimal()</code> seleciona o tema “minimal”, que é mais limpo e usa menos elementos gráficos.</li>
 </ul>
-<div id="cell-70" class="cell" data-execution_count="65">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1"></a><span class="co"># plota ranking x tf-idf por documento</span></span>
-<span id="cb61-2"><a href="#cb61-2"></a><span class="fu">ggplot</span>(txd.tidy) <span class="sc">+</span> </span>
-<span id="cb61-3"><a href="#cb61-3"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">x=</span>ranking,<span class="at">y=</span>tf.idf),<span class="at">alpha=</span><span class="fl">0.2</span>)<span class="sc">+</span></span>
-<span id="cb61-4"><a href="#cb61-4"></a>  <span class="fu">scale_x_log10</span>()<span class="sc">+</span></span>
-<span id="cb61-5"><a href="#cb61-5"></a>  <span class="fu">scale_y_log10</span>()<span class="sc">+</span></span>
-<span id="cb61-6"><a href="#cb61-6"></a>  <span class="fu">xlab</span>(<span class="st">"Ranking"</span>)<span class="sc">+</span></span>
-<span id="cb61-7"><a href="#cb61-7"></a>  <span class="fu">ylab</span>(<span class="st">"tf-idf"</span>)<span class="sc">+</span></span>
-<span id="cb61-8"><a href="#cb61-8"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Distribuição de tokens"</span>,<span class="at">subtitle=</span><span class="fu">paste0</span>(<span class="st">"N="</span>,<span class="fu">length</span>(colecao.tokens)))<span class="sc">+</span></span>
-<span id="cb61-9"><a href="#cb61-9"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>doc,<span class="at">ncol=</span><span class="dv">5</span>)<span class="sc">+</span></span>
-<span id="cb61-10"><a href="#cb61-10"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-70" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1"></a><span class="co"># plota ranking x tf-idf por documento</span></span>
+<span id="cb71-2"><a href="#cb71-2"></a><span class="fu">ggplot</span>(txd.tidy) <span class="sc">+</span> </span>
+<span id="cb71-3"><a href="#cb71-3"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">x=</span>ranking,<span class="at">y=</span>tf.idf),<span class="at">alpha=</span><span class="fl">0.2</span>)<span class="sc">+</span></span>
+<span id="cb71-4"><a href="#cb71-4"></a>  <span class="fu">scale_x_log10</span>()<span class="sc">+</span></span>
+<span id="cb71-5"><a href="#cb71-5"></a>  <span class="fu">scale_y_log10</span>()<span class="sc">+</span></span>
+<span id="cb71-6"><a href="#cb71-6"></a>  <span class="fu">xlab</span>(<span class="st">"Ranking"</span>)<span class="sc">+</span></span>
+<span id="cb71-7"><a href="#cb71-7"></a>  <span class="fu">ylab</span>(<span class="st">"tf-idf"</span>)<span class="sc">+</span></span>
+<span id="cb71-8"><a href="#cb71-8"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Distribuição de tokens"</span>,<span class="at">subtitle=</span><span class="fu">paste0</span>(<span class="st">"N="</span>,<span class="fu">length</span>(colecao.tokens)))<span class="sc">+</span></span>
+<span id="cb71-9"><a href="#cb71-9"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>doc,<span class="at">ncol=</span><span class="dv">5</span>)<span class="sc">+</span></span>
+<span id="cb71-10"><a href="#cb71-10"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1098,21 +1160,21 @@ package ‘ggplot2’ was built under R version 4.5.2 </code></pre>
 </div>
 <p>O conjunto dos painéis aproxima a distribuição proposta pela <a href="https://en.wikipedia.org/wiki/Zipf%27s_law">Lei de Zipf</a>: a frequência de um termo é inversamente proporcional à sua ordem (<em>ranking</em>) no corpus. Os termos mais à esquerda do gráfico têm ordem baixa e <em>tf-idf</em> alto.</p>
 <p>O gráfico da coleção completa oferece outra perspectiva sobre o efeito, acompanhado da reta de regressão em que tentamos predizer o <em>ranking</em> a partir da medida <em>tf-idf</em>.</p>
-<div id="cell-72" class="cell" data-execution_count="66">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1"></a><span class="co"># calcula regressão</span></span>
-<span id="cb62-2"><a href="#cb62-2"></a><span class="fu">print</span>(<span class="fu">lm</span>(<span class="fu">log</span>(ranking) <span class="sc">~</span> <span class="fu">log</span>(tf.idf), <span class="at">data=</span>txd.tidy))</span>
-<span id="cb62-3"><a href="#cb62-3"></a></span>
-<span id="cb62-4"><a href="#cb62-4"></a><span class="co"># plota ranking x tf-idf por documento</span></span>
-<span id="cb62-5"><a href="#cb62-5"></a><span class="fu">ggplot</span>(txd.tidy) <span class="sc">+</span> </span>
-<span id="cb62-6"><a href="#cb62-6"></a>  <span class="fu">geom_abline</span>(<span class="at">slope=</span><span class="sc">-</span><span class="fl">1.167</span>,<span class="at">intercept =</span> <span class="sc">-</span><span class="fl">1.305</span>, <span class="at">colour=</span><span class="st">"red"</span>, <span class="at">linetype=</span><span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb62-7"><a href="#cb62-7"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">x=</span>ranking,<span class="at">y=</span>tf.idf,<span class="at">colour=</span>doc),<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb62-8"><a href="#cb62-8"></a>  <span class="fu">scale_x_log10</span>()<span class="sc">+</span></span>
-<span id="cb62-9"><a href="#cb62-9"></a>  <span class="fu">scale_y_log10</span>()<span class="sc">+</span></span>
-<span id="cb62-10"><a href="#cb62-10"></a>  <span class="fu">xlab</span>(<span class="st">"Ranking"</span>)<span class="sc">+</span></span>
-<span id="cb62-11"><a href="#cb62-11"></a>  <span class="fu">ylab</span>(<span class="st">"tf-idf"</span>)<span class="sc">+</span></span>
-<span id="cb62-12"><a href="#cb62-12"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Distribuição de tokens"</span>,<span class="at">subtitle=</span><span class="fu">paste0</span>(<span class="st">"N="</span>,<span class="fu">length</span>(colecao.tokens)))<span class="sc">+</span></span>
-<span id="cb62-13"><a href="#cb62-13"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
-<span id="cb62-14"><a href="#cb62-14"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-72" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1"></a><span class="co"># calcula regressão</span></span>
+<span id="cb72-2"><a href="#cb72-2"></a><span class="fu">print</span>(<span class="fu">lm</span>(<span class="fu">log</span>(ranking) <span class="sc">~</span> <span class="fu">log</span>(tf.idf), <span class="at">data=</span>txd.tidy))</span>
+<span id="cb72-3"><a href="#cb72-3"></a></span>
+<span id="cb72-4"><a href="#cb72-4"></a><span class="co"># plota ranking x tf-idf por documento</span></span>
+<span id="cb72-5"><a href="#cb72-5"></a><span class="fu">ggplot</span>(txd.tidy) <span class="sc">+</span> </span>
+<span id="cb72-6"><a href="#cb72-6"></a>  <span class="fu">geom_abline</span>(<span class="at">slope=</span><span class="sc">-</span><span class="fl">1.167</span>,<span class="at">intercept =</span> <span class="sc">-</span><span class="fl">1.305</span>, <span class="at">colour=</span><span class="st">"red"</span>, <span class="at">linetype=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb72-7"><a href="#cb72-7"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">x=</span>ranking,<span class="at">y=</span>tf.idf,<span class="at">colour=</span>doc),<span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb72-8"><a href="#cb72-8"></a>  <span class="fu">scale_x_log10</span>()<span class="sc">+</span></span>
+<span id="cb72-9"><a href="#cb72-9"></a>  <span class="fu">scale_y_log10</span>()<span class="sc">+</span></span>
+<span id="cb72-10"><a href="#cb72-10"></a>  <span class="fu">xlab</span>(<span class="st">"Ranking"</span>)<span class="sc">+</span></span>
+<span id="cb72-11"><a href="#cb72-11"></a>  <span class="fu">ylab</span>(<span class="st">"tf-idf"</span>)<span class="sc">+</span></span>
+<span id="cb72-12"><a href="#cb72-12"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Distribuição de tokens"</span>,<span class="at">subtitle=</span><span class="fu">paste0</span>(<span class="st">"N="</span>,<span class="fu">length</span>(colecao.tokens)))<span class="sc">+</span></span>
+<span id="cb72-13"><a href="#cb72-13"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
+<span id="cb72-14"><a href="#cb72-14"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1132,17 +1194,17 @@ Coefficients:
 </div>
 </div>
 <p>Finalmente, a nuvem de palavras da coleção completa,baseada na medida <em>tf-idf</em>, sugere termos que parecem relevantes para entender todos os textos: “tomé”, “elisa”, “garcia”, “félix”, “estevão” e “mendonça” são nomes de personagens importantes para cada história.</p>
-<div id="cell-74" class="cell" data-execution_count="67">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1"></a><span class="co"># remove margins para comportar a nuvem</span></span>
-<span id="cb64-2"><a href="#cb64-2"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
-<span id="cb64-3"><a href="#cb64-3"></a><span class="co"># nuvem de palavras por tf-idf para toda a coleção</span></span>
-<span id="cb64-4"><a href="#cb64-4"></a><span class="fu">wordcloud</span>(</span>
-<span id="cb64-5"><a href="#cb64-5"></a>  txd.tidy<span class="sc">$</span>token, </span>
-<span id="cb64-6"><a href="#cb64-6"></a>  txd.tidy<span class="sc">$</span>tf.idf, </span>
-<span id="cb64-7"><a href="#cb64-7"></a>  <span class="at">colors=</span><span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Spectral"</span>),</span>
-<span id="cb64-8"><a href="#cb64-8"></a>  <span class="at">random.order=</span><span class="cn">FALSE</span>, </span>
-<span id="cb64-9"><a href="#cb64-9"></a>  <span class="at">min.freq =</span> <span class="fl">0.003</span> <span class="co"># tf-idf mínimo (+/- 10º)</span></span>
-<span id="cb64-10"><a href="#cb64-10"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-74" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1"></a><span class="co"># remove margins para comportar a nuvem</span></span>
+<span id="cb74-2"><a href="#cb74-2"></a><span class="fu">par</span>(<span class="at">mar=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb74-3"><a href="#cb74-3"></a><span class="co"># nuvem de palavras por tf-idf para toda a coleção</span></span>
+<span id="cb74-4"><a href="#cb74-4"></a><span class="fu">wordcloud</span>(</span>
+<span id="cb74-5"><a href="#cb74-5"></a>  txd.tidy<span class="sc">$</span>token, </span>
+<span id="cb74-6"><a href="#cb74-6"></a>  txd.tidy<span class="sc">$</span>tf.idf, </span>
+<span id="cb74-7"><a href="#cb74-7"></a>  <span class="at">colors=</span><span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Spectral"</span>),</span>
+<span id="cb74-8"><a href="#cb74-8"></a>  <span class="at">random.order=</span><span class="cn">FALSE</span>, </span>
+<span id="cb74-9"><a href="#cb74-9"></a>  <span class="at">min.freq =</span> <span class="fl">0.003</span> <span class="co"># tf-idf mínimo (+/- 10º)</span></span>
+<span id="cb74-10"><a href="#cb74-10"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1152,17 +1214,17 @@ Coefficients:
 </div>
 </div>
 <p>Já em relação a “Americanas”, livro que inclui o poema “Potira”, a nuvem <em>tf-idf</em> igualmente indica personagens, grupos ou entidades relevantes para as histórias.</p>
-<div id="cell-76" class="cell" data-execution_count="68">
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1"></a><span class="co"># reparte matriz para documento 12 (Americanas)</span></span>
-<span id="cb65-2"><a href="#cb65-2"></a>txd.doc1 <span class="ot">&lt;-</span> txd.tidy[txd.tidy<span class="sc">$</span>doc<span class="sc">==</span><span class="st">"doc12"</span>,]</span>
-<span id="cb65-3"><a href="#cb65-3"></a><span class="fu">wordcloud</span>(</span>
-<span id="cb65-4"><a href="#cb65-4"></a>  txd.doc1<span class="sc">$</span>token, </span>
-<span id="cb65-5"><a href="#cb65-5"></a>  txd.doc1<span class="sc">$</span>tf.idf,</span>
-<span id="cb65-6"><a href="#cb65-6"></a>  <span class="fu">c</span>(<span class="dv">3</span>,.<span class="dv">5</span>), <span class="co"># intervalo do tamanho das palavras</span></span>
-<span id="cb65-7"><a href="#cb65-7"></a>  <span class="at">colors=</span><span class="fu">brewer.pal</span>(<span class="dv">8</span>, <span class="st">"Spectral"</span>),</span>
-<span id="cb65-8"><a href="#cb65-8"></a>  <span class="at">random.order=</span><span class="cn">FALSE</span>, </span>
-<span id="cb65-9"><a href="#cb65-9"></a>  <span class="at">min.freq =</span> <span class="fl">0.0005</span> <span class="co"># tf-idf mínimo (+/- 100º)</span></span>
-<span id="cb65-10"><a href="#cb65-10"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-76" class="cell">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1"></a><span class="co"># reparte matriz para documento 12 (Americanas)</span></span>
+<span id="cb75-2"><a href="#cb75-2"></a>txd.doc1 <span class="ot">&lt;-</span> txd.tidy[txd.tidy<span class="sc">$</span>doc<span class="sc">==</span><span class="st">"doc12"</span>,]</span>
+<span id="cb75-3"><a href="#cb75-3"></a><span class="fu">wordcloud</span>(</span>
+<span id="cb75-4"><a href="#cb75-4"></a>  txd.doc1<span class="sc">$</span>token, </span>
+<span id="cb75-5"><a href="#cb75-5"></a>  txd.doc1<span class="sc">$</span>tf.idf,</span>
+<span id="cb75-6"><a href="#cb75-6"></a>  <span class="fu">c</span>(<span class="dv">3</span>,.<span class="dv">5</span>), <span class="co"># intervalo do tamanho das palavras</span></span>
+<span id="cb75-7"><a href="#cb75-7"></a>  <span class="at">colors=</span><span class="fu">brewer.pal</span>(<span class="dv">10</span>, <span class="st">"Spectral"</span>),</span>
+<span id="cb75-8"><a href="#cb75-8"></a>  <span class="at">random.order=</span><span class="cn">FALSE</span>, </span>
+<span id="cb75-9"><a href="#cb75-9"></a>  <span class="at">min.freq =</span> <span class="fl">0.0005</span> <span class="co"># tf-idf mínimo (+/- 100º)</span></span>
+<span id="cb75-10"><a href="#cb75-10"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1171,14 +1233,68 @@ Coefficients:
 </div>
 </div>
 </div>
+<p>Como última visualização, podemos gerar gráficos com os <em>tokens</em> de <em>tf-idf</em> mais altos em um dado documento:</p>
+<div id="cell-78" class="cell">
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1"></a><span class="co"># plota top-10 tokens por tf-idf do documento 1</span></span>
+<span id="cb76-2"><a href="#cb76-2"></a><span class="fu">ggplot</span>(txd.tidy[txd.tidy<span class="sc">$</span>doc<span class="sc">==</span><span class="st">"doc12"</span> <span class="sc">&amp;</span> txd.tidy<span class="sc">$</span>ranking <span class="sc">&lt;=</span> <span class="dv">10</span>,]) <span class="sc">+</span> </span>
+<span id="cb76-3"><a href="#cb76-3"></a>  <span class="co"># barra com token no eixo X e tf-idf no eixo Y</span></span>
+<span id="cb76-4"><a href="#cb76-4"></a>  <span class="co"># ordenando de modo descrescente por tf-idf </span></span>
+<span id="cb76-5"><a href="#cb76-5"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(token, <span class="sc">-</span>tf.idf),<span class="at">y=</span>tf.idf,<span class="at">fill=</span>token)) <span class="sc">+</span> </span>
+<span id="cb76-6"><a href="#cb76-6"></a>  <span class="co"># imprime valor</span></span>
+<span id="cb76-7"><a href="#cb76-7"></a>  <span class="fu">geom_text</span>(</span>
+<span id="cb76-8"><a href="#cb76-8"></a>    <span class="fu">aes</span>(</span>
+<span id="cb76-9"><a href="#cb76-9"></a>      <span class="at">x=</span>token,</span>
+<span id="cb76-10"><a href="#cb76-10"></a>      <span class="at">y=</span>tf.idf,</span>
+<span id="cb76-11"><a href="#cb76-11"></a>      <span class="at">label=</span><span class="fu">round</span>(tf.idf,<span class="dv">4</span>),</span>
+<span id="cb76-12"><a href="#cb76-12"></a>      <span class="co"># ajusta para fora da barra</span></span>
+<span id="cb76-13"><a href="#cb76-13"></a>      <span class="at">vjust=</span><span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb76-14"><a href="#cb76-14"></a>    )</span>
+<span id="cb76-15"><a href="#cb76-15"></a>  ) <span class="sc">+</span></span>
+<span id="cb76-16"><a href="#cb76-16"></a>  <span class="co"># define eixos</span></span>
+<span id="cb76-17"><a href="#cb76-17"></a>  <span class="fu">xlab</span>(<span class="st">"Tokens"</span>)<span class="sc">+</span></span>
+<span id="cb76-18"><a href="#cb76-18"></a>  <span class="fu">ylab</span>(<span class="st">"tf-idf"</span>)<span class="sc">+</span></span>
+<span id="cb76-19"><a href="#cb76-19"></a>  <span class="co"># título do gráfico</span></span>
+<span id="cb76-20"><a href="#cb76-20"></a>  <span class="fu">labs</span>(</span>
+<span id="cb76-21"><a href="#cb76-21"></a>    <span class="co"># texto do título</span></span>
+<span id="cb76-22"><a href="#cb76-22"></a>    <span class="at">title=</span><span class="st">"Tokens de maior tf-idf - Americanas"</span>, </span>
+<span id="cb76-23"><a href="#cb76-23"></a>    <span class="co"># texto do subbtítulo indicando N</span></span>
+<span id="cb76-24"><a href="#cb76-24"></a>    <span class="at">subtitle=</span><span class="fu">paste0</span>(</span>
+<span id="cb76-25"><a href="#cb76-25"></a>      <span class="st">"Documento 12, N="</span>,</span>
+<span id="cb76-26"><a href="#cb76-26"></a>      <span class="fu">nrow</span>(txd.tidy[txd.tidy<span class="sc">$</span>doc<span class="sc">==</span><span class="st">"doc12"</span>,])</span>
+<span id="cb76-27"><a href="#cb76-27"></a>    )</span>
+<span id="cb76-28"><a href="#cb76-28"></a>  )<span class="sc">+</span></span>
+<span id="cb76-29"><a href="#cb76-29"></a>  <span class="co"># cores das barras</span></span>
+<span id="cb76-30"><a href="#cb76-30"></a>  <span class="fu">scale_fill_discrete</span>(<span class="at">palette=</span><span class="fu">brewer.pal</span>(<span class="dv">10</span>, <span class="st">"Spectral"</span>))<span class="sc">+</span></span>
+<span id="cb76-31"><a href="#cb76-31"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
+<span id="cb76-32"><a href="#cb76-32"></a>  <span class="co"># configurações do gráfico</span></span>
+<span id="cb76-33"><a href="#cb76-33"></a>  <span class="fu">theme</span>(</span>
+<span id="cb76-34"><a href="#cb76-34"></a>    <span class="co"># título do gráfico</span></span>
+<span id="cb76-35"><a href="#cb76-35"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">21</span>),</span>
+<span id="cb76-36"><a href="#cb76-36"></a>    <span class="co"># fonte e espaçamento do eixo x</span></span>
+<span id="cb76-37"><a href="#cb76-37"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>),</span>
+<span id="cb76-38"><a href="#cb76-38"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">margin=</span><span class="fu">margin</span>(<span class="at">t=</span><span class="dv">20</span>,<span class="at">b=</span><span class="dv">0</span>,<span class="at">l=</span><span class="dv">0</span>,<span class="at">r=</span><span class="dv">0</span>,<span class="at">unit=</span><span class="st">"pt"</span>)),</span>
+<span id="cb76-39"><a href="#cb76-39"></a>    <span class="co"># fonte e espaçamento do eixo x</span></span>
+<span id="cb76-40"><a href="#cb76-40"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>),</span>
+<span id="cb76-41"><a href="#cb76-41"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">margin=</span><span class="fu">margin</span>(<span class="at">t=</span><span class="dv">0</span>,<span class="at">b=</span><span class="dv">0</span>,<span class="at">l=</span><span class="dv">0</span>,<span class="at">r=</span><span class="dv">20</span>,<span class="at">unit=</span><span class="st">"pt"</span>)),</span>
+<span id="cb76-42"><a href="#cb76-42"></a>    <span class="co"># oculta legenda</span></span>
+<span id="cb76-43"><a href="#cb76-43"></a>    <span class="at">legend.position=</span><span class="st">"none"</span></span>
+<span id="cb76-44"><a href="#cb76-44"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="aula-03_files/figure-html/cell-38-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>Finalmente, devemos exportar todos os dados gerados para facilitar seu reuso em <em>notebooks</em> futuros.</p>
-<div id="cell-78" class="cell" data-execution_count="69">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1"></a><span class="co"># exportação de todo o processo (descomente para exportar)</span></span>
-<span id="cb66-2"><a href="#cb66-2"></a><span class="co">#write.xlsx(txd,"./dados/txd.xlsx")</span></span>
-<span id="cb66-3"><a href="#cb66-3"></a><span class="co">#write.xlsx(txd.tf,"./dados/txd-tf.xlsx")</span></span>
-<span id="cb66-4"><a href="#cb66-4"></a><span class="co">#write.xlsx(txd.idf,"./dados/txd-idf.xlsx")</span></span>
-<span id="cb66-5"><a href="#cb66-5"></a><span class="co">#write.xlsx(txd.tfidf,"./dados/txd-tfidf.xlsx")</span></span>
-<span id="cb66-6"><a href="#cb66-6"></a><span class="co">#write.xlsx(txd.tidy,"./dados/txd-tidy.xlsx")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-80" class="cell">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1"></a><span class="co"># exportação de todo o processo (remova # das linhas exportar)</span></span>
+<span id="cb77-2"><a href="#cb77-2"></a><span class="co">#write.xlsx(txd,"./dados/txd.xlsx")</span></span>
+<span id="cb77-3"><a href="#cb77-3"></a><span class="co">#write.xlsx(txd.tf,"./dados/txd-tf.xlsx")</span></span>
+<span id="cb77-4"><a href="#cb77-4"></a><span class="co">#write.xlsx(txd.idf,"./dados/txd-idf.xlsx")</span></span>
+<span id="cb77-5"><a href="#cb77-5"></a><span class="co">#write.xlsx(txd.tfidf,"./dados/txd-tfidf.xlsx")</span></span>
+<span id="cb77-6"><a href="#cb77-6"></a><span class="co">#write.xlsx(txd.tidy,"./dados/txd-tidy.xlsx")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
