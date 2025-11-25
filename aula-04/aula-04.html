@@ -221,29 +221,20 @@ downloaded 2.4 MB
 </code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>package ‘openxlsx’ successfully unpacked and MD5 sums checked</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: cannot remove prior installation of package ‘openxlsx’
-Warning: restored ‘openxlsx’</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
+<pre><code>package ‘openxlsx’ successfully unpacked and MD5 sums checked
+
 The downloaded binary packages are in
-    C:\Users\msn\AppData\Local\Temp\RtmpSaUIn6\downloaded_packages</code></pre>
+    C:\Users\msn\AppData\Local\Temp\RtmpcrexP8\downloaded_packages</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning message:
-In file.copy(savedcopy, lib, recursive = TRUE) :
-  problem copying C:\Users\msn\AppData\Local\R\win-library\4.5\00LOCK\openxlsx\libs\x64\openxlsx.dll to C:\Users\msn\AppData\Local\R\win-library\4.5\openxlsx\libs\x64\openxlsx.dll: Permission denied
-Warning message:
 package ‘openxlsx’ was built under R version 4.5.2 </code></pre>
 </div>
 </div>
 </section>
 <section id="codificação-e-representação" class="level2">
 <h2 class="anchored" data-anchor-id="codificação-e-representação">2.1 Codificação e representação</h2>
-<p>A base <code>txd.tf</code> consiste na frequência relativa dos <em>tokens</em> da coleção. Há uma versão mais simples desta representação, denominada <em>one-hot</em>, que apenas sinaliza se um termo ocorreu (valor <span class="math inline">1</span>) ou não (<span class="math inline">0</span>) no documento que integra a coleção e, como resultado, produz cadeias de zeros e uns:</p>
+<p>A base <code>txd.tf</code> consiste na frequência relativa dos <em>tokens</em> da coleção. Há uma versão mais simples desta representação, denominada <em>one-hot</em>, que apenas sinaliza se um termo ocorreu (valor <span class="math inline">1</span>) ou não (<span class="math inline">0</span>) no documento que integra a coleção e, como resultado, produz cadeias de zeros e uns (ver <a href="./slides/ppgp-dados-ia-aula04-protegido.pdf">slides</a>):</p>
 <ol type="1">
 <li><em>Isto é um exemplo</em></li>
 <li><em>Um outro exemplo</em></li>
@@ -284,19 +275,19 @@ package ‘openxlsx’ was built under R version 4.5.2 </code></pre>
 </table>
 <p>Vamos aproveitar <code>txd.tf</code> como base para construir outro <code>data.frame</code> que emprega a codificação <em>one-hot</em>:</p>
 <div id="cell-6" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># cria df</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>txd.onehot <span class="ot">&lt;-</span> txd.tf</span>
-<span id="cb8-3"><a href="#cb8-3"></a></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="co"># transforma tf em 0/1</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="cf">for</span> (linha <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(txd.onehot)) {</span>
-<span id="cb8-6"><a href="#cb8-6"></a>  <span class="co"># varre colunas</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a>  <span class="cf">for</span> (coluna <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(txd.onehot)) {</span>
-<span id="cb8-8"><a href="#cb8-8"></a>    <span class="cf">if</span> (txd.onehot[linha,coluna] <span class="sc">&gt;</span> <span class="dv">0</span>) txd.onehot[linha,coluna] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a>  }</span>
-<span id="cb8-10"><a href="#cb8-10"></a>}</span>
-<span id="cb8-11"><a href="#cb8-11"></a></span>
-<span id="cb8-12"><a href="#cb8-12"></a><span class="co"># visualiza df</span></span>
-<span id="cb8-13"><a href="#cb8-13"></a><span class="fu">View</span>(txd.onehot)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># cria df</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>txd.onehot <span class="ot">&lt;-</span> txd.tf</span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="co"># transforma tf em 0/1</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="cf">for</span> (linha <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(txd.onehot)) {</span>
+<span id="cb6-6"><a href="#cb6-6"></a>  <span class="co"># varre colunas</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a>  <span class="cf">for</span> (coluna <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(txd.onehot)) {</span>
+<span id="cb6-8"><a href="#cb6-8"></a>    <span class="cf">if</span> (txd.onehot[linha,coluna] <span class="sc">&gt;</span> <span class="dv">0</span>) txd.onehot[linha,coluna] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a>  }</span>
+<span id="cb6-10"><a href="#cb6-10"></a>}</span>
+<span id="cb6-11"><a href="#cb6-11"></a></span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="co"># visualiza df</span></span>
+<span id="cb6-13"><a href="#cb6-13"></a><span class="fu">View</span>(txd.onehot)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Compare as duas matrizes: <code>txd.tfidf</code> e <code>txd.onehot</code>. A representação do documento nos termos da frequência relativa <em>tf</em> e do produto <em>tf-idf</em> é fundada em números reais, em vez de ausente (<span class="math inline">0</span>) e presente (<span class="math inline">1</span>). Veremos a seguir que, embora o uso de número reais nas características permita diferenciar melhor os vetores, há técnicas que conseguem agrupar documentos baseados em cada tipo de representação.</p>
 <p>Há duas formas de calcular distâncias entre vetores por métricas que nos interessam: <em>binária assimétrica</em> e <em>euclidiana</em>.</p>
@@ -324,42 +315,42 @@ d_J=1-J
 \tag{3}</span></span></p>
 <p>O argumento <code>method</code> da função <code>dist()</code> pode receber o valor <code>binary</code>, referente ao cálculo da distância binária assimétrica. Utilizando a matriz <code>txd.onehot</code>, podemos agrupar os documentos em função da ausência ou presença de <em>tokens</em> considerados como características:</p>
 <div id="cell-8" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># -------------------------------------------</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="co"># calcula distância entre documentos 1 e 2</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="co"># -------------------------------------------</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a></span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="co"># recupera valores binários das características</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a>doc1 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(txd.onehot[<span class="dv">1</span>,])</span>
-<span id="cb9-7"><a href="#cb9-7"></a>doc2 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(txd.onehot[<span class="dv">2</span>,])</span>
-<span id="cb9-8"><a href="#cb9-8"></a></span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="co"># define Ms</span></span>
-<span id="cb9-10"><a href="#cb9-10"></a>m11 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb9-11"><a href="#cb9-11"></a>m01 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb9-12"><a href="#cb9-12"></a>m10 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb9-13"><a href="#cb9-13"></a>m00 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb9-14"><a href="#cb9-14"></a></span>
-<span id="cb9-15"><a href="#cb9-15"></a><span class="co"># calcula os Ms</span></span>
-<span id="cb9-16"><a href="#cb9-16"></a><span class="cf">for</span> (d <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(doc1)) {</span>
-<span id="cb9-17"><a href="#cb9-17"></a>  <span class="co"># caso m11</span></span>
-<span id="cb9-18"><a href="#cb9-18"></a>  <span class="cf">if</span> (doc1[d] <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;&amp;</span> doc2[d] <span class="sc">==</span> <span class="dv">1</span>) m11 <span class="ot">&lt;-</span> m11 <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb9-19"><a href="#cb9-19"></a>  <span class="co"># caso m01</span></span>
-<span id="cb9-20"><a href="#cb9-20"></a>  <span class="cf">if</span> (doc1[d] <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;&amp;</span> doc2[d] <span class="sc">==</span> <span class="dv">1</span>) m01 <span class="ot">&lt;-</span> m01 <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb9-21"><a href="#cb9-21"></a>  <span class="co"># caso m10</span></span>
-<span id="cb9-22"><a href="#cb9-22"></a>  <span class="cf">if</span> (doc1[d] <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;&amp;</span> doc2[d] <span class="sc">==</span> <span class="dv">0</span>) m10 <span class="ot">&lt;-</span> m10 <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb9-23"><a href="#cb9-23"></a>  <span class="co"># caso m00</span></span>
-<span id="cb9-24"><a href="#cb9-24"></a>  <span class="cf">if</span> (doc1[d] <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;&amp;</span> doc2[d] <span class="sc">==</span> <span class="dv">0</span>) m00 <span class="ot">&lt;-</span> m00 <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb9-25"><a href="#cb9-25"></a>}</span>
-<span id="cb9-26"><a href="#cb9-26"></a></span>
-<span id="cb9-27"><a href="#cb9-27"></a><span class="co"># calcula J</span></span>
-<span id="cb9-28"><a href="#cb9-28"></a>j <span class="ot">&lt;-</span> m11 <span class="sc">/</span> (m01 <span class="sc">+</span> m10 <span class="sc">+</span> m11)</span>
-<span id="cb9-29"><a href="#cb9-29"></a></span>
-<span id="cb9-30"><a href="#cb9-30"></a><span class="co"># calcula dJ</span></span>
-<span id="cb9-31"><a href="#cb9-31"></a>dj <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">-</span>j</span>
-<span id="cb9-32"><a href="#cb9-32"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Distância entre 1 e 2:"</span>,dj))</span>
-<span id="cb9-33"><a href="#cb9-33"></a></span>
-<span id="cb9-34"><a href="#cb9-34"></a><span class="co"># calcula diretamente pela função dist() para comparar</span></span>
-<span id="cb9-35"><a href="#cb9-35"></a>dj2 <span class="ot">&lt;-</span> <span class="fu">dist</span>(txd.onehot[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,],<span class="at">method=</span><span class="st">"binary"</span>)</span>
-<span id="cb9-36"><a href="#cb9-36"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Distância entre 1 e 2 via dist():"</span>,dj2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># -------------------------------------------</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="co"># calcula distância entre documentos 1 e 2</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="co"># -------------------------------------------</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="co"># recupera valores binários das características</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a>doc1 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(txd.onehot[<span class="dv">1</span>,])</span>
+<span id="cb7-7"><a href="#cb7-7"></a>doc2 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(txd.onehot[<span class="dv">2</span>,])</span>
+<span id="cb7-8"><a href="#cb7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="co"># define Ms</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a>m11 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a>m01 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a>m10 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a>m00 <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a></span>
+<span id="cb7-15"><a href="#cb7-15"></a><span class="co"># calcula os Ms</span></span>
+<span id="cb7-16"><a href="#cb7-16"></a><span class="cf">for</span> (d <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(doc1)) {</span>
+<span id="cb7-17"><a href="#cb7-17"></a>  <span class="co"># caso m11</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a>  <span class="cf">if</span> (doc1[d] <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;&amp;</span> doc2[d] <span class="sc">==</span> <span class="dv">1</span>) m11 <span class="ot">&lt;-</span> m11 <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a>  <span class="co"># caso m01</span></span>
+<span id="cb7-20"><a href="#cb7-20"></a>  <span class="cf">if</span> (doc1[d] <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;&amp;</span> doc2[d] <span class="sc">==</span> <span class="dv">1</span>) m01 <span class="ot">&lt;-</span> m01 <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb7-21"><a href="#cb7-21"></a>  <span class="co"># caso m10</span></span>
+<span id="cb7-22"><a href="#cb7-22"></a>  <span class="cf">if</span> (doc1[d] <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;&amp;</span> doc2[d] <span class="sc">==</span> <span class="dv">0</span>) m10 <span class="ot">&lt;-</span> m10 <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb7-23"><a href="#cb7-23"></a>  <span class="co"># caso m00</span></span>
+<span id="cb7-24"><a href="#cb7-24"></a>  <span class="cf">if</span> (doc1[d] <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;&amp;</span> doc2[d] <span class="sc">==</span> <span class="dv">0</span>) m00 <span class="ot">&lt;-</span> m00 <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb7-25"><a href="#cb7-25"></a>}</span>
+<span id="cb7-26"><a href="#cb7-26"></a></span>
+<span id="cb7-27"><a href="#cb7-27"></a><span class="co"># calcula J</span></span>
+<span id="cb7-28"><a href="#cb7-28"></a>j <span class="ot">&lt;-</span> m11 <span class="sc">/</span> (m01 <span class="sc">+</span> m10 <span class="sc">+</span> m11)</span>
+<span id="cb7-29"><a href="#cb7-29"></a></span>
+<span id="cb7-30"><a href="#cb7-30"></a><span class="co"># calcula dJ</span></span>
+<span id="cb7-31"><a href="#cb7-31"></a>dj <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">-</span>j</span>
+<span id="cb7-32"><a href="#cb7-32"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Distância entre 1 e 2:"</span>,dj))</span>
+<span id="cb7-33"><a href="#cb7-33"></a></span>
+<span id="cb7-34"><a href="#cb7-34"></a><span class="co"># calcula diretamente pela função dist() para comparar</span></span>
+<span id="cb7-35"><a href="#cb7-35"></a>dj2 <span class="ot">&lt;-</span> <span class="fu">dist</span>(txd.onehot[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,],<span class="at">method=</span><span class="st">"binary"</span>)</span>
+<span id="cb7-36"><a href="#cb7-36"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Distância entre 1 e 2 via dist():"</span>,dj2))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Distância entre 1 e 2: 0.887337057728119"
 [1] "Distância entre 1 e 2 via dist(): 0.887337057728119"</code></pre>
@@ -367,20 +358,20 @@ d_J=1-J
 </div>
 <p>A função <code>dist()</code> tem a conveniência de facilitar a análise de inúmeros documentos com características binárias na mesma execução, além de poder ser combinada à instrução <code>hclust()</code>, que cria agrupamentos (<em>clusters</em>) a partir das distâncias e permite a visualização da árvore resultante:</p>
 <div id="cell-10" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># plota</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="fu">plot</span>(</span>
-<span id="cb11-3"><a href="#cb11-3"></a>  <span class="co"># agrupamentos</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a>  <span class="fu">hclust</span>(</span>
-<span id="cb11-5"><a href="#cb11-5"></a>    <span class="co"># distância binária</span></span>
-<span id="cb11-6"><a href="#cb11-6"></a>    <span class="fu">dist</span>(txd.onehot, <span class="at">method=</span><span class="st">"binary"</span>),</span>
-<span id="cb11-7"><a href="#cb11-7"></a>    <span class="co"># método: completo (encontra mais similares)</span></span>
-<span id="cb11-8"><a href="#cb11-8"></a>    <span class="at">method=</span><span class="st">"complete"</span></span>
-<span id="cb11-9"><a href="#cb11-9"></a>  ),</span>
-<span id="cb11-10"><a href="#cb11-10"></a>  <span class="co"># título do gráfico</span></span>
-<span id="cb11-11"><a href="#cb11-11"></a>  <span class="at">main=</span><span class="st">"Agrupamentos dos documentos"</span>,</span>
-<span id="cb11-12"><a href="#cb11-12"></a>  <span class="at">ylab=</span><span class="st">"Distância (binária)"</span>,</span>
-<span id="cb11-13"><a href="#cb11-13"></a>  <span class="at">xlab=</span><span class="st">"Método: completo"</span></span>
-<span id="cb11-14"><a href="#cb11-14"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># plota</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="fu">plot</span>(</span>
+<span id="cb9-3"><a href="#cb9-3"></a>  <span class="co"># agrupamentos</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a>  <span class="fu">hclust</span>(</span>
+<span id="cb9-5"><a href="#cb9-5"></a>    <span class="co"># distância binária</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a>    <span class="fu">dist</span>(txd.onehot, <span class="at">method=</span><span class="st">"binary"</span>),</span>
+<span id="cb9-7"><a href="#cb9-7"></a>    <span class="co"># método: completo (encontra mais similares)</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a>    <span class="at">method=</span><span class="st">"complete"</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a>  ),</span>
+<span id="cb9-10"><a href="#cb9-10"></a>  <span class="co"># título do gráfico</span></span>
+<span id="cb9-11"><a href="#cb9-11"></a>  <span class="at">main=</span><span class="st">"Agrupamentos dos documentos"</span>,</span>
+<span id="cb9-12"><a href="#cb9-12"></a>  <span class="at">ylab=</span><span class="st">"Distância (binária)"</span>,</span>
+<span id="cb9-13"><a href="#cb9-13"></a>  <span class="at">xlab=</span><span class="st">"Método: completo"</span></span>
+<span id="cb9-14"><a href="#cb9-14"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -395,8 +386,8 @@ d_J=1-J
 </blockquote>
 <p>O trecho de código a seguir exibe as distâncias entre os documentos do ramo esquerdo da árvore, lembrando de que <em>quanto mais próximo de zero, mais similares são os objetos a partir de suas características</em>.</p>
 <div id="cell-12" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># distâncias</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="fu">dist</span>(txd.onehot[<span class="fu">c</span>(<span class="dv">13</span>,<span class="dv">11</span>,<span class="dv">5</span>,<span class="dv">16</span>),],<span class="at">method=</span><span class="st">"binary"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># distâncias</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="fu">dist</span>(txd.onehot[<span class="fu">c</span>(<span class="dv">13</span>,<span class="dv">11</span>,<span class="dv">5</span>,<span class="dv">16</span>),],<span class="at">method=</span><span class="st">"binary"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <pre><code>          13        11         5
 11 0.9402985                    
@@ -406,8 +397,8 @@ d_J=1-J
 </div>
 <p>Confirmamos a partição da imagem observando que o documento <span class="math inline">13</span> está mais distante de <span class="math inline">5</span> e <span class="math inline">16</span> que de <span class="math inline">11</span>, embora seja importante notar que os documentos são muito diferentes entre si. Na realidade, como se pode observar, <em>nenhum</em> documento dista de outros por menos de <span class="math inline">0,80</span>.</p>
 <div id="cell-14" class="cell" data-execution_count="6">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># menor distância da coleção</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="fu">min</span>(<span class="fu">dist</span>(txd.onehot,<span class="at">method=</span><span class="st">"binary"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># menor distância da coleção</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="fu">min</span>(<span class="fu">dist</span>(txd.onehot,<span class="at">method=</span><span class="st">"binary"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <pre><code>[1] 0.8031496</code></pre>
 </div>
@@ -422,20 +413,20 @@ d=\sqrt{(p_1 - q_1)^2 + (p_2 - q_2)^2 + ... + (p_n - q_n)^2}
 <p>Neste caso, as variáveis <span class="math inline">p</span> e <span class="math inline">q</span> também correspondem a dois documentos, porém os índices <span class="math inline">\{1, 2, ..., n\}</span> indicam as características que informam o cálculo da distância.</p>
 <p>Em vez de utilizarmos a matriz <code>txd.onehot</code>, calcularemos a distância entre os documentos utilizando a métrica <code>tf-idf</code> computada na matriz <code>txd.tfidf</code>.</p>
 <div id="cell-16" class="cell" data-execution_count="7">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># plota</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="fu">plot</span>(</span>
-<span id="cb16-3"><a href="#cb16-3"></a>  <span class="co"># agrupamentos</span></span>
-<span id="cb16-4"><a href="#cb16-4"></a>  <span class="fu">hclust</span>(</span>
-<span id="cb16-5"><a href="#cb16-5"></a>    <span class="co"># distância euclidiana</span></span>
-<span id="cb16-6"><a href="#cb16-6"></a>    <span class="fu">dist</span>(txd.tfidf, <span class="at">method=</span><span class="st">"euclidean"</span>),</span>
-<span id="cb16-7"><a href="#cb16-7"></a>    <span class="co"># método: completo (encontra mais similares)</span></span>
-<span id="cb16-8"><a href="#cb16-8"></a>    <span class="at">method=</span><span class="st">"complete"</span></span>
-<span id="cb16-9"><a href="#cb16-9"></a>  ),</span>
-<span id="cb16-10"><a href="#cb16-10"></a>  <span class="co"># título do gráfico</span></span>
-<span id="cb16-11"><a href="#cb16-11"></a>  <span class="at">main=</span><span class="st">"Agrupamentos dos documentos tf-idf"</span>,</span>
-<span id="cb16-12"><a href="#cb16-12"></a>  <span class="at">ylab=</span><span class="st">"Distância Euclidiana"</span>,</span>
-<span id="cb16-13"><a href="#cb16-13"></a>  <span class="at">xlab=</span><span class="st">"Método: completo"</span></span>
-<span id="cb16-14"><a href="#cb16-14"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># plota</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="fu">plot</span>(</span>
+<span id="cb14-3"><a href="#cb14-3"></a>  <span class="co"># agrupamentos</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a>  <span class="fu">hclust</span>(</span>
+<span id="cb14-5"><a href="#cb14-5"></a>    <span class="co"># distância euclidiana</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a>    <span class="fu">dist</span>(txd.tfidf, <span class="at">method=</span><span class="st">"euclidean"</span>),</span>
+<span id="cb14-7"><a href="#cb14-7"></a>    <span class="co"># método: completo (encontra mais similares)</span></span>
+<span id="cb14-8"><a href="#cb14-8"></a>    <span class="at">method=</span><span class="st">"complete"</span></span>
+<span id="cb14-9"><a href="#cb14-9"></a>  ),</span>
+<span id="cb14-10"><a href="#cb14-10"></a>  <span class="co"># título do gráfico</span></span>
+<span id="cb14-11"><a href="#cb14-11"></a>  <span class="at">main=</span><span class="st">"Agrupamentos dos documentos tf-idf"</span>,</span>
+<span id="cb14-12"><a href="#cb14-12"></a>  <span class="at">ylab=</span><span class="st">"Distância Euclidiana"</span>,</span>
+<span id="cb14-13"><a href="#cb14-13"></a>  <span class="at">xlab=</span><span class="st">"Método: completo"</span></span>
+<span id="cb14-14"><a href="#cb14-14"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -446,21 +437,21 @@ d=\sqrt{(p_1 - q_1)^2 + (p_2 - q_2)^2 + ... + (p_n - q_n)^2}
 </div>
 <p>A métrica <em>tf-idf</em> parece representar melhor os documentos e a razão é evidente: a presença ou ausência de uma característica foi substituída por valores contínuos (números reais) que informam a importância de cada <em>token</em> para os documentos. Assim, o cálculo de distância incorpora essas nuances e resulta em documentos com até <span class="math inline">0,026</span> de similaridade.</p>
 <div id="cell-18" class="cell" data-execution_count="8">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># distância mínima</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="fu">min</span>(<span class="fu">dist</span>(txd.tfidf,<span class="at">method=</span><span class="st">"euclidean"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># distância mínima</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="fu">min</span>(<span class="fu">dist</span>(txd.tfidf,<span class="at">method=</span><span class="st">"euclidean"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <pre><code>[1] 0.02618726</code></pre>
 </div>
 </div>
 <p>Vamos analisar o ramo esquerdo da árvore quanto às distâncias entre as terminais:</p>
 <div id="cell-20" class="cell" data-execution_count="9">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># distâncias</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a><span class="fu">print</span>(</span>
-<span id="cb19-3"><a href="#cb19-3"></a>  <span class="fu">dist</span>(</span>
-<span id="cb19-4"><a href="#cb19-4"></a>    txd.tfidf[<span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">13</span>,<span class="dv">3</span>),],</span>
-<span id="cb19-5"><a href="#cb19-5"></a>    <span class="at">method=</span><span class="st">"euclidean"</span>  </span>
-<span id="cb19-6"><a href="#cb19-6"></a>  )</span>
-<span id="cb19-7"><a href="#cb19-7"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># distâncias</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="fu">print</span>(</span>
+<span id="cb17-3"><a href="#cb17-3"></a>  <span class="fu">dist</span>(</span>
+<span id="cb17-4"><a href="#cb17-4"></a>    txd.tfidf[<span class="fu">c</span>(<span class="dv">21</span>,<span class="dv">13</span>,<span class="dv">3</span>),],</span>
+<span id="cb17-5"><a href="#cb17-5"></a>    <span class="at">method=</span><span class="st">"euclidean"</span>  </span>
+<span id="cb17-6"><a href="#cb17-6"></a>  )</span>
+<span id="cb17-7"><a href="#cb17-7"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>          21        13
 13 0.1163973          
@@ -478,15 +469,15 @@ d=\sqrt{(p_1 - q_1)^2 + (p_2 - q_2)^2 + ... + (p_n - q_n)^2}
 </ul>
 <p>A seguir, testamos o cálculo utilizando os documentos <span class="math inline">1</span> e <span class="math inline">2</span> da coleção. Para isso, instalaremos o pacote <code>lsa</code> e utilizaremos a função <code>cosine()</code>, que recebe como argumentos os dois vetores a serem comparados.</p>
 <div id="cell-22" class="cell" data-execution_count="10">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># instala e carrega pacote</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="fu">install.packages</span>(<span class="st">'lsa'</span>)</span>
-<span id="cb21-3"><a href="#cb21-3"></a><span class="fu">library</span>(lsa)</span>
-<span id="cb21-4"><a href="#cb21-4"></a></span>
-<span id="cb21-5"><a href="#cb21-5"></a><span class="co"># seleciona documentos</span></span>
-<span id="cb21-6"><a href="#cb21-6"></a>doc1 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(txd.tfidf[<span class="dv">1</span>,])</span>
-<span id="cb21-7"><a href="#cb21-7"></a>doc2 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(txd.tfidf[<span class="dv">2</span>,])</span>
-<span id="cb21-8"><a href="#cb21-8"></a><span class="co"># calcula</span></span>
-<span id="cb21-9"><a href="#cb21-9"></a><span class="fu">cosine</span>(doc1,doc2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># instala e carrega pacote</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="fu">install.packages</span>(<span class="st">'lsa'</span>)</span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="fu">library</span>(lsa)</span>
+<span id="cb19-4"><a href="#cb19-4"></a></span>
+<span id="cb19-5"><a href="#cb19-5"></a><span class="co"># seleciona documentos</span></span>
+<span id="cb19-6"><a href="#cb19-6"></a>doc1 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(txd.tfidf[<span class="dv">1</span>,])</span>
+<span id="cb19-7"><a href="#cb19-7"></a>doc2 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(txd.tfidf[<span class="dv">2</span>,])</span>
+<span id="cb19-8"><a href="#cb19-8"></a><span class="co"># calcula</span></span>
+<span id="cb19-9"><a href="#cb19-9"></a><span class="fu">cosine</span>(doc1,doc2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Installing package into ‘C:/Users/msn/AppData/Local/R/win-library/4.5’
 (as ‘lib’ is unspecified)</code></pre>
@@ -501,7 +492,7 @@ downloaded 198 KB
 <pre><code>package ‘lsa’ successfully unpacked and MD5 sums checked
 
 The downloaded binary packages are in
-    C:\Users\msn\AppData\Local\Temp\RtmpSaUIn6\downloaded_packages
+    C:\Users\msn\AppData\Local\Temp\RtmpcrexP8\downloaded_packages
 Loading required package: SnowballC</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
@@ -516,62 +507,62 @@ package ‘lsa’ was built under R version 4.5.2 </code></pre>
 <p>O valor resultante (0,014) indica similaridade baixa, com os vetores se aproximando da ortogonalidade (0).</p>
 <p>O <em>script</em> abaixo demonstra a construção de um <code>data.frame</code> que calcula a distância euclidiana e a similaridade de cosseno entre o documento <span class="math inline">1</span> (“Falenas”) e todos os demais da coleção. Este tipo de resultado permite visualizar as métricas lado a lado.</p>
 <div id="cell-24" class="cell" data-execution_count="11">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># cria df</span></span>
-<span id="cb27-2"><a href="#cb27-2"></a>similaridade <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
-<span id="cb27-3"><a href="#cb27-3"></a></span>
-<span id="cb27-4"><a href="#cb27-4"></a><span class="co"># seleciona doc1</span></span>
-<span id="cb27-5"><a href="#cb27-5"></a>doc1 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(txd.tfidf[<span class="dv">1</span>,])</span>
-<span id="cb27-6"><a href="#cb27-6"></a></span>
-<span id="cb27-7"><a href="#cb27-7"></a><span class="co"># varre banco</span></span>
-<span id="cb27-8"><a href="#cb27-8"></a><span class="cf">for</span> (doc <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">nrow</span>(txd.tfidf)) {</span>
-<span id="cb27-9"><a href="#cb27-9"></a>  <span class="co"># seleciona doc2</span></span>
-<span id="cb27-10"><a href="#cb27-10"></a>  doc2 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(txd.tfidf[doc,])</span>
-<span id="cb27-11"><a href="#cb27-11"></a>  <span class="co"># similaridade de cosseno</span></span>
-<span id="cb27-12"><a href="#cb27-12"></a>  doc.cosseno <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">cosine</span>(doc1, doc2))</span>
-<span id="cb27-13"><a href="#cb27-13"></a>  <span class="co"># distância euclidiano</span></span>
-<span id="cb27-14"><a href="#cb27-14"></a>  doc.euclid <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">dist</span>(<span class="fu">rbind</span>(doc1,doc2),<span class="at">method=</span><span class="st">"euclidean"</span>))</span>
-<span id="cb27-15"><a href="#cb27-15"></a>  <span class="co"># adiciona</span></span>
-<span id="cb27-16"><a href="#cb27-16"></a>  similaridade <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
-<span id="cb27-17"><a href="#cb27-17"></a>    similaridade,</span>
-<span id="cb27-18"><a href="#cb27-18"></a>    <span class="fu">data.frame</span>(</span>
-<span id="cb27-19"><a href="#cb27-19"></a>      <span class="st">"doc1"</span><span class="ot">=</span><span class="dv">1</span>,</span>
-<span id="cb27-20"><a href="#cb27-20"></a>      <span class="st">"doc2"</span><span class="ot">=</span>doc,</span>
-<span id="cb27-21"><a href="#cb27-21"></a>      <span class="st">"simi.cos"</span><span class="ot">=</span>doc.cosseno,</span>
-<span id="cb27-22"><a href="#cb27-22"></a>      <span class="st">"dist.euc"</span><span class="ot">=</span>doc.euclid</span>
-<span id="cb27-23"><a href="#cb27-23"></a>    )</span>
-<span id="cb27-24"><a href="#cb27-24"></a>  )  </span>
-<span id="cb27-25"><a href="#cb27-25"></a>}</span>
-<span id="cb27-26"><a href="#cb27-26"></a></span>
-<span id="cb27-27"><a href="#cb27-27"></a><span class="co"># visualiza resultado</span></span>
-<span id="cb27-28"><a href="#cb27-28"></a><span class="fu">View</span>(similaridade)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># cria df</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a>similaridade <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb25-3"><a href="#cb25-3"></a></span>
+<span id="cb25-4"><a href="#cb25-4"></a><span class="co"># seleciona doc1</span></span>
+<span id="cb25-5"><a href="#cb25-5"></a>doc1 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(txd.tfidf[<span class="dv">1</span>,])</span>
+<span id="cb25-6"><a href="#cb25-6"></a></span>
+<span id="cb25-7"><a href="#cb25-7"></a><span class="co"># varre banco</span></span>
+<span id="cb25-8"><a href="#cb25-8"></a><span class="cf">for</span> (doc <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">nrow</span>(txd.tfidf)) {</span>
+<span id="cb25-9"><a href="#cb25-9"></a>  <span class="co"># seleciona doc2</span></span>
+<span id="cb25-10"><a href="#cb25-10"></a>  doc2 <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(txd.tfidf[doc,])</span>
+<span id="cb25-11"><a href="#cb25-11"></a>  <span class="co"># similaridade de cosseno</span></span>
+<span id="cb25-12"><a href="#cb25-12"></a>  doc.cosseno <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">cosine</span>(doc1, doc2))</span>
+<span id="cb25-13"><a href="#cb25-13"></a>  <span class="co"># distância euclidiano</span></span>
+<span id="cb25-14"><a href="#cb25-14"></a>  doc.euclid <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">dist</span>(<span class="fu">rbind</span>(doc1,doc2),<span class="at">method=</span><span class="st">"euclidean"</span>))</span>
+<span id="cb25-15"><a href="#cb25-15"></a>  <span class="co"># adiciona</span></span>
+<span id="cb25-16"><a href="#cb25-16"></a>  similaridade <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb25-17"><a href="#cb25-17"></a>    similaridade,</span>
+<span id="cb25-18"><a href="#cb25-18"></a>    <span class="fu">data.frame</span>(</span>
+<span id="cb25-19"><a href="#cb25-19"></a>      <span class="st">"doc1"</span><span class="ot">=</span><span class="dv">1</span>,</span>
+<span id="cb25-20"><a href="#cb25-20"></a>      <span class="st">"doc2"</span><span class="ot">=</span>doc,</span>
+<span id="cb25-21"><a href="#cb25-21"></a>      <span class="st">"simi.cos"</span><span class="ot">=</span>doc.cosseno,</span>
+<span id="cb25-22"><a href="#cb25-22"></a>      <span class="st">"dist.euc"</span><span class="ot">=</span>doc.euclid</span>
+<span id="cb25-23"><a href="#cb25-23"></a>    )</span>
+<span id="cb25-24"><a href="#cb25-24"></a>  )  </span>
+<span id="cb25-25"><a href="#cb25-25"></a>}</span>
+<span id="cb25-26"><a href="#cb25-26"></a></span>
+<span id="cb25-27"><a href="#cb25-27"></a><span class="co"># visualiza resultado</span></span>
+<span id="cb25-28"><a href="#cb25-28"></a><span class="fu">View</span>(similaridade)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>A matriz resultante compara as duas métricas e contribui para a avaliação da similaridades apoiada por dois índices. O gráfico a seguir exibe as duas métricas da coleção quanto ao documento 1 e sugere que os documentos <span class="math inline">12</span> (“Americanas”) e <span class="math inline">8</span> (“Badaladas”) seriam os mais similares a ele.</p>
 <div id="cell-26" class="cell" data-execution_count="12">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="co"># instala pacotes</span></span>
-<span id="cb28-2"><a href="#cb28-2"></a><span class="fu">install.packages</span>(<span class="st">'ggplot2'</span>)</span>
-<span id="cb28-3"><a href="#cb28-3"></a><span class="co"># carrega pacotes</span></span>
-<span id="cb28-4"><a href="#cb28-4"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb28-5"><a href="#cb28-5"></a></span>
-<span id="cb28-6"><a href="#cb28-6"></a><span class="co"># plota</span></span>
-<span id="cb28-7"><a href="#cb28-7"></a><span class="fu">ggplot</span>(similaridade) <span class="sc">+</span></span>
-<span id="cb28-8"><a href="#cb28-8"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">x=</span>simi.cos, <span class="at">y=</span>dist.euc, <span class="at">colour=</span>doc2), <span class="at">alpha=</span><span class="fl">0.5</span>, <span class="at">width=</span><span class="fl">0.001</span>) <span class="sc">+</span> </span>
-<span id="cb28-9"><a href="#cb28-9"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span>simi.cos, <span class="at">y=</span>dist.euc, <span class="at">label=</span>doc2, <span class="at">vjust=</span><span class="sc">-</span><span class="fl">0.75</span>), <span class="at">alpha=</span><span class="fl">0.5</span>, <span class="at">check_overlap =</span> <span class="cn">TRUE</span>)<span class="sc">+</span></span>
-<span id="cb28-10"><a href="#cb28-10"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Similaridades do Documento 1 (Americanas)"</span>)<span class="sc">+</span></span>
-<span id="cb28-11"><a href="#cb28-11"></a>  <span class="fu">xlab</span>(<span class="st">"Similaridade de cosseno"</span>)<span class="sc">+</span></span>
-<span id="cb28-12"><a href="#cb28-12"></a>  <span class="fu">ylab</span>(<span class="st">"Distância euclidiana"</span>)<span class="sc">+</span></span>
-<span id="cb28-13"><a href="#cb28-13"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
-<span id="cb28-14"><a href="#cb28-14"></a>  <span class="fu">theme</span>(</span>
-<span id="cb28-15"><a href="#cb28-15"></a>    <span class="co"># título do gráfico</span></span>
-<span id="cb28-16"><a href="#cb28-16"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">16</span>),</span>
-<span id="cb28-17"><a href="#cb28-17"></a>    <span class="co"># fonte e espaçamento do eixo x</span></span>
-<span id="cb28-18"><a href="#cb28-18"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>),</span>
-<span id="cb28-19"><a href="#cb28-19"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">margin=</span><span class="fu">margin</span>(<span class="at">t=</span><span class="dv">20</span>,<span class="at">b=</span><span class="dv">0</span>,<span class="at">l=</span><span class="dv">0</span>,<span class="at">r=</span><span class="dv">0</span>,<span class="at">unit=</span><span class="st">"pt"</span>)),</span>
-<span id="cb28-20"><a href="#cb28-20"></a>    <span class="co"># fonte e espaçamento do eixo x</span></span>
-<span id="cb28-21"><a href="#cb28-21"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>),</span>
-<span id="cb28-22"><a href="#cb28-22"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">margin=</span><span class="fu">margin</span>(<span class="at">t=</span><span class="dv">0</span>,<span class="at">b=</span><span class="dv">0</span>,<span class="at">l=</span><span class="dv">0</span>,<span class="at">r=</span><span class="dv">20</span>,<span class="at">unit=</span><span class="st">"pt"</span>)),</span>
-<span id="cb28-23"><a href="#cb28-23"></a>    <span class="co"># oculta legenda</span></span>
-<span id="cb28-24"><a href="#cb28-24"></a>    <span class="at">legend.position=</span><span class="st">"none"</span></span>
-<span id="cb28-25"><a href="#cb28-25"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># instala pacotes</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="fu">install.packages</span>(<span class="st">'ggplot2'</span>)</span>
+<span id="cb26-3"><a href="#cb26-3"></a><span class="co"># carrega pacotes</span></span>
+<span id="cb26-4"><a href="#cb26-4"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb26-5"><a href="#cb26-5"></a></span>
+<span id="cb26-6"><a href="#cb26-6"></a><span class="co"># plota</span></span>
+<span id="cb26-7"><a href="#cb26-7"></a><span class="fu">ggplot</span>(similaridade) <span class="sc">+</span></span>
+<span id="cb26-8"><a href="#cb26-8"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">x=</span>simi.cos, <span class="at">y=</span>dist.euc, <span class="at">colour=</span>doc2), <span class="at">alpha=</span><span class="fl">0.5</span>, <span class="at">width=</span><span class="fl">0.001</span>) <span class="sc">+</span> </span>
+<span id="cb26-9"><a href="#cb26-9"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">x=</span>simi.cos, <span class="at">y=</span>dist.euc, <span class="at">label=</span>doc2, <span class="at">vjust=</span><span class="sc">-</span><span class="fl">0.75</span>), <span class="at">alpha=</span><span class="fl">0.5</span>, <span class="at">check_overlap =</span> <span class="cn">TRUE</span>)<span class="sc">+</span></span>
+<span id="cb26-10"><a href="#cb26-10"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Similaridades do Documento 1 (Americanas)"</span>)<span class="sc">+</span></span>
+<span id="cb26-11"><a href="#cb26-11"></a>  <span class="fu">xlab</span>(<span class="st">"Similaridade de cosseno"</span>)<span class="sc">+</span></span>
+<span id="cb26-12"><a href="#cb26-12"></a>  <span class="fu">ylab</span>(<span class="st">"Distância euclidiana"</span>)<span class="sc">+</span></span>
+<span id="cb26-13"><a href="#cb26-13"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> </span>
+<span id="cb26-14"><a href="#cb26-14"></a>  <span class="fu">theme</span>(</span>
+<span id="cb26-15"><a href="#cb26-15"></a>    <span class="co"># título do gráfico</span></span>
+<span id="cb26-16"><a href="#cb26-16"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">16</span>),</span>
+<span id="cb26-17"><a href="#cb26-17"></a>    <span class="co"># fonte e espaçamento do eixo x</span></span>
+<span id="cb26-18"><a href="#cb26-18"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>),</span>
+<span id="cb26-19"><a href="#cb26-19"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">margin=</span><span class="fu">margin</span>(<span class="at">t=</span><span class="dv">20</span>,<span class="at">b=</span><span class="dv">0</span>,<span class="at">l=</span><span class="dv">0</span>,<span class="at">r=</span><span class="dv">0</span>,<span class="at">unit=</span><span class="st">"pt"</span>)),</span>
+<span id="cb26-20"><a href="#cb26-20"></a>    <span class="co"># fonte e espaçamento do eixo x</span></span>
+<span id="cb26-21"><a href="#cb26-21"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>),</span>
+<span id="cb26-22"><a href="#cb26-22"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">margin=</span><span class="fu">margin</span>(<span class="at">t=</span><span class="dv">0</span>,<span class="at">b=</span><span class="dv">0</span>,<span class="at">l=</span><span class="dv">0</span>,<span class="at">r=</span><span class="dv">20</span>,<span class="at">unit=</span><span class="st">"pt"</span>)),</span>
+<span id="cb26-23"><a href="#cb26-23"></a>    <span class="co"># oculta legenda</span></span>
+<span id="cb26-24"><a href="#cb26-24"></a>    <span class="at">legend.position=</span><span class="st">"none"</span></span>
+<span id="cb26-25"><a href="#cb26-25"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Installing package into ‘C:/Users/msn/AppData/Local/R/win-library/4.5’
 (as ‘lib’ is unspecified)</code></pre>
@@ -586,7 +577,7 @@ downloaded 8.1 MB
 <pre><code>package ‘ggplot2’ successfully unpacked and MD5 sums checked
 
 The downloaded binary packages are in
-    C:\Users\msn\AppData\Local\Temp\RtmpSaUIn6\downloaded_packages</code></pre>
+    C:\Users\msn\AppData\Local\Temp\RtmpcrexP8\downloaded_packages</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning message:
