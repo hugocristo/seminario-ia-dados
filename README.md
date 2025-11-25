@@ -32,7 +32,7 @@ Nesta página você encontrará todo o material citado e apresentado ao longo do
 * [Aula 01](https://hugocristo.github.io/seminario-ia-dados/aula-01/aula-01.html)
 * [Aula 02](https://hugocristo.github.io/seminario-ia-dados/aula-02/aula-02.html)
 * [Aula 03](https://hugocristo.github.io/seminario-ia-dados/aula-03/aula-03.html)
-* Aula 04 (*em breve*)
+* [Aula 04](https://hugocristo.github.io/seminario-ia-dados/aula-04/aula-04.html)
 * Aula 05 (*em breve*)
 
 ## 05 e 12/11: Aulas 1 e 2 - Introdução ao R
