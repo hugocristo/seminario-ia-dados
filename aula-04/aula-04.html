@@ -126,17 +126,13 @@ window.Quarto = {
     <h2 id="toc-title">Sumário</h2>
    
   <ul>
-  <li><a href="#medidas-e-representações-contínuas" id="toc-medidas-e-representações-contínuas" class="nav-link active" data-scroll-target="#medidas-e-representações-contínuas">3. Medidas e representações contínuas</a>
-  <ul>
-  <li><a href="#do-discreto-para-o-contínuo" id="toc-do-discreto-para-o-contínuo" class="nav-link" data-scroll-target="#do-discreto-para-o-contínuo">3.1 Do discreto para o contínuo</a></li>
-  <li><a href="#preparação-dos-dados" id="toc-preparação-dos-dados" class="nav-link" data-scroll-target="#preparação-dos-dados">3.2 Preparação dos dados</a></li>
-  <li><a href="#codificação-e-representação" id="toc-codificação-e-representação" class="nav-link" data-scroll-target="#codificação-e-representação">3.3 Codificação e representação</a>
-  <ul class="collapse">
-  <li><a href="#distância-binária-assimétrica" id="toc-distância-binária-assimétrica" class="nav-link" data-scroll-target="#distância-binária-assimétrica">Distância binária assimétrica</a></li>
-  <li><a href="#distância-euclidiana" id="toc-distância-euclidiana" class="nav-link" data-scroll-target="#distância-euclidiana">Distância euclidiana</a></li>
-  <li><a href="#similaridade-de-cosseno" id="toc-similaridade-de-cosseno" class="nav-link" data-scroll-target="#similaridade-de-cosseno">Similaridade de cosseno</a></li>
-  </ul></li>
-  </ul></li>
+  <li><a href="#medidas-e-representações-discretas-x-contínuas" id="toc-medidas-e-representações-discretas-x-contínuas" class="nav-link active" data-scroll-target="#medidas-e-representações-discretas-x-contínuas">1. Medidas e representações: discretas x contínuas</a></li>
+  <li><a href="#do-discreto-para-o-contínuo" id="toc-do-discreto-para-o-contínuo" class="nav-link" data-scroll-target="#do-discreto-para-o-contínuo">1.2 Do discreto para o contínuo</a></li>
+  <li><a href="#variações-de-representações-discretas" id="toc-variações-de-representações-discretas" class="nav-link" data-scroll-target="#variações-de-representações-discretas">2. Variações de representações discretas</a></li>
+  <li><a href="#codificação-e-representação" id="toc-codificação-e-representação" class="nav-link" data-scroll-target="#codificação-e-representação">2.1 Codificação e representação</a></li>
+  <li><a href="#distância-binária-assimétrica" id="toc-distância-binária-assimétrica" class="nav-link" data-scroll-target="#distância-binária-assimétrica">2.2 Distância binária assimétrica</a></li>
+  <li><a href="#distância-euclidiana" id="toc-distância-euclidiana" class="nav-link" data-scroll-target="#distância-euclidiana">2.3 Distância euclidiana</a></li>
+  <li><a href="#similaridade-de-cosseno" id="toc-similaridade-de-cosseno" class="nav-link" data-scroll-target="#similaridade-de-cosseno">2.4 Similaridade de cosseno</a></li>
   <li><a href="#atividade" id="toc-atividade" class="nav-link" data-scroll-target="#atividade">Atividade</a></li>
   </ul>
 </nav>
@@ -168,8 +164,8 @@ window.Quarto = {
 <li>Tema: Análise Computacional de Dados Textuais</li>
 <li>Responsável: Prof.&nbsp;Dr.&nbsp;Hugo Cristo Sant’Anna - <a href="mailto:hugo.santanna@ufes.br">hugo.santanna@ufes.br</a></li>
 </ul>
-<section id="medidas-e-representações-contínuas" class="level1">
-<h1>3. Medidas e representações contínuas</h1>
+<section id="medidas-e-representações-discretas-x-contínuas" class="level2">
+<h2 class="anchored" data-anchor-id="medidas-e-representações-discretas-x-contínuas">1. Medidas e representações: discretas x contínuas</h2>
 <p>As matrizes <code>txd</code> geradas nos passos anteriores reúnem medidas de <em>tokens</em> isolados, sem considerar suas posições nas frases ou relações com outros <em>tokens</em>.</p>
 <p>Contudo, uma vez que cada linha (ou vetor) da matriz se refere a um <em>documento</em>, pode-se assumir que as colunas (<em>tokens</em>) seriam <strong>características</strong> dele. Em outros termos, as relações entre <em>tokens</em> e os documentos em que ocorrem, podem codificar aspectos do significado documento.</p>
 <p>Pode-se codificar essas relações de diversas formas:</p>
@@ -193,15 +189,16 @@ window.Quarto = {
 <li>Similaridade: função <code>cosine()</code>.</li>
 </ul>
 <p>A dificuldade de se trabalhar com representações multidimensionais consiste em visualizá-las, uma vez que a nossa cognição só lida bem com até três dimensões. Para isso, a linguagem R oferece recursos para a <em>redução</em> da dimensionalidade, transformando, por exemplo, as 14.362 dimensões em duas (2) ou três (3), o que permite gerar gráficos bi e tridimensionais.</p>
+</section>
 <section id="do-discreto-para-o-contínuo" class="level2">
-<h2 class="anchored" data-anchor-id="do-discreto-para-o-contínuo">3.1 Do discreto para o contínuo</h2>
+<h2 class="anchored" data-anchor-id="do-discreto-para-o-contínuo">1.2 Do discreto para o contínuo</h2>
 <p>Uma mudança importante acontece ao deixarmos de considerar as características que representam os documentos em termos discretos: os significados de cada característica, bem como sua rotulação, deixam de fazer sentido. Ademais, por razões de economia e eficiência, abandonar o registro discreto da característica nos possibilita restringir a quantidade de dimensões da representação.</p>
 <p>Na prática, passaremos a utilizar técnicas de aprendizado de máquina para construir representações de palavras, sentenças e documentos sem que precisemos lidar com cada unidade linguística, de baixo para cima. O processo apresenta amostras do texto a redes neurais para treiná-las nos termos de suas características, que são representadas nos pesos entre as camadas de neurônios artificiais.</p>
 <p>Essas técnicas envolvem conhecimentos matemáticos mais avançados e difíceis de se chegar analiticamente. Felizmente, as funções da linguagem R fazem todo o trabalho e podemos nos concentrar nas análises 😁.</p>
 <p>Contudo, antes de utilizar essas funções, exploraremos os limites das representações discretas a técnicas matemáticas mais intuitivas.</p>
 </section>
-<section id="preparação-dos-dados" class="level2">
-<h2 class="anchored" data-anchor-id="preparação-dos-dados">3.2 Preparação dos dados</h2>
+<section id="variações-de-representações-discretas" class="level2">
+<h2 class="anchored" data-anchor-id="variações-de-representações-discretas">2. Variações de representações discretas</h2>
 <p>Para retomar as análises, carregaremos os resultados dos processamentos gerados na aula anterior (03), sem precisar tratar novamente os dados:</p>
 <div id="cell-4" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># carrega pacotes necessários</span></span>
@@ -245,7 +242,7 @@ package ‘openxlsx’ was built under R version 4.5.2 </code></pre>
 </div>
 </section>
 <section id="codificação-e-representação" class="level2">
-<h2 class="anchored" data-anchor-id="codificação-e-representação">3.3 Codificação e representação</h2>
+<h2 class="anchored" data-anchor-id="codificação-e-representação">2.1 Codificação e representação</h2>
 <p>A base <code>txd.tf</code> consiste na frequência relativa dos <em>tokens</em> da coleção. Há uma versão mais simples desta representação, denominada <em>one-hot</em>, que apenas sinaliza se um termo ocorreu (valor <span class="math inline">1</span>) ou não (<span class="math inline">0</span>) no documento que integra a coleção e, como resultado, produz cadeias de zeros e uns:</p>
 <ol type="1">
 <li><em>Isto é um exemplo</em></li>
@@ -303,8 +300,9 @@ package ‘openxlsx’ was built under R version 4.5.2 </code></pre>
 </div>
 <p>Compare as duas matrizes: <code>txd.tfidf</code> e <code>txd.onehot</code>. A representação do documento nos termos da frequência relativa <em>tf</em> e do produto <em>tf-idf</em> é fundada em números reais, em vez de ausente (<span class="math inline">0</span>) e presente (<span class="math inline">1</span>). Veremos a seguir que, embora o uso de número reais nas características permita diferenciar melhor os vetores, há técnicas que conseguem agrupar documentos baseados em cada tipo de representação.</p>
 <p>Há duas formas de calcular distâncias entre vetores por métricas que nos interessam: <em>binária assimétrica</em> e <em>euclidiana</em>.</p>
-<section id="distância-binária-assimétrica" class="level3">
-<h3 class="anchored" data-anchor-id="distância-binária-assimétrica">Distância binária assimétrica</h3>
+</section>
+<section id="distância-binária-assimétrica" class="level2">
+<h2 class="anchored" data-anchor-id="distância-binária-assimétrica">2.2 Distância binária assimétrica</h2>
 <p>Também conhecida como <a href="https://en.wikipedia.org/wiki/Jaccard_index">índice de similaridade de Jaccard</a>, esta métrica é específica para calcular o quanto dois conjuntos de dados com características binárias (<span class="math inline">0</span> ou <span class="math inline">1</span>) têm sobreposição. Para dois documentos <span class="math inline">p</span> q <span class="math inline">q</span> com <span class="math inline">n</span> características que podem estar presentes ou ausentes, o cálculo da distância se inicia pela identificação de quatro casos:</p>
 <ol type="1">
 <li><span class="math inline">M_{11}</span>: total de atributos que tanto <span class="math inline">p</span> quanto <span class="math inline">q</span> apresentam (<span class="math inline">1</span>)</li>
@@ -415,8 +413,8 @@ d_J=1-J
 </div>
 </div>
 </section>
-<section id="distância-euclidiana" class="level3">
-<h3 class="anchored" data-anchor-id="distância-euclidiana">Distância euclidiana</h3>
+<section id="distância-euclidiana" class="level2">
+<h2 class="anchored" data-anchor-id="distância-euclidiana">2.3 Distância euclidiana</h2>
 <p>A segunda métrica é mais familiar, pois é abordada no ensino médio. A variável <span class="math inline">n</span> é o número de dimensões ou características na fórmula a seguir:</p>
 <p><span id="eq-euclides"><span class="math display">
 d=\sqrt{(p_1 - q_1)^2 + (p_2 - q_2)^2 + ... + (p_n - q_n)^2}
@@ -470,8 +468,8 @@ d=\sqrt{(p_1 - q_1)^2 + (p_2 - q_2)^2 + ... + (p_n - q_n)^2}
 </div>
 </div>
 </section>
-<section id="similaridade-de-cosseno" class="level3">
-<h3 class="anchored" data-anchor-id="similaridade-de-cosseno">Similaridade de cosseno</h3>
+<section id="similaridade-de-cosseno" class="level2">
+<h2 class="anchored" data-anchor-id="similaridade-de-cosseno">2.4 Similaridade de cosseno</h2>
 <p>Esta é uma métrica de similaridade entre dois vetores, baseada no cosseno do ângulo entre eles. O valor calculado está no intervalo <span class="math inline">[-1,+1]</span>:</p>
 <ul>
 <li>Valores próximos de <span class="math inline">1</span> indicam proporcionalidade;</li>
@@ -603,8 +601,6 @@ package ‘ggplot2’ was built under R version 4.5.2 </code></pre>
 </div>
 </div>
 <p>Apesar de a distância entre <span class="math inline">1</span> e <span class="math inline">12</span> ser pequena (0,04), a similaridade é <em>baixa</em> (0,10). Tal diferença nos ajuda reforçar que não é possível compreender as razões da similaridade sem a avaliação qualitativa dos documentos.</p>
-</section>
-</section>
 </section>
 <section id="atividade" class="level1">
 <h1>Atividade</h1>

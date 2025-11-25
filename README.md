@@ -40,18 +40,19 @@ Nesta página você encontrará todo o material citado e apresentado ao longo do
 * Princípios básicos de programação em R com notebooks
 * Importação e processamento de dados
 
-## 19/11: Aula 3 - Medidas e representações de dados textuais
+## 19/11: Aula 3 - Medidas e representações de dados textuais #1
 * Teoria linguística
 * Medidas e representações discretas: morfologia, sintaxe e semântica
 * Laboratório de código em R: Machado de Assis #1
 
-## 26/11: Aula 4 - Modelos de linguagem de larga escala
-* Medidas e representações contínuas
+## 26/11: Aula 4 - Medidas e representações de dados textuais #2
+* Medidas e representações: discretas x contínuas
+* Variações de representações discretas
 * Laboratório de código em R: Machado de Assis #2
 
-## 03/12: Aula 5 - Visualização de dados
-* Dendrogramas, nuvens de palavras, gráficos bi e tridimensionais
-* Pacotes `ggplot2`, `plotly`, `ggdendro`, `wordcloud2`
+## 03/12: Aula 5 - Aprendizado de máquina e LLMs
+* Aprendizado de máquina: pacote `word2vec`
+* Modelos grandes de linguagem: Ollama e pacote `ollamar`
 
 ## Referências utilizadas
 * Biderman, M. T. C. (2001). Teoria lingüística: teoria lexical e lingüística computacional. Martins Fontes.
